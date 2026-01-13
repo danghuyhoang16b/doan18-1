@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvSystemHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ảnh nền hệ thống"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mobile"/>
+
+            <Spinner
+                android:id="@+id/spMobileBg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"/>
+            <ImageView
+                android:id="@+id/ivPreviewMobile"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:scaleType="centerCrop"
+                android:layout_marginBottom="12dp"/>
+            <Button
+                android:id="@+id/btnPickMobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chọn ảnh Mobile từ thiết bị"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PC"/>
+
+            <Spinner
+                android:id="@+id/spPcBg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"/>
+            <ImageView
+                android:id="@+id/ivPreviewPc"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:scaleType="centerCrop"
+                android:layout_marginBottom="12dp"/>
+            <Button
+                android:id="@+id/btnPickPc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chọn ảnh PC từ thiết bị"
+                android:layout_marginBottom="16dp"/>
+
+            <Button
+                android:id="@+id/btnSaveBg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lưu ảnh nền"
+                android:backgroundTint="@color/purple_500"
+                android:textColor="@android:color/white"/>
+
+            <Button
+                android:id="@+id/btnImportImages"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Import Ảnh từ Download"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#FF9800"
+                android:textColor="@android:color/white"/>
+
+            <Button
+                android:id="@+id/btnManageBanners"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Quản lý Banner Slider (Động)"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#4CAF50"
+                android:textColor="@android:color/white"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ảnh phụ"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingEnd="8dp">
+
+                    <ImageView
+                        android:id="@+id/ivSub1"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:scaleType="centerCrop"/>
+                    <Button
+                        android:id="@+id/btnPickSub1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Chọn ảnh phụ 1"/>
+                    <Button
+                        android:id="@+id/btnSaveSub1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Lưu ảnh phụ 1"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp">
+
+                    <ImageView
+                        android:id="@+id/ivSub2"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:scaleType="centerCrop"/>
+                    <Button
+                        android:id="@+id/btnPickSub2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Chọn ảnh phụ 2"/>
+                    <Button
+                        android:id="@+id/btnSaveSub2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Lưu ảnh phụ 2"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingStart="8dp">
+
+                    <ImageView
+                        android:id="@+id/ivSub3"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:scaleType="centerCrop"/>
+                    <Button
+                        android:id="@+id/btnPickSub3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Chọn ảnh phụ 3"/>
+                    <Button
+                        android:id="@+id/btnSaveSub3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Lưu ảnh phụ 3"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/border_bottom">
+
+    <TextView
+        android:id="@+id/tvSubjectName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Toán"
+        android:textStyle="bold"
+        android:textSize="16sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:id="@+id/tvScore15m"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="15p: 8.5"/>
+
+        <TextView
+            android:id="@+id/tvScore45m"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="1 Tiết: 9.0"/>
+
+        <TextView
+            android:id="@+id/tvScoreFinal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cuối kỳ: 8.8"
+            android:textStyle="bold"
+            android:textColor="?attr/colorPrimary"/>
+    </LinearLayout>
+
+</LinearLayout>
