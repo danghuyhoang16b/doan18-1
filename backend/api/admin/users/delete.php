@@ -9,6 +9,14 @@ ini_set('display_errors', '0');
 $db = (new Database())->getConnection();
 $data = json_decode(file_get_contents("php://input"));
 $token = isset($_SERVER['HTTP_AUTHORIZATION']) ? str_replace('Bearer ', '', $_SERVER['HTTP_AUTHORIZATION']) : ($data->token ?? "");
+
+// Fallback for Apache/others if HTTP_AUTHORIZATION is not set
+if (empty($token) && function_exists('getallheaders')) {
+    $headers = getallheaders();
+    if (isset($headers['Authorization'])) {
+        $token = str_replace('Bearer ', '', $headers['Authorization']);
+    }
+}
 $decoded = validateJWT($token);
 if (!$decoded || ($decoded['data']->role ?? '') !== 'admin') {
     http_response_code(401);

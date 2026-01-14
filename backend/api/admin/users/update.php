@@ -12,12 +12,14 @@ $db = $database->getConnection();
 $repo = new UserRepository($db);
 
 $data = json_decode(file_get_contents("php://input"));
-$headers = getallheaders();
-$token = isset($headers['Authorization']) ? str_replace('Bearer ', '', $headers['Authorization']) : "";
+$token = isset($data->token) ? $data->token : (isset($_SERVER['HTTP_AUTHORIZATION']) ? str_replace('Bearer ', '', $_SERVER['HTTP_AUTHORIZATION']) : "");
 
-// Fallback if header is missing but passed in body (rarely used but possible)
-if (empty($token) && isset($data->token)) {
-    $token = $data->token;
+// Fallback for Apache/others if HTTP_AUTHORIZATION is not set
+if (empty($token) && function_exists('getallheaders')) {
+    $headers = getallheaders();
+    if (isset($headers['Authorization'])) {
+        $token = str_replace('Bearer ', '', $headers['Authorization']);
+    }
 }
 
 $decoded = validateJWT($token);
