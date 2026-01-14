@@ -59,7 +59,10 @@ class UserRepository {
         $sets = [];
         $params = [":id"=>$id];
         foreach (["full_name","email","phone","role"] as $k) {
-            if (array_key_exists($k, $fields)) { $sets[] = "$k=:$k"; $params[":$k"] = $fields[$k]; }
+            if (array_key_exists($k, $fields) && $fields[$k] !== null && $fields[$k] !== "") {
+                $sets[] = "$k=:$k"; 
+                $params[":$k"] = $fields[$k];
+            }
         }
         if (array_key_exists("password", $fields) && $fields["password"] !== "") {
             $sets[] = "password=:password";

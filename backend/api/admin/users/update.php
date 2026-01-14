@@ -33,12 +33,11 @@ if (empty($data->id)) {
     exit;
 }
 
-$fields = [
-    "full_name" => isset($data->full_name) ? $data->full_name : null,
-    "email" => isset($data->email) ? $data->email : null,
-    "phone" => isset($data->phone) ? $data->phone : null,
-    "role" => isset($data->role) ? $data->role : null
-];
+$fields = [];
+if (isset($data->full_name) && trim($data->full_name) !== "") { $fields["full_name"] = $data->full_name; }
+if (isset($data->email) && trim((string)$data->email) !== "") { $fields["email"] = $data->email; }
+if (isset($data->phone) && trim((string)$data->phone) !== "") { $fields["phone"] = $data->phone; }
+if (isset($data->role) && trim((string)$data->role) !== "") { $fields["role"] = $data->role; }
 if (!empty($data->password)) { $fields["password"] = $data->password; }
 if ($repo->updateUser(intval($data->id), $fields)) {
     echo json_encode(["message" => "User updated successfully."]);
