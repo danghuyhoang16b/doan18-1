@@ -31,6 +31,7 @@ $search = isset($data->search) ? trim($data->search) : "";
 $page = isset($data->page) ? intval($data->page) : 1;
 $limit = isset($data->limit) ? intval($data->limit) : 20;
 $offset = ($page - 1) * $limit;
+$strict = isset($data->strict) ? (bool)$data->strict : false;
 
 if (empty($role)) {
     http_response_code(400);
@@ -42,6 +43,9 @@ if (empty($role)) {
 $query = "SELECT id, username, full_name, role, avatar, email, phone, is_locked, created_at 
           FROM users 
           WHERE role = :role";
+if ($strict && $role === 'teacher') {
+    $query .= " AND is_locked = 0 AND full_name <> '' AND username LIKE 'GV-%'";
+}
 
 if (!empty($search)) {
     $query .= " AND (full_name LIKE :search OR username LIKE :search OR email LIKE :search OR phone LIKE :search)";
@@ -71,6 +75,9 @@ try {
 
 // Get total count for pagination
 $count_query = "SELECT COUNT(*) as total FROM users WHERE role = :role";
+if ($strict && $role === 'teacher') {
+    $count_query .= " AND is_locked = 0 AND full_name <> '' AND username LIKE 'GV-%'";
+}
 if (!empty($search)) {
     $count_query .= " AND (full_name LIKE :search OR username LIKE :search OR email LIKE :search OR phone LIKE :search)";
 }

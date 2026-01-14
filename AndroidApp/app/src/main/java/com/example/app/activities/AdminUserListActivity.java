@@ -187,6 +187,9 @@ public class AdminUserListActivity extends AppCompatActivity {
         body.put("token", token); // Send token in body as failsafe
         body.put("page", currentPage);
         body.put("limit", 20);
+        if ("teacher".equals(userType)) {
+            body.put("strict", true);
+        }
         if (!currentSearch.isEmpty()) {
             body.put("search", currentSearch);
         }
