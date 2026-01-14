@@ -88,12 +88,12 @@
         "source": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-main-32:\\layout\\activity_admin_dashboard.xml"
     },
     {
-        "merged": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-merged_res-30:\\drawable_ic_check_circle.xml.flat",
-        "source": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-main-32:\\drawable\\ic_check_circle.xml"
-    },
-    {
         "merged": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-merged_res-30:\\layout_activity_admin_schedule.xml.flat",
         "source": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-main-32:\\layout\\activity_admin_schedule.xml"
+    },
+    {
+        "merged": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-merged_res-30:\\drawable_ic_check_circle.xml.flat",
+        "source": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-main-32:\\drawable\\ic_check_circle.xml"
     },
     {
         "merged": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-merged_res-30:\\layout_item_news.xml.flat",
@@ -112,16 +112,16 @@
         "source": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-main-32:\\layout\\activity_admin_banner_edit.xml"
     },
     {
-        "merged": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-merged_res-30:\\layout_item_admin_request.xml.flat",
-        "source": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-main-32:\\layout\\item_admin_request.xml"
+        "merged": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-merged_res-30:\\mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-main-32:\\mipmap-xxxhdpi\\ic_launcher.webp"
     },
     {
         "merged": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-merged_res-30:\\mipmap-mdpi_ic_launcher.webp.flat",
         "source": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-main-32:\\mipmap-mdpi\\ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-merged_res-30:\\mipmap-xxxhdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-main-32:\\mipmap-xxxhdpi\\ic_launcher.webp"
+        "merged": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-merged_res-30:\\layout_item_admin_request.xml.flat",
+        "source": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-main-32:\\layout\\item_admin_request.xml"
     },
     {
         "merged": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-merged_res-30:\\layout_activity_teacher_home.xml.flat",
@@ -132,12 +132,12 @@
         "source": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-main-32:\\layout\\activity_score_entry.xml"
     },
     {
-        "merged": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-merged_res-30:\\drawable_circle_bg_green.xml.flat",
-        "source": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-main-32:\\drawable\\circle_bg_green.xml"
-    },
-    {
         "merged": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-merged_res-30:\\drawable_ic_parent.xml.flat",
         "source": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-main-32:\\drawable\\ic_parent.xml"
+    },
+    {
+        "merged": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-merged_res-30:\\drawable_circle_bg_green.xml.flat",
+        "source": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-main-32:\\drawable\\circle_bg_green.xml"
     },
     {
         "merged": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-merged_res-30:\\layout_item_notification_header.xml.flat",
@@ -168,12 +168,12 @@
         "source": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-main-32:\\layout\\activity_admin_user_list.xml"
     },
     {
-        "merged": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-merged_res-30:\\layout_item_notification.xml.flat",
-        "source": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-main-32:\\layout\\item_notification.xml"
-    },
-    {
         "merged": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-merged_res-30:\\layout_activity_admin_search.xml.flat",
         "source": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-main-32:\\layout\\activity_admin_search.xml"
+    },
+    {
+        "merged": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-merged_res-30:\\layout_item_notification.xml.flat",
+        "source": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-main-32:\\layout\\item_notification.xml"
     },
     {
         "merged": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-merged_res-30:\\layout_activity_conduct_entry.xml.flat",
@@ -182,10 +182,6 @@
     {
         "merged": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-merged_res-30:\\drawable_ic_check.xml.flat",
         "source": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-main-32:\\drawable\\ic_check.xml"
-    },
-    {
-        "merged": "com.example.app-merged_res-30:/layout_activity_parent_home.xml.flat",
-        "source": "com.example.app-main-32:/layout/activity_parent_home.xml"
     },
     {
         "merged": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-merged_res-30:\\drawable_circle_bg_orange.xml.flat",
@@ -264,12 +260,12 @@
         "source": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-main-32:\\layout\\activity_profile.xml"
     },
     {
-        "merged": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-merged_res-30:\\layout_activity_profile_parent.xml.flat",
-        "source": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-main-32:\\layout\\activity_profile_parent.xml"
-    },
-    {
         "merged": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-merged_res-30:\\layout_activity_parent_home.xml.flat",
         "source": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-main-32:\\layout\\activity_parent_home.xml"
+    },
+    {
+        "merged": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-merged_res-30:\\layout_activity_profile_parent.xml.flat",
+        "source": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-main-32:\\layout\\activity_profile_parent.xml"
     },
     {
         "merged": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-merged_res-30:\\layout_activity_teacher_schedule.xml.flat",
@@ -402,6 +398,10 @@
     {
         "merged": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-merged_res-30:\\layout_item_attendance_student.xml.flat",
         "source": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-main-32:\\layout\\item_attendance_student.xml"
+    },
+    {
+        "merged": "com.example.app-merged_res-30:/layout_dialog_child_detail.xml.flat",
+        "source": "com.example.app-main-32:/layout/dialog_child_detail.xml"
     },
     {
         "merged": "C:\\Users\\0332255638\\.gradle\\daemon\\8.5\\com.example.app-merged_res-30:\\layout_activity_admin_red_committee.xml.flat",

@@ -3566,6 +3566,7 @@ int id rvSchedule 0x7f0801f7
 int id rvStats 0x7f0801f8
 int id rvStudents 0x7f0801f9
 int id rvUserList 0x7f0801fa
+int id rvViolations 0x7f0802d6
 int id save_non_transition_alpha 0x7f0801fb
 int id save_overlay_view 0x7f0801fc
 int id sawtooth 0x7f0801fd
@@ -3735,6 +3736,7 @@ int id tvParentPhone 0x7f08029f
 int id tvPoints 0x7f0802a0
 int id tvPriority 0x7f0802a1
 int id tvProfileStatus 0x7f0802a2
+int id tvRanking 0x7f0802d7
 int id tvRole 0x7f0802a3
 int id tvScore15m 0x7f0802a4
 int id tvScore45m 0x7f0802a5
@@ -3944,6 +3946,7 @@ int layout design_navigation_menu_item 0x7f0b0050
 int layout design_text_input_end_icon 0x7f0b0051
 int layout design_text_input_start_icon 0x7f0b0052
 int layout dialog_add_banner 0x7f0b0053
+int layout dialog_child_detail 0x7f0b00a0
 int layout dialog_violation_details 0x7f0b009e
 int layout item_admin_banner 0x7f0b0054
 int layout item_admin_request 0x7f0b0055

@@ -29,6 +29,7 @@ public class AdminUserEditActivity extends AppCompatActivity {
     private ApiService apiService;
     private Integer userId = null;
     private String[] roles = {"student", "teacher", "parent", "admin"};
+    private String currentRole = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +95,7 @@ public class AdminUserEditActivity extends AppCompatActivity {
                             break;
                         }
                     }
+                    currentRole = u.getRole();
                 }
             }
 
@@ -126,6 +128,9 @@ public class AdminUserEditActivity extends AppCompatActivity {
         user.setUsername(username);
         user.setPassword(password);
         user.setFullName(fullName);
+        if (userId != null && currentRole != null && role.equals(currentRole)) {
+            role = "";
+        }
         user.setRole(role);
         user.setEmail(email);
         user.setPhone(phone);

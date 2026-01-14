@@ -236,6 +236,8 @@ public interface ApiService {
 
     @POST("admin/users/get.php")
     Call<com.example.app.models.User> getUser(@Header("Authorization") String token, @Body com.example.app.models.UserIdRequest request);
+    @POST("admin/users/delete.php")
+    Call<ResponseBody> deleteUser(@Header("Authorization") String bearer, @Body java.util.Map<String, Integer> body);
 
     @GET("admin/stats/violations.php")
     Call<List<com.example.app.models.StatItem>> getViolationStats(@Header("Authorization") String bearer, @Query("type") String type);

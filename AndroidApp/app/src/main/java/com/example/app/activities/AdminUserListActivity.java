@@ -121,8 +121,30 @@ public class AdminUserListActivity extends AppCompatActivity {
 
             @Override
             public void onDeleteClick(User user) {
-                Toast.makeText(AdminUserListActivity.this, "Xóa: " + user.getFullName(), Toast.LENGTH_SHORT).show();
-                // Show confirmation dialog then call API
+                new android.app.AlertDialog.Builder(AdminUserListActivity.this)
+                        .setTitle("Xác nhận")
+                        .setMessage("Khóa tài khoản " + user.getFullName() + "?")
+                        .setPositiveButton("Khóa", (d, w) -> {
+                            String token = SharedPrefsUtils.getToken(AdminUserListActivity.this);
+                            ApiService api = RetrofitClient.getClient().create(ApiService.class);
+                            java.util.Map<String, Integer> body = new java.util.HashMap<>();
+                            body.put("id", user.getId());
+                            api.deleteUser("Bearer " + token, body).enqueue(new Callback<okhttp3.ResponseBody>() {
+                                @Override public void onResponse(Call<okhttp3.ResponseBody> call, Response<okhttp3.ResponseBody> rsp) {
+                                    String msg = "Thành công";
+                                    try { if (rsp.body()!=null) { msg = new org.json.JSONObject(rsp.body().string()).optString("message", msg); } } catch(Exception ignored){}
+                                    Toast.makeText(AdminUserListActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                    // Remove item from list
+                                    int idx = userList.indexOf(user);
+                                    if (idx >= 0) { userList.remove(idx); adapter.notifyItemRemoved(idx); }
+                                }
+                                @Override public void onFailure(Call<okhttp3.ResponseBody> call, Throwable t) {
+                                    Toast.makeText(AdminUserListActivity.this, "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        })
+                        .setNegativeButton("Hủy", null)
+                        .show();
             }
 
             @Override

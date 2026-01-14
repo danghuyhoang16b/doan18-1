@@ -3567,6 +3567,7 @@ id rvSchedule
 id rvStats
 id rvStudents
 id rvUserList
+id rvViolations
 id save_non_transition_alpha
 id save_overlay_view
 id sawtooth
@@ -3736,6 +3737,7 @@ id tvParentPhone
 id tvPoints
 id tvPriority
 id tvProfileStatus
+id tvRanking
 id tvRole
 id tvScore15m
 id tvScore45m
@@ -3945,6 +3947,7 @@ layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
 layout dialog_add_banner
+layout dialog_child_detail
 layout dialog_violation_details
 layout item_admin_banner
 layout item_admin_request

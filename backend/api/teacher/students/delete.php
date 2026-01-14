@@ -45,16 +45,12 @@ if ($checkStudent->rowCount() == 0) {
 try {
     $db->beginTransaction();
 
-    // Delete from class_registrations
+    // Remove from class_registrations only
     $stmt = $db->prepare("DELETE FROM class_registrations WHERE class_id = ? AND student_id = ?");
     $stmt->execute([$data->class_id, $data->id]);
 
-    // Delete from student_profiles
-    $stmt = $db->prepare("DELETE FROM student_profiles WHERE user_id = ?");
-    $stmt->execute([$data->id]);
-
-    // Delete from users
-    $stmt = $db->prepare("DELETE FROM users WHERE id = ?");
+    // Soft lock user instead of hard delete
+    $stmt = $db->prepare("UPDATE users SET is_locked=1 WHERE id = ?");
     $stmt->execute([$data->id]);
 
     $db->commit();
