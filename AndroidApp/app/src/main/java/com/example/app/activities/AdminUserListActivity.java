@@ -188,7 +188,7 @@ public class AdminUserListActivity extends AppCompatActivity {
         body.put("page", currentPage);
         body.put("limit", 20);
         if ("teacher".equals(userType)) {
-            body.put("strict", true);
+            // body.put("strict", true); // Removed strict mode to show all teachers
         }
         if (!currentSearch.isEmpty()) {
             body.put("search", currentSearch);
