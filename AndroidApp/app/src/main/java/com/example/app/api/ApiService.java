@@ -229,10 +229,10 @@ public interface ApiService {
     @POST("admin/users/list.php")
     Call<com.example.app.models.UserListResponse> getUsers(@Header("Authorization") String bearer, @Body java.util.Map<String, Object> body);
     @POST("admin/users/create.php")
-    Call<Void> createUser(@Header("Authorization") String token, @Body com.example.app.models.User user);
+    Call<ResponseBody> createUser(@Header("Authorization") String token, @Body com.example.app.models.User user);
 
     @POST("admin/users/update.php")
-    Call<Void> updateUser(@Header("Authorization") String token, @Body com.example.app.models.User user);
+    Call<ResponseBody> updateUser(@Header("Authorization") String token, @Body com.example.app.models.User user);
 
     @POST("admin/users/get.php")
     Call<com.example.app.models.User> getUser(@Header("Authorization") String token, @Body com.example.app.models.UserIdRequest request);

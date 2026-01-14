@@ -131,26 +131,44 @@ public class AdminUserEditActivity extends AppCompatActivity {
         user.setPhone(phone);
 
         String token = SharedPrefsUtils.getToken(this);
-        Call<Void> call;
+        okhttp3.Call callRaw = null;
+        retrofit2.Call<okhttp3.ResponseBody> call;
         if (userId == null) {
             call = apiService.createUser("Bearer " + token, user);
         } else {
             call = apiService.updateUser("Bearer " + token, user);
         }
 
-        call.enqueue(new Callback<Void>() {
+        call.enqueue(new Callback<okhttp3.ResponseBody>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<okhttp3.ResponseBody> call, Response<okhttp3.ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(AdminUserEditActivity.this, "Lưu thành công", Toast.LENGTH_SHORT).show();
+                    String msg = "Lưu thành công";
+                    try {
+                        if (response.body() != null) {
+                            String s = response.body().string();
+                            org.json.JSONObject o = new org.json.JSONObject(s);
+                            msg = o.optString("message", msg);
+                        }
+                    } catch (Exception ignored) {}
+                    Toast.makeText(AdminUserEditActivity.this, msg, Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
-                    Toast.makeText(AdminUserEditActivity.this, "Lỗi: " + response.message(), Toast.LENGTH_SHORT).show();
+                    String err = "Lỗi: " + response.code();
+                    try {
+                        if (response.errorBody() != null) {
+                            String s = response.errorBody().string();
+                            org.json.JSONObject o = new org.json.JSONObject(s);
+                            String m = o.optString("message", "");
+                            if (!m.isEmpty()) err = m;
+                        }
+                    } catch (Exception ignored) {}
+                    Toast.makeText(AdminUserEditActivity.this, err, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<okhttp3.ResponseBody> call, Throwable t) {
                 Toast.makeText(AdminUserEditActivity.this, "Lỗi kết nối", Toast.LENGTH_SHORT).show();
             }
         });
