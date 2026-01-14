@@ -44,7 +44,7 @@ $query = "SELECT id, username, full_name, role, avatar, email, phone, is_locked,
           FROM users 
           WHERE role = :role";
 if ($strict && $role === 'teacher') {
-    $query .= " AND is_locked = 0 AND full_name <> '' AND username LIKE 'GV-%'";
+    $query .= " AND is_locked = 0 AND full_name <> '' AND (role='teacher' OR username LIKE 'GV-%')";
 }
 
 if (!empty($search)) {
@@ -76,7 +76,7 @@ try {
 // Get total count for pagination
 $count_query = "SELECT COUNT(*) as total FROM users WHERE role = :role";
 if ($strict && $role === 'teacher') {
-    $count_query .= " AND is_locked = 0 AND full_name <> '' AND username LIKE 'GV-%'";
+    $count_query .= " AND is_locked = 0 AND full_name <> '' AND (role='teacher' OR username LIKE 'GV-%')";
 }
 if (!empty($search)) {
     $count_query .= " AND (full_name LIKE :search OR username LIKE :search OR email LIKE :search OR phone LIKE :search)";
