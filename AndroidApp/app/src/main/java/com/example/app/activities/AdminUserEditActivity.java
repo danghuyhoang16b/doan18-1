@@ -107,12 +107,17 @@ public class AdminUserEditActivity extends AppCompatActivity {
     }
 
     private void saveUser() {
-        String username = etUsername.getText().toString();
-        String password = etPassword.getText().toString();
-        String fullName = etFullName.getText().toString();
+        String username = etUsername.getText().toString().trim();
+        String password = etPassword.getText().toString().trim();
+        String fullName = etFullName.getText().toString().trim();
+        
+        if (spinnerRole.getSelectedItemPosition() == -1) {
+            Toast.makeText(this, "Vui lòng chọn vai trò", Toast.LENGTH_SHORT).show();
+            return;
+        }
         String role = roles[spinnerRole.getSelectedItemPosition()];
-        String email = etEmail.getText().toString();
-        String phone = etPhone.getText().toString();
+        String email = etEmail.getText().toString().trim();
+        String phone = etPhone.getText().toString().trim();
 
         if (userId == null && (username.isEmpty() || password.isEmpty() || fullName.isEmpty())) {
             Toast.makeText(this, "Vui lòng điền đủ thông tin", Toast.LENGTH_SHORT).show();
@@ -124,9 +129,15 @@ public class AdminUserEditActivity extends AppCompatActivity {
         }
 
         User user = new User();
-        user.setId(userId);
+        if (userId != null) {
+            user.setId(userId);
+        }
         user.setUsername(username);
-        user.setPassword(password);
+        
+        if (!password.isEmpty()) {
+            user.setPassword(password);
+        }
+        
         user.setFullName(fullName);
         if (userId != null && currentRole != null && role.equals(currentRole)) {
             role = "";
