@@ -5,6 +5,8 @@ include_once '../../../config/jwt.php';
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST");
+error_reporting(0);
+ini_set('display_errors', '0');
 
 $database = new Database();
 $db = $database->getConnection();
@@ -15,24 +17,24 @@ $token = isset($data->token) ? $data->token : (isset($_SERVER['HTTP_AUTHORIZATIO
 $decoded = validateJWT($token);
 if (!$decoded) {
     http_response_code(401);
-    echo json_encode(["message" => "Unauthorized access. Invalid Token."]);
+    echo json_encode(["message" => "Unauthorized access. Invalid Token."], JSON_UNESCAPED_UNICODE);
     exit;
 }
 if ($decoded['data']->role != 'admin') {
     http_response_code(401);
-    echo json_encode(["message" => "Unauthorized access. Role is " . $decoded['data']->role]);
+    echo json_encode(["message" => "Unauthorized access. Role is " . $decoded['data']->role], JSON_UNESCAPED_UNICODE);
     exit;
 }
 
-$role = isset($data->role) ? $data->role : "";
-$search = isset($data->search) ? $data->search : "";
+$role = isset($data->role) ? trim($data->role) : "";
+$search = isset($data->search) ? trim($data->search) : "";
 $page = isset($data->page) ? intval($data->page) : 1;
 $limit = isset($data->limit) ? intval($data->limit) : 20;
 $offset = ($page - 1) * $limit;
 
 if (empty($role)) {
     http_response_code(400);
-    echo json_encode(["message" => "Role parameter is required."]);
+    echo json_encode(["message" => "Role parameter is required."], JSON_UNESCAPED_UNICODE);
     exit;
 }
 
@@ -58,8 +60,14 @@ if (!empty($search)) {
 $stmt->bindParam(":limit", $limit, PDO::PARAM_INT);
 $stmt->bindParam(":offset", $offset, PDO::PARAM_INT);
 
-$stmt->execute();
-$users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+try {
+    $stmt->execute();
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (Throwable $e) {
+    http_response_code(500);
+    echo json_encode(["message" => "Server error"], JSON_UNESCAPED_UNICODE);
+    exit;
+}
 
 // Get total count for pagination
 $count_query = "SELECT COUNT(*) as total FROM users WHERE role = :role";
@@ -85,5 +93,5 @@ echo json_encode([
         "total_records" => $total_records,
         "limit" => $limit
     ]
-]);
+], JSON_UNESCAPED_UNICODE);
 ?>
