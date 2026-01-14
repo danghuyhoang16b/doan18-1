@@ -74,6 +74,7 @@
         <activity android:name="com.example.app.activities.ParentHomeActivity" />
         <activity android:name="com.example.app.activities.AdminBannerActivity" />
         <activity android:name="com.example.app.activities.AdminViolationStatsActivity" />
+        <activity android:name="com.example.app.activities.AdminRankingActivity" />
         <activity android:name="com.example.app.activities.AdminUserEditActivity" />
         <activity
             android:name="com.example.app.activities.ImageImportActivity"

@@ -243,6 +243,16 @@ public interface ApiService {
     @POST("admin/stats/violation_details.php")
     Call<ResponseBody> getViolationDetails(@Header("Authorization") String bearer, @Body java.util.Map<String, String> body);
 
+    @GET("ranking/get_weekly.php")
+    Call<ResponseBody> getWeeklyRanking(@Header("Authorization") String bearer, @Query("class_id") Integer classId, @Query("label") String label);
+    @GET("ranking/get_monthly.php")
+    Call<ResponseBody> getMonthlyRanking(@Header("Authorization") String bearer, @Query("class_id") Integer classId, @Query("label") String label);
+    @GET("ranking/get_semester.php")
+    Call<ResponseBody> getSemesterRanking(@Header("Authorization") String bearer, @Query("class_id") Integer classId, @Query("year") Integer year, @Query("semester") String semester);
+
+    @GET("parent/list_children.php")
+    Call<ResponseBody> listChildren(@Header("Authorization") String bearer);
+
     // Security Challenge
     @GET("security/challenge.php")
     Call<ResponseBody> getActionChallenge(@Header("Authorization") String bearer);

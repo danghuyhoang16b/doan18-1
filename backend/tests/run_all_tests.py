@@ -169,6 +169,12 @@ def main():
             ]
         },
         {
+            "name": "ADMIN STATS TESTS", 
+            "tests": [
+                ("admin_stats_test.py", "Admin stats and violation details endpoints")
+            ]
+        },
+        {
             "name": "SYSTEM VALIDATION TESTS", 
             "tests": [
                 ("system_validation_test.py", "Complete system validation with new data")

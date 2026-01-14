@@ -3164,13 +3164,18 @@ id btnAuto
 id btnAutoGenerate
 id btnCancel
 id btnChangePassword
+id btnChildrenInfo
 id btnCreate
 id btnDelete
 id btnDraft
 id btnEdit
+id btnExportCsv
 id btnGoViolation
 id btnImportImages
 id btnLoad
+id btnLoadMonth
+id btnLoadSemester
+id btnLoadWeek
 id btnLogin
 id btnLogout
 id btnLogs
@@ -3317,6 +3322,7 @@ id etAddress
 id etBirthDate
 id etCaptchaAnswer
 id etClass
+id etClassId
 id etConfirmPassword
 id etContent
 id etCta
@@ -3325,6 +3331,7 @@ id etFullName
 id etGuardianName
 id etGuardianPhone
 id etIndex
+id etLabel
 id etLink
 id etMessage
 id etNewPassword
@@ -3334,11 +3341,13 @@ id etOtp
 id etPassword
 id etPhone
 id etSearch
+id etSemester
 id etSubject
 id etTerm
 id etText
 id etTitle
 id etUsername
+id etYear
 id exitUntilCollapsed
 id expand_activities_button
 id expanded_menu
@@ -3551,6 +3560,7 @@ id rvMembers
 id rvMessages
 id rvNews
 id rvNotifications
+id rvRanking
 id rvReport
 id rvRequests
 id rvSchedule
@@ -3882,6 +3892,7 @@ layout activity_admin_banner
 layout activity_admin_banner_edit
 layout activity_admin_dashboard
 layout activity_admin_home
+layout activity_admin_ranking
 layout activity_admin_red_committee
 layout activity_admin_request_list
 layout activity_admin_schedule

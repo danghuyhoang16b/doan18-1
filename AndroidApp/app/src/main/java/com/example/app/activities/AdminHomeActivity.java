@@ -82,7 +82,7 @@ public class AdminHomeActivity extends AppCompatActivity {
         
         android.view.View btnManageGrading = findViewById(R.id.btnManageGrading);
         if (btnManageGrading != null) {
-            btnManageGrading.setOnClickListener(v -> Toast.makeText(this, "Chức năng xếp loại đang phát triển", Toast.LENGTH_SHORT).show());
+            btnManageGrading.setOnClickListener(v -> startActivity(new Intent(this, AdminRankingActivity.class)));
         }
     }
 }

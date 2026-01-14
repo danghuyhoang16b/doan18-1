@@ -22,10 +22,17 @@ try {
     if (!$decoded) {
         throw new Exception("Invalid token", 401);
     }
+    $role = $decoded['data']->role ?? null;
+    if ($role !== 'admin') {
+        throw new Exception("Forbidden", 403);
+    }
 
     $database = new Database();
     $db = $database->getConnection();
     // Ensure we get exceptions for SQL errors
+    if (!$db) {
+        throw new Exception("Database connection failed", 500);
+    }
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $input = file_get_contents("php://input");
@@ -37,6 +44,10 @@ try {
     } else {
         $type = isset($data->type) ? $data->type : 'day';
         $label = isset($data->label) ? $data->label : '';
+    }
+
+    if (!in_array($type, ['day','week','month'], true)) {
+        throw new Exception("Invalid type", 400);
     }
 
     if (empty($label)) {
@@ -59,7 +70,7 @@ try {
             // NOTE: Yearweek mode might be safer but WEEK() is default.
             // Also need to handle year crossing if needed, but simple year/week check is usually okay.
             $where = "YEAR(v.created_at) = :y AND WEEK(v.created_at) = :w";
-            $params[':y'] = $parts[0];
+            $params[':y'] = (int)$parts[0];
             $params[':w'] = (int)$parts[1]; 
         } else {
              // If label is just a number (week number) or different format, try to parse
@@ -71,7 +82,7 @@ try {
         $parts = explode('/', $label);
         if (count($parts) == 2) {
             $where = "YEAR(v.created_at) = :y AND MONTH(v.created_at) = :m";
-            $params[':y'] = $parts[0];
+            $params[':y'] = (int)$parts[0];
             $params[':m'] = (int)$parts[1];
         } else {
              echo json_encode([]); exit;
@@ -89,7 +100,7 @@ try {
             u.full_name as student_name,
             u.username as student_code,
             COALESCE(c.name, cls_details.name, 'N/A') as class_name,
-            cr.name as rule_name,
+            cr.rule_name as rule_name,
             cr.points as rule_points,
             v.note,
             v.created_at

@@ -57,6 +57,7 @@
         <activity android:name=".activities.ParentHomeActivity" />
         <activity android:name=".activities.AdminBannerActivity" />
         <activity android:name=".activities.AdminViolationStatsActivity" />
+        <activity android:name=".activities.AdminRankingActivity" />
         <activity android:name=".activities.AdminUserEditActivity" />
         <activity android:name=".activities.ImageImportActivity"
             android:label="Import Ảnh"
