@@ -82,6 +82,7 @@ public class ParentHomeActivity extends AppCompatActivity {
                         for (int i=0;i<arr.length();i++) {
                             org.json.JSONObject o = arr.getJSONObject(i);
                             items.add(new ChildItem(
+                                    o.optInt("student_id"),
                                     o.optString("name"),
                                     o.optString("birth_date"),
                                     o.optString("class_name")
@@ -115,8 +116,8 @@ public class ParentHomeActivity extends AppCompatActivity {
     }
 
     static class ChildItem {
-        String name, dob, clazz;
-        ChildItem(String n, String d, String c){ name=n; dob=d; clazz=c; }
+        int id; String name, dob, clazz;
+        ChildItem(int i, String n, String d, String c){ id=i; name=n; dob=d; clazz=c; }
     }
     class ChildrenAdapter extends RecyclerView.Adapter<ChildrenAdapter.VH> {
         java.util.List<ChildItem> list;
@@ -129,6 +130,98 @@ public class ParentHomeActivity extends AppCompatActivity {
             ChildItem c=list.get(i);
             h.t1.setText(c.name + " - " + (c.clazz.isEmpty()?"Chưa xếp lớp":c.clazz));
             h.t2.setText("Ngày sinh: " + (c.dob.isEmpty()?"Chưa cập nhật":c.dob));
+            h.itemView.setOnClickListener(v -> showChildDetail(c));
+        }
+        @Override public int getItemCount(){ return list.size(); }
+        class VH extends RecyclerView.ViewHolder {
+            TextView t1,t2;
+            VH(android.view.View v){ super(v); t1=v.findViewById(android.R.id.text1); t2=v.findViewById(android.R.id.text2); }
+        }
+    }
+
+    private void showChildDetail(ChildItem child) {
+        android.app.AlertDialog.Builder b = new android.app.AlertDialog.Builder(this);
+        android.view.View view = getLayoutInflater().inflate(R.layout.dialog_child_detail, null);
+        b.setView(view);
+        android.app.AlertDialog d = b.create();
+        d.show();
+        TextView tvTitle = view.findViewById(R.id.tvTitle);
+        TextView tvRanking = view.findViewById(R.id.tvRanking);
+        RecyclerView rv = view.findViewById(R.id.rvViolations);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        tvTitle.setText(child.name + " - " + (child.clazz.isEmpty()?"Chưa xếp lớp":child.clazz));
+        String bearer = "Bearer " + SharedPrefsUtils.getToken(this);
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        int y = cal.get(java.util.Calendar.YEAR);
+        int m = cal.get(java.util.Calendar.MONTH)+1;
+        String label = y + "/" + m;
+        apiService.getChildRanking(bearer, extractStudentId(child), "month", label, null, null).enqueue(new Callback<ResponseBody>() {
+            @Override public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    if (response.isSuccessful() && response.body()!=null) {
+                        String s = response.body().string();
+                        org.json.JSONObject o = new org.json.JSONObject(s);
+                        int score = o.optInt("score");
+                        int lost = o.optInt("points_lost");
+                        int cnt = o.optInt("violations_count");
+                        String grade = o.optString("grade");
+                        tvRanking.setText("Điểm: "+score+" | Trừ: "+lost+" | Vi phạm: "+cnt+" | "+grade);
+                    } else {
+                        tvRanking.setText("Không nhận được dữ liệu xếp loại");
+                    }
+                } catch (Exception e) { tvRanking.setText("Lỗi dữ liệu xếp loại"); }
+            }
+            @Override public void onFailure(Call<ResponseBody> call, Throwable t) {
+                tvRanking.setText("Mất kết nối hệ thống, vui lòng kiểm tra lại mạng");
+            }
+        });
+        apiService.getChildViolations(bearer, extractStudentId(child), "month", label, null, null).enqueue(new Callback<ResponseBody>() {
+            @Override public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    if (response.isSuccessful() && response.body()!=null) {
+                        String s = response.body().string();
+                        org.json.JSONArray arr = new org.json.JSONArray(s);
+                        java.util.List<ViolationItem> items = new java.util.ArrayList<>();
+                        for (int i=0;i<arr.length();i++) {
+                            org.json.JSONObject o = arr.getJSONObject(i);
+                            items.add(new ViolationItem(
+                                    o.optString("rule_name"),
+                                    o.optInt("points"),
+                                    o.optString("note"),
+                                    o.optString("created_at")
+                            ));
+                        }
+                        rv.setAdapter(new ViolationsAdapter(items));
+                    } else {
+                        rv.setAdapter(new ViolationsAdapter(new java.util.ArrayList<>()));
+                    }
+                } catch (Exception e) {
+                    rv.setAdapter(new ViolationsAdapter(new java.util.ArrayList<>()));
+                }
+            }
+            @Override public void onFailure(Call<ResponseBody> call, Throwable t) {
+                android.widget.Toast.makeText(ParentHomeActivity.this, "Mất kết nối hệ thống, vui lòng kiểm tra lại mạng", android.widget.Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private Integer extractStudentId(ChildItem child) { return child.id; }
+
+    static class ViolationItem {
+        String name; int points; String note; String time;
+        ViolationItem(String n,int p,String no,String t){ name=n; points=p; note=no; time=t; }
+    }
+    class ViolationsAdapter extends RecyclerView.Adapter<ViolationsAdapter.VH> {
+        java.util.List<ViolationItem> list;
+        ViolationsAdapter(java.util.List<ViolationItem> l){ list=l; }
+        @Override public VH onCreateViewHolder(android.view.ViewGroup p,int t){
+            android.view.View v = getLayoutInflater().inflate(android.R.layout.simple_list_item_2, p, false);
+            return new VH(v);
+        }
+        @Override public void onBindViewHolder(VH h,int i){
+            ViolationItem it = list.get(i);
+            h.t1.setText(it.name + " (-"+it.points+")");
+            h.t2.setText((it.note.isEmpty()?"":(it.note+" | ")) + it.time);
         }
         @Override public int getItemCount(){ return list.size(); }
         class VH extends RecyclerView.ViewHolder {

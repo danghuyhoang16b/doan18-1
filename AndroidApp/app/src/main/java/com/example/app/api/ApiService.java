@@ -252,6 +252,10 @@ public interface ApiService {
 
     @GET("parent/list_children.php")
     Call<ResponseBody> listChildren(@Header("Authorization") String bearer);
+    @GET("parent/get_child_ranking.php")
+    Call<ResponseBody> getChildRanking(@Header("Authorization") String bearer, @Query("student_id") Integer studentId, @Query("type") String type, @Query("label") String label, @Query("year") Integer year, @Query("semester") String semester);
+    @GET("parent/get_child_violations.php")
+    Call<ResponseBody> getChildViolations(@Header("Authorization") String bearer, @Query("student_id") Integer studentId, @Query("type") String type, @Query("label") String label, @Query("year") Integer year, @Query("semester") String semester);
 
     // Security Challenge
     @GET("security/challenge.php")
