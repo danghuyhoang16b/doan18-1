@@ -210,9 +210,10 @@ public class AdminDashboardActivity extends AppCompatActivity {
             okhttp3.RequestBody ctaBody = okhttp3.RequestBody.create(okhttp3.MediaType.parse("text/plain"), "Xem ngay");
             okhttp3.RequestBody linkBody = okhttp3.RequestBody.create(okhttp3.MediaType.parse("text/plain"), "");
             okhttp3.RequestBody priorityBody = okhttp3.RequestBody.create(okhttp3.MediaType.parse("text/plain"), String.valueOf(priority));
+            okhttp3.RequestBody tokenBody = okhttp3.RequestBody.create(okhttp3.MediaType.parse("text/plain"), token);
             
-            // Use uploadBannerV2 (Header Auth) for better security and consistency
-            api.uploadBannerV2("Bearer " + token, imagePart, titleBody, ctaBody, linkBody, priorityBody).enqueue(new Callback<okhttp3.ResponseBody>() {
+            // Use uploadBannerV2 (Header Auth + Body Token) for better security and consistency
+            api.uploadBannerV2("Bearer " + token, tokenBody, imagePart, titleBody, ctaBody, linkBody, priorityBody).enqueue(new Callback<okhttp3.ResponseBody>() {
                 @Override
                 public void onResponse(Call<okhttp3.ResponseBody> call, Response<okhttp3.ResponseBody> response) {
                     if (response.isSuccessful()) {

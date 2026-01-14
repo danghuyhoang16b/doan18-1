@@ -109,23 +109,46 @@ if (!$ok) {
     exit;
 }
 
-$stmtPts = $db->prepare("SELECT points FROM conduct_rules WHERE id=:rid");
+$stmtPts = $db->prepare("SELECT points, type FROM conduct_rules WHERE id=:rid");
 $stmtPts->bindParam(":rid", $data->rule_id);
 $stmtPts->execute();
 $rule = $stmtPts->fetch(PDO::FETCH_ASSOC);
-$deduct = $rule ? (int)$rule['points'] : 0;
 
-$db->exec("INSERT IGNORE INTO discipline_points(student_id, points) VALUES (".$data->student_id.", 100)");
+if (!$rule) {
+    http_response_code(400);
+    echo json_encode(["message" => "Quy tắc vi phạm không tồn tại."]);
+    exit;
+}
+
+$points = (int)$rule['points'];
+$type = $rule['type'] ?? 'minus'; // Default to minus if null
+
+$stmtInit = $db->prepare("INSERT IGNORE INTO discipline_points(student_id, points) VALUES (:sid, 100)");
+$stmtInit->execute([':sid' => $data->student_id]);
+
 $stmtCur = $db->prepare("SELECT points FROM discipline_points WHERE student_id=:sid");
 $stmtCur->bindParam(":sid", $data->student_id);
 $stmtCur->execute();
 $cur = $stmtCur->fetch(PDO::FETCH_ASSOC);
 $currentPoints = $cur ? (int)$cur['points'] : 100;
-$newPoints = max(0, $currentPoints - $deduct);
-$stmtUpd = $db->prepare("UPDATE discipline_points SET points=:p WHERE student_id=:sid");
-$stmtUpd->bindParam(":p", $newPoints);
-$stmtUpd->bindParam(":sid", $data->student_id);
-$stmtUpd->execute();
+
+if ($type == 'plus') {
+    $newPoints = min(100, $currentPoints + $points);
+} else {
+    $newPoints = max(0, $currentPoints - $points);
+}
+
+// Only update if points changed (though updated_at updates automatically usually)
+if ($newPoints !== $currentPoints) {
+    $stmtUpd = $db->prepare("UPDATE discipline_points SET points=:p WHERE student_id=:sid");
+    $stmtUpd->bindParam(":p", $newPoints);
+    $stmtUpd->bindParam(":sid", $data->student_id);
+    if (!$stmtUpd->execute()) {
+        http_response_code(500);
+        echo json_encode(["message" => "Lỗi cập nhật điểm."]);
+        exit;
+    }
+}
 
 $thresholds = [];
 foreach (['discipline_threshold_warn','discipline_threshold_conduct','discipline_threshold_class_change','discipline_class_name'] as $k) {
@@ -172,5 +195,10 @@ if ($thresholds['discipline_threshold_class_change'] !== null && $newPoints <= (
     $notify->execute();
 }
 
-echo json_encode(["message" => "OK", "points" => $newPoints, "deduct" => $deduct]);
+echo json_encode([
+    "message" => "OK", 
+    "points" => $newPoints, 
+    "deduct" => ($type == 'minus' ? $points : -$points),
+    "prev_points" => $currentPoints
+]);
 ?>

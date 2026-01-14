@@ -118,20 +118,34 @@ public class ParentProfileActivity extends AppCompatActivity {
         api.updateProfile("Bearer " + token, req).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                api.getProfile("Bearer " + token, new UserIdRequest(null)).enqueue(new Callback<ProfileResponse>() {
-                    @Override
-                    public void onResponse(Call<ProfileResponse> call2, Response<ProfileResponse> resp2) {
-                        sendBroadcast(new Intent("com.example.app.PROFILE_UPDATED"));
-                        finish();
-                    }
-                    @Override public void onFailure(Call<ProfileResponse> call2, Throwable t) {
-                        sendBroadcast(new Intent("com.example.app.PROFILE_UPDATED"));
-                        finish();
-                    }
-                });
+                if (response.isSuccessful()) {
+                    android.widget.Toast.makeText(ParentProfileActivity.this, "Cập nhật thành công", android.widget.Toast.LENGTH_SHORT).show();
+                    // Update User in SharedPreferences
+                    api.getProfile("Bearer " + token, new UserIdRequest(null)).enqueue(new Callback<ProfileResponse>() {
+                        @Override
+                        public void onResponse(Call<ProfileResponse> call2, Response<ProfileResponse> resp2) {
+                            if (resp2.isSuccessful() && resp2.body() != null) {
+                                // Update shared prefs if needed, or just proceed
+                                sendBroadcast(new Intent("com.example.app.PROFILE_UPDATED"));
+                                
+                                // Navigate to Home Activity (assuming this might be first login)
+                                startActivity(new Intent(ParentProfileActivity.this, ParentHomeActivity.class));
+                                finish();
+                            }
+                        }
+                        @Override public void onFailure(Call<ProfileResponse> call2, Throwable t) {
+                            startActivity(new Intent(ParentProfileActivity.this, ParentHomeActivity.class));
+                            finish();
+                        }
+                    });
+                } else {
+                    android.widget.Toast.makeText(ParentProfileActivity.this, "Cập nhật thất bại", android.widget.Toast.LENGTH_SHORT).show();
+                }
             }
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) { }
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                android.widget.Toast.makeText(ParentProfileActivity.this, "Lỗi kết nối", android.widget.Toast.LENGTH_SHORT).show();
+            }
         });
     }
     private byte[] readAll(java.io.InputStream is) throws java.io.IOException {

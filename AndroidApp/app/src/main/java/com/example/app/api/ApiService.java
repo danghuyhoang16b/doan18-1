@@ -117,6 +117,7 @@ public interface ApiService {
     @POST("banners/upload.php")
     Call<ResponseBody> uploadBannerV2(
             @Header("Authorization") String bearer,
+            @Part("token") RequestBody token,
             @Part MultipartBody.Part image,
             @Part("title") RequestBody title,
             @Part("cta_text") RequestBody ctaText,
@@ -223,6 +224,10 @@ public interface ApiService {
     Call<ResponseBody> setStudentClass(@Header("Authorization") String bearer, @Body java.util.Map<String, Integer> body);
     @GET("profile/is_student_complete.php")
     Call<ResponseBody> isStudentComplete(@Header("Authorization") String bearer);
+
+    @GET("profile/is_profile_complete.php")
+    Call<ResponseBody> isProfileComplete(@Header("Authorization") String bearer);
+
     @POST("profile/update_student_full.php")
     Call<ResponseBody> updateStudentFull(@Header("Authorization") String bearer, @Body java.util.Map<String, Object> body);
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Quản lý nề nếp THPT Trần Hưng Đạo</string>
-    <string name="login_title">Đăng Nhập</string>
+    <string name="login_title">TRẦN HƯNG ĐẠO</string>
     <string name="username_hint">Tên đăng nhập / Mã số</string>
     <string name="password_hint">Mật khẩu</string>
     <string name="login_button">Đăng nhập</string>

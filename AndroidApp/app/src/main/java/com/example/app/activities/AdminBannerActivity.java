@@ -168,8 +168,15 @@ public class AdminBannerActivity extends AppCompatActivity {
             RequestBody linkBody = RequestBody.create(MediaType.parse("text/plain"), link);
             RequestBody tokenBody = RequestBody.create(MediaType.parse("text/plain"), SharedPrefsUtils.getToken(this));
 
+            // Sử dụng uploadBannerV2 hỗ trợ Authorization header
+            RequestBody priorityBody = RequestBody.create(MediaType.parse("text/plain"), "0");
+            
+            // Lấy token và thêm "Bearer "
+            String token = "Bearer " + SharedPrefsUtils.getToken(this);
+
             ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-            apiService.uploadBanner(tokenBody, body, titleBody, ctaBody, linkBody).enqueue(new Callback<ResponseBody>() {
+            // Gọi hàm V2 với CẢ Header và Body (để chắc chắn server nhận được)
+            apiService.uploadBannerV2(token, tokenBody, body, titleBody, ctaBody, linkBody, priorityBody).enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     progressDialog.dismiss();

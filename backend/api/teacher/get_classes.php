@@ -48,12 +48,17 @@ if ($user_role == 'admin' || $is_red_star) {
     // Teacher sees assigned classes
     $teacher_id = $user_id;
     $query = "SELECT DISTINCT c.id, c.name 
-              FROM schedule s 
-              JOIN classes c ON s.class_id = c.id 
-              WHERE s.teacher_id = :teacher_id
+              FROM classes c 
+              LEFT JOIN schedule s ON c.id = s.class_id 
+              LEFT JOIN class_teacher_assignments cta ON c.id = cta.class_id 
+              WHERE s.teacher_id = :tid1 
+                 OR cta.teacher_id = :tid2 
+                 OR c.homeroom_teacher_id = :tid3
               ORDER BY c.name";
     $stmt = $db->prepare($query);
-    $stmt->bindParam(":teacher_id", $teacher_id);
+    $stmt->bindParam(":tid1", $teacher_id);
+    $stmt->bindParam(":tid2", $teacher_id);
+    $stmt->bindParam(":tid3", $teacher_id);
 }
 
 $stmt->execute();

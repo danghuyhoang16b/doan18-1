@@ -202,6 +202,41 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkStudentOnboarding(String bearerToken, String role) {
+        if ("parent".equals(role)) {
+            // Check Parent Profile Completeness (User info)
+            RetrofitClient.getClient().create(ApiService.class).isProfileComplete(bearerToken).enqueue(new Callback<okhttp3.ResponseBody>() {
+                @Override
+                public void onResponse(Call<okhttp3.ResponseBody> call, Response<okhttp3.ResponseBody> resp) {
+                    boolean complete = false;
+                    try {
+                        if (resp.isSuccessful() && resp.body()!=null) {
+                            String s = resp.body().string();
+                            org.json.JSONObject o = new org.json.JSONObject(s);
+                            complete = o.optBoolean("complete", false);
+                        }
+                    } catch (Exception ignored) {}
+
+                    if (!complete) {
+                        // Redirect to Parent Profile to update info
+                        android.widget.Toast.makeText(LoginActivity.this, "Vui lòng cập nhật thông tin cá nhân", android.widget.Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(LoginActivity.this, ParentProfileActivity.class));
+                        finish();
+                    } else {
+                        // Check linked student completeness if needed, or just go home
+                        // For now, assume if parent is complete, go home. 
+                        // Or we can chain checkStudentOnboarding (the original one) to check the child.
+                        // But let's stick to the request: "nhảy vào profile cửa phụ huynh"
+                        navigateBasedOnRole(role);
+                    }
+                }
+                @Override
+                public void onFailure(Call<okhttp3.ResponseBody> call, Throwable t) {
+                    navigateBasedOnRole(role);
+                }
+            });
+            return;
+        }
+
         RetrofitClient.getClient().create(ApiService.class).isStudentComplete(bearerToken).enqueue(new Callback<okhttp3.ResponseBody>() {
             @Override
             public void onResponse(Call<okhttp3.ResponseBody> call, Response<okhttp3.ResponseBody> resp) {
@@ -219,11 +254,8 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(new Intent(LoginActivity.this, StudentOnboardingActivity.class));
                         finish();
                     } else {
-                        // Parent warning
-                         android.app.AlertDialog.Builder b = new android.app.AlertDialog.Builder(LoginActivity.this);
-                         b.setTitle("Thông báo").setMessage("Con bạn chưa hoàn thành nhập dữ liệu cá nhân").setPositiveButton("Đồng ý",(d,w)->{
-                             navigateBasedOnRole(role);
-                         }).setCancelable(false).show();
+                        // Old logic for parent checking child (kept as fallback or removed if above block handles parent)
+                         navigateBasedOnRole(role);
                     }
                 } else {
                     navigateBasedOnRole(role);
