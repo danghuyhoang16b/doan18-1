@@ -227,7 +227,7 @@ public interface ApiService {
     Call<ResponseBody> updateStudentFull(@Header("Authorization") String bearer, @Body java.util.Map<String, Object> body);
 
     @POST("admin/users/list.php")
-    Call<com.example.app.models.UserListResponse> getUsers(@Header("Authorization") String bearer, @Body java.util.Map<String, Object> body);
+    Call<ResponseBody> getUsers(@Header("Authorization") String bearer, @Body java.util.Map<String, Object> body);
     @POST("admin/users/create.php")
     Call<ResponseBody> createUser(@Header("Authorization") String token, @Body com.example.app.models.User user);
 

@@ -169,33 +169,47 @@ public class AdminUserListActivity extends AppCompatActivity {
             body.put("search", currentSearch);
         }
 
-        apiService.getUsers("Bearer " + token, body).enqueue(new Callback<UserListResponse>() {
+        apiService.getUsers("Bearer " + token, body).enqueue(new Callback<okhttp3.ResponseBody>() {
             @Override
-            public void onResponse(Call<UserListResponse> call, Response<UserListResponse> response) {
+            public void onResponse(Call<okhttp3.ResponseBody> call, Response<okhttp3.ResponseBody> response) {
                 isLoading = false;
                 if (response.isSuccessful() && response.body() != null) {
-                    UserListResponse data = response.body();
-                    List<User> newUsers = data.getData();
-                    if (data.getPagination() != null) {
-                        totalPages = data.getPagination().getTotalPages();
-                    }
-                    
-                    if (refresh) {
-                        userList.clear();
-                        userList.addAll(newUsers);
-                        adapter.setUsers(userList);
-                    } else {
-                        int start = userList.size();
-                        userList.addAll(newUsers);
-                        adapter.notifyItemRangeInserted(start, newUsers.size());
-                    }
-                    
-                    if (userList.isEmpty()) {
-                        tvNoData.setVisibility(View.VISIBLE);
-                        rvUserList.setVisibility(View.GONE);
-                    } else {
-                        tvNoData.setVisibility(View.GONE);
-                        rvUserList.setVisibility(View.VISIBLE);
+                    try {
+                        String s = response.body().string();
+                        org.json.JSONObject o = new org.json.JSONObject(s);
+                        org.json.JSONArray arr = o.optJSONArray("data");
+                        List<User> newUsers = new ArrayList<>();
+                        if (arr != null) {
+                            for (int i=0;i<arr.length();i++) {
+                                org.json.JSONObject u = arr.getJSONObject(i);
+                                User user = new User();
+                                user.setId(u.optInt("id"));
+                                user.setUsername(u.optString("username"));
+                                user.setFullName(u.optString("full_name"));
+                                user.setRole(u.optString("role"));
+                                user.setEmail(u.optString("email"));
+                                user.setPhone(u.optString("phone"));
+                                userList.add(user);
+                                newUsers.add(user);
+                            }
+                        }
+                        org.json.JSONObject pag = o.optJSONObject("pagination");
+                        if (pag != null) totalPages = pag.optInt("total_pages", 1);
+                        if (refresh) {
+                            adapter.setUsers(userList);
+                        } else {
+                            int start = userList.size() - newUsers.size();
+                            adapter.notifyItemRangeInserted(start, newUsers.size());
+                        }
+                        if (userList.isEmpty()) {
+                            tvNoData.setVisibility(View.VISIBLE);
+                            rvUserList.setVisibility(View.GONE);
+                        } else {
+                            tvNoData.setVisibility(View.GONE);
+                            rvUserList.setVisibility(View.VISIBLE);
+                        }
+                    } catch (Exception e) {
+                        Toast.makeText(AdminUserListActivity.this, "Lỗi dữ liệu: " + e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 } else {
                     if (response.code() == 401) {
@@ -221,7 +235,7 @@ public class AdminUserListActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<UserListResponse> call, Throwable t) {
+            public void onFailure(Call<okhttp3.ResponseBody> call, Throwable t) {
                 isLoading = false;
                 Toast.makeText(AdminUserListActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
