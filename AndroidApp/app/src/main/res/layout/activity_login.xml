@@ -29,9 +29,10 @@
 
             <!-- Logo -->
             <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:src="@mipmap/ic_launcher"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/ic_school_logo"
+                android:scaleType="centerInside"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="16dp"/>
 
