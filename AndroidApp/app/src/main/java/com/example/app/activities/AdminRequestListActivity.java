@@ -7,9 +7,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.app.R;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
+import com.example.app.network.ApiClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class AdminRequestListActivity extends AppCompatActivity {
     }
     private void load() {
         String token = SharedPrefsUtils.getToken(this);
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = ApiClient.getInstance().getApiService();
         api.getAdminRequests("Bearer " + token).enqueue(new Callback<ResponseBody>() {
             @Override public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
@@ -103,7 +104,7 @@ public class AdminRequestListActivity extends AppCompatActivity {
         }
         private void act(int id, boolean approve){
             String token = SharedPrefsUtils.getToken(AdminRequestListActivity.this);
-            ApiService api = RetrofitClient.getClient().create(ApiService.class);
+            ApiService api = ApiClient.getInstance().getApiService();
             java.util.Map<String,Object> body = new java.util.HashMap<>();
             body.put("request_id", id);
             body.put("approve", approve);
@@ -115,7 +116,7 @@ public class AdminRequestListActivity extends AppCompatActivity {
     }
     private void approveOrReject(int id, boolean approve){
         String token = SharedPrefsUtils.getToken(this);
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = ApiClient.getInstance().getApiService();
         java.util.Map<String,Object> body = new java.util.HashMap<>();
         body.put("request_id", id);
         body.put("approve", approve);

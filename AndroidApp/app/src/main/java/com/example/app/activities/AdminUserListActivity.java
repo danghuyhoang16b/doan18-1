@@ -18,11 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.R;
 import com.example.app.adapters.AdminUserAdapter;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.models.User;
 import com.example.app.models.UserListResponse;
 import com.example.app.utils.SharedPrefsUtils;
+import com.example.app.network.ApiClient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -126,7 +127,7 @@ public class AdminUserListActivity extends AppCompatActivity {
                         .setMessage("Khóa tài khoản " + user.getFullName() + "?")
                         .setPositiveButton("Khóa", (d, w) -> {
                             String token = SharedPrefsUtils.getToken(AdminUserListActivity.this);
-                            ApiService api = RetrofitClient.getClient().create(ApiService.class);
+                            ApiService api = ApiClient.getInstance().getApiService();
                             java.util.Map<String, Integer> body = new java.util.HashMap<>();
                             body.put("id", user.getId());
                             api.deleteUser("Bearer " + token, body).enqueue(new Callback<okhttp3.ResponseBody>() {
@@ -180,7 +181,7 @@ public class AdminUserListActivity extends AppCompatActivity {
         
         isLoading = true;
         String token = SharedPrefsUtils.getToken(this);
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        ApiService apiService = ApiClient.getInstance().getApiService();
         
         Map<String, Object> body = new HashMap<>();
         body.put("role", userType);

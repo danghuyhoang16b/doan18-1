@@ -21,11 +21,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.R;
 import com.example.app.adapters.AdminBannerAdapter;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.models.Banner;
 import com.example.app.models.BannerIdRequest;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
+import com.example.app.network.ApiClient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
@@ -80,7 +81,7 @@ public class AdminBannerActivity extends AppCompatActivity {
     }
 
     private void loadBanners() {
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        ApiService apiService = ApiClient.getInstance().getApiService();
         apiService.getActiveBanners().enqueue(new Callback<List<Banner>>() {
             @Override
             public void onResponse(Call<List<Banner>> call, Response<List<Banner>> response) {
@@ -174,7 +175,7 @@ public class AdminBannerActivity extends AppCompatActivity {
             // Lấy token và thêm "Bearer "
             String token = "Bearer " + SharedPrefsUtils.getToken(this);
 
-            ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+            ApiService apiService = ApiClient.getInstance().getApiService();
             // Gọi hàm V2 với CẢ Header và Body (để chắc chắn server nhận được)
             apiService.uploadBannerV2(token, tokenBody, body, titleBody, ctaBody, linkBody, priorityBody).enqueue(new Callback<ResponseBody>() {
                 @Override
@@ -205,7 +206,7 @@ public class AdminBannerActivity extends AppCompatActivity {
 
     private void toggleBannerActive(Banner banner, boolean isActive) {
         String token = SharedPrefsUtils.getToken(this);
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = ApiClient.getInstance().getApiService();
         api.toggleBannerActive("Bearer " + token, new com.example.app.models.BannerToggleRequest(banner.getId(), isActive))
             .enqueue(new Callback<ResponseBody>() {
                 @Override
@@ -237,7 +238,7 @@ public class AdminBannerActivity extends AppCompatActivity {
     }
 
     private void deleteBanner(Banner banner) {
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        ApiService apiService = ApiClient.getInstance().getApiService();
         String token = SharedPrefsUtils.getToken(this);
         apiService.deleteBanner(new BannerIdRequest(token, banner.getId())).enqueue(new Callback<ResponseBody>() {
             @Override

@@ -17,12 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.R;
 import com.example.app.models.User;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
+import com.example.app.network.ApiClient;
 
 import androidx.viewpager2.widget.ViewPager2;
 import com.example.app.adapters.ImageSliderAdapter;
+import com.example.app.network.ApiClient;
 import java.util.Arrays;
 import java.util.List;
 import android.widget.Toast;
@@ -62,7 +64,7 @@ public class ParentHomeActivity extends AppCompatActivity {
         }
 
         btnLogout.setOnClickListener(v -> finish());
-        apiService = RetrofitClient.getClient().create(ApiService.class);
+        apiService = ApiClient.getInstance().getApiService();
 
         btnChildrenInfo.setOnClickListener(v -> fetchChildrenInfo());
     }

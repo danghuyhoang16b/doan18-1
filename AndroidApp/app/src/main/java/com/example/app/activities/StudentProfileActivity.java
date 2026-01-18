@@ -14,12 +14,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.app.R;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.models.ProfileResponse;
 import com.example.app.models.UserIdRequest;
 import com.example.app.models.UserUpdateRequest;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
+import com.example.app.network.ApiClient;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -84,7 +85,7 @@ public class StudentProfileActivity extends AppCompatActivity {
     }
     private void checkProfileStatus() {
         String token = SharedPrefsUtils.getToken(this);
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = ApiClient.getInstance().getApiService();
         api.isStudentComplete("Bearer " + token).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -113,7 +114,7 @@ public class StudentProfileActivity extends AppCompatActivity {
     }
     private void loadProfile() {
         String token = SharedPrefsUtils.getToken(this);
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = ApiClient.getInstance().getApiService();
         api.getProfile("Bearer " + token).enqueue(new Callback<ProfileResponse>() {
             @Override
             public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
@@ -147,7 +148,7 @@ public class StudentProfileActivity extends AppCompatActivity {
     }
     private void saveProfile() {
         String token = SharedPrefsUtils.getToken(this);
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = ApiClient.getInstance().getApiService();
         if (selectedAvatar != null) {
             try {
                 String mime = getContentResolver().getType(selectedAvatar);
@@ -187,7 +188,7 @@ public class StudentProfileActivity extends AppCompatActivity {
     }
     private void loadClasses() {
         String token = SharedPrefsUtils.getToken(this);
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = ApiClient.getInstance().getApiService();
         api.getAllClasses().enqueue(new Callback<ResponseBody>() {
             @Override public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
@@ -197,7 +198,7 @@ public class StudentProfileActivity extends AppCompatActivity {
                         java.util.List<String> names = new java.util.ArrayList<>();
                         for (int i=0;i<arr.length();i++) names.add(arr.getJSONObject(i).optString("name"));
                         spClass.setAdapter(new android.widget.ArrayAdapter<>(StudentProfileActivity.this, android.R.layout.simple_spinner_item, names));
-                        ApiService api2 = RetrofitClient.getClient().create(ApiService.class);
+                        ApiService api2 = ApiClient.getInstance().getApiService();
                         api2.getStudentClass("Bearer " + token).enqueue(new Callback<ResponseBody>() {
                             @Override public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                 try {
@@ -219,7 +220,7 @@ public class StudentProfileActivity extends AppCompatActivity {
     }
     private void setClass() {
         String token = SharedPrefsUtils.getToken(this);
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = ApiClient.getInstance().getApiService();
         // resolve class id by name
         api.getAllClasses().enqueue(new Callback<ResponseBody>() {
             @Override public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

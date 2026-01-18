@@ -12,10 +12,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.app.R;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
 import com.example.app.models.CreateNotificationRequest;
+import com.example.app.network.ApiClient;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -62,7 +63,7 @@ public class CreateNotificationActivity extends AppCompatActivity {
         else if (checkedId == R.id.rbUrgent) priority = "urgent";
 
         String token = SharedPrefsUtils.getToken(this);
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        ApiService apiService = ApiClient.getInstance().getApiService();
 
         apiService.createNotification("Bearer " + token, new CreateNotificationRequest(token, title, content, priority))
                 .enqueue(new Callback<Void>() {

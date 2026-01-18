@@ -9,12 +9,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.app.R;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.models.LoginResponse;
 import com.example.app.models.PhoneRequest;
 import com.example.app.models.VerifyOtpRequest;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
+import com.example.app.network.ApiClient;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,7 +40,7 @@ public class ParentOtpActivity extends AppCompatActivity {
     private void requestOtp() {
         String phone = etPhone.getText().toString().trim();
         if (phone.isEmpty()) { Toast.makeText(this,"Vui lòng nhập số điện thoại",Toast.LENGTH_SHORT).show(); return; }
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = ApiClient.getInstance().getApiService();
         api.requestOtp(new PhoneRequest(phone)).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
@@ -59,7 +60,7 @@ public class ParentOtpActivity extends AppCompatActivity {
         String phone = etPhone.getText().toString().trim();
         String code = etOtp.getText().toString().trim();
         if (phone.isEmpty() || code.isEmpty()) { Toast.makeText(this,"Vui lòng nhập đủ thông tin",Toast.LENGTH_SHORT).show(); return; }
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = ApiClient.getInstance().getApiService();
         api.verifyOtp(new VerifyOtpRequest(phone, code)).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {

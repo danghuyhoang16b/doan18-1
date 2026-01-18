@@ -9,9 +9,10 @@ import java.util.Calendar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.example.app.R;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
+import com.example.app.network.ApiClient;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -89,7 +90,7 @@ public class StudentOnboardingActivity extends AppCompatActivity {
             return;
         }
         String token = SharedPrefsUtils.getToken(this);
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = ApiClient.getInstance().getApiService();
         Map<String,Object> body = new HashMap<>();
         body.put("full_name", etFullName.getText().toString().trim());
         body.put("birth_date", etBirthDate.getText().toString().trim());

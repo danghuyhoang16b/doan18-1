@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.app.R;
 import com.example.app.adapters.ConductAdapter;
 import com.example.app.adapters.ScoreAdapter;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
 import com.example.app.models.CompetitionStatsResponse;
@@ -21,6 +21,7 @@ import com.example.app.models.Conduct;
 import com.example.app.models.Score;
 import com.example.app.models.StatisticsResponse;
 import com.example.app.models.TokenRequest;
+import com.example.app.network.ApiClient;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.BarData;
@@ -74,7 +75,7 @@ public class ReportActivity extends AppCompatActivity {
         rvReport.setLayoutManager(new LinearLayoutManager(this));
 
         token = SharedPrefsUtils.getToken(this);
-        apiService = RetrofitClient.getClient().create(ApiService.class);
+        apiService = ApiClient.getInstance().getApiService();
 
         // Load default tab (Academic)
         loadAcademicReport();

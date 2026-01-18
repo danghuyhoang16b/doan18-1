@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.app.R;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.models.ClassModel;
 import com.example.app.models.ClassRequest;
 import com.example.app.models.ConductRule;
@@ -22,6 +22,7 @@ import com.example.app.models.TokenRequest;
 import com.example.app.models.ViolationRequest;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
+import com.example.app.network.ApiClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +70,7 @@ public class ViolationActivity extends AppCompatActivity {
         tvStudentInfo = findViewById(R.id.tvStudentInfo);
 
         token = SharedPrefsUtils.getToken(this);
-        apiService = RetrofitClient.getClient().create(ApiService.class);
+        apiService = ApiClient.getInstance().getApiService();
 
         loadClasses();
         loadRules();

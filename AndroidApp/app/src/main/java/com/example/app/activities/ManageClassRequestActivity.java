@@ -7,9 +7,10 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.example.app.R;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
+import com.example.app.network.ApiClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class ManageClassRequestActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     private void loadClasses() {
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = ApiClient.getInstance().getApiService();
         api.getAllClasses().enqueue(new Callback<ResponseBody>() {
             @Override public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
@@ -82,7 +83,7 @@ public class ManageClassRequestActivity extends AppCompatActivity {
     }
     private void sendRequest() {
         String token = SharedPrefsUtils.getToken(this);
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = ApiClient.getInstance().getApiService();
         List<Integer> ids = new ArrayList<>();
         for (JSONObject o : classes) {
             int id = o.optInt("id");
@@ -114,7 +115,7 @@ public class ManageClassRequestActivity extends AppCompatActivity {
     }
     private void loadRequests() {
         String token = SharedPrefsUtils.getToken(this);
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = ApiClient.getInstance().getApiService();
         api.getTeacherRequests("Bearer " + token).enqueue(new Callback<ResponseBody>() {
             @Override public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {

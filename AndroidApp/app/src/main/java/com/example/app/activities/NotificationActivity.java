@@ -13,11 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.R;
 import com.example.app.adapters.NotificationAdapter;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
 import com.example.app.models.Notification;
 import com.example.app.models.User;
+import com.example.app.network.ApiClient;
 
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
     private void loadNotifications() {
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        ApiService apiService = ApiClient.getInstance().getApiService();
         
         String token = SharedPrefsUtils.getToken(this);
         apiService.getAllNotifications("Bearer " + token).enqueue(new Callback<List<Notification>>() {

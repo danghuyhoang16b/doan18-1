@@ -20,10 +20,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.app.R;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.models.ImportImageRequest;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
+import com.example.app.network.ApiClient;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -184,7 +185,7 @@ public class ImageImportActivity extends AppCompatActivity {
             String token = SharedPrefsUtils.getToken(this);
             ImportImageRequest request = new ImportImageRequest(img.name, img.size, img.mimeType, base64, token);
             
-            ApiService api = RetrofitClient.getClient().create(ApiService.class);
+            ApiService api = ApiClient.getInstance().getApiService();
             api.importImage("Bearer " + token, request).enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

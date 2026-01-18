@@ -14,11 +14,12 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.example.app.R;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.models.AdminBackgroundRequest;
 import com.example.app.models.AdminBackgroundResponse;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
+import com.example.app.network.ApiClient;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import retrofit2.Call;
@@ -122,7 +123,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
         btnSaveBg.setOnClickListener(v -> {
             String token = SharedPrefsUtils.getToken(this);
-            ApiService api = RetrofitClient.getClient().create(ApiService.class);
+            ApiService api = ApiClient.getInstance().getApiService();
             // If user picked files, upload them; otherwise save selection keys
             if (pickedMobileUri != null) {
                 uploadSelected("mobile", pickedMobileUri);
@@ -187,7 +188,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
     private void uploadSelected(String target, android.net.Uri uri) {
         try {
             String token = SharedPrefsUtils.getToken(this);
-            ApiService api = RetrofitClient.getClient().create(ApiService.class);
+            ApiService api = ApiClient.getInstance().getApiService();
             String mime = getContentResolver().getType(uri);
             if (mime == null) mime = "image/*";
             java.io.InputStream is = getContentResolver().openInputStream(uri);
@@ -295,7 +296,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
     private void loadCurrentBackground() {
         String token = SharedPrefsUtils.getToken(this);
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = ApiClient.getInstance().getApiService();
         api.getBackground("Bearer " + token).enqueue(new Callback<AdminBackgroundResponse>() {
             @Override
             public void onResponse(Call<AdminBackgroundResponse> call, Response<AdminBackgroundResponse> response) {

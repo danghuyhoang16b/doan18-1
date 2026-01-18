@@ -11,9 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.app.R;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
+import com.example.app.network.ApiClient;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -44,7 +45,7 @@ public class TeacherScheduleActivity extends AppCompatActivity {
         table = findViewById(R.id.tableSchedule);
         etClass = findViewById(R.id.etClass);
         etSubject = findViewById(R.id.etSubject);
-        api = RetrofitClient.getClient().create(ApiService.class);
+        api = ApiClient.getInstance().getApiService();
         token = SharedPrefsUtils.getToken(this);
         btnTeachingSchedule.setOnClickListener(v -> loadSchedule());
         btnAutoGenerate.setOnClickListener(v -> generate());

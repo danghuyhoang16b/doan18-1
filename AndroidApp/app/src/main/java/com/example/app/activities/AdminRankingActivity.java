@@ -10,9 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.app.R;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
+import com.example.app.network.ApiClient;
 import java.util.ArrayList;
 import java.util.List;
 import okhttp3.ResponseBody;
@@ -44,7 +45,7 @@ public class AdminRankingActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         tvEmpty = findViewById(R.id.tvEmpty);
         rvRanking.setLayoutManager(new LinearLayoutManager(this));
-        apiService = RetrofitClient.getClient().create(ApiService.class);
+        apiService = ApiClient.getInstance().getApiService();
 
         btnLoadWeek.setOnClickListener(v -> loadWeek());
         btnLoadMonth.setOnClickListener(v -> loadMonth());

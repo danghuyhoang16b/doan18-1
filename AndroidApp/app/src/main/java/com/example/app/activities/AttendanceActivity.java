@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.R;
 import com.example.app.adapters.AttendanceAdapter;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
 import com.example.app.models.AttendanceSubmitRequest;
@@ -26,6 +26,7 @@ import com.example.app.models.ClassModel;
 import com.example.app.models.ClassRequest;
 import com.example.app.models.Student;
 import com.example.app.models.TokenRequest;
+import com.example.app.network.ApiClient;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -71,7 +72,7 @@ public class AttendanceActivity extends AppCompatActivity {
         tvDate.setText(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()));
 
         token = SharedPrefsUtils.getToken(this);
-        apiService = RetrofitClient.getClient().create(ApiService.class);
+        apiService = ApiClient.getInstance().getApiService();
 
         loadClasses();
 
