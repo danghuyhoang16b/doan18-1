@@ -154,6 +154,9 @@ public class HomeActivity extends AppCompatActivity {
         setupSlider();
         fetchBackgroundsAndApply();
 
+        // Load avatar from server
+        refreshProfileFromServer();
+
         // --- FIX LỖI SLIDER NHẢY: Dùng chung hàm applyBanners ---
         com.example.app.utils.BannerManager.subscribeRealtime(this, banners -> {
             runOnUiThread(() -> {
@@ -199,6 +202,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onResume();
         fetchBackgroundsAndApply();
         loadNews();
+        refreshProfileFromServer(); // Refresh avatar when returning to screen
         if (pollingHandler != null && pollingRunnable != null) {
             pollingHandler.post(pollingRunnable);
         }
