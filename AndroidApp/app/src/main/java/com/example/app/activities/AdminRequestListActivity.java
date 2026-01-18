@@ -109,8 +109,30 @@ public class AdminRequestListActivity extends AppCompatActivity {
             body.put("request_id", id);
             body.put("approve", approve);
             api.approveTeacherRequest("Bearer " + token, body).enqueue(new Callback<ResponseBody>() {
-                @Override public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) { Toast.makeText(AdminRequestListActivity.this, approve? "Đã phê duyệt":"Đã từ chối", Toast.LENGTH_SHORT).show(); load(); }
-                @Override public void onFailure(Call<ResponseBody> call, Throwable t) { }
+                @Override public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    try {
+                        String responseStr = response.body() != null ? response.body().string() : "";
+                        if (response.isSuccessful()) {
+                            Toast.makeText(AdminRequestListActivity.this, approve ? "Đã phê duyệt" : "Đã từ chối", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Parse error message from response
+                            String errorBody = response.errorBody() != null ? response.errorBody().string() : "";
+                            JSONObject errorJson = new JSONObject(errorBody);
+                            String errorMsg = errorJson.optString("message", "Lỗi không xác định");
+                            Toast.makeText(AdminRequestListActivity.this, "Lỗi: " + errorMsg, Toast.LENGTH_LONG).show();
+                        }
+                    } catch (Exception e) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(AdminRequestListActivity.this, approve ? "Đã phê duyệt" : "Đã từ chối", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(AdminRequestListActivity.this, "Lỗi: " + response.code(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    load();
+                }
+                @Override public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Toast.makeText(AdminRequestListActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             });
         }
     }
