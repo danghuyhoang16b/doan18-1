@@ -126,9 +126,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.Vi
     }
 
     private void loadImage(android.widget.ImageView target, String avatar) {
-        // String base = "http://103.252.136.73:8080/uploads/avatars/";
-        String base = "http://10.0.2.2/Backend/uploads/avatars/";
-        String url = avatar.startsWith("http") ? avatar : base + avatar;
+        String url = avatar.startsWith("http") ? avatar : com.example.app.network.ApiConstants.AVATAR_BASE_URL + avatar;
         new Thread(() -> {
             try {
                 java.net.HttpURLConnection conn = (java.net.HttpURLConnection) new java.net.URL(url).openConnection();

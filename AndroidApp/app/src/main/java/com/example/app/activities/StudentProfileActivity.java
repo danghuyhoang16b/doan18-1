@@ -129,8 +129,7 @@ public class StudentProfileActivity extends AppCompatActivity {
                     if (p.avatar != null && !p.avatar.isEmpty()) {
                         String url = p.avatar;
                         if (!url.startsWith("http")) {
-                            // url = "http://103.252.136.73:8080/uploads/avatars/" + url;
-                            url = "http://10.0.2.2/Backend/uploads/avatars/" + url;
+                            url = com.example.app.network.ApiConstants.AVATAR_BASE_URL + url;
                         }
                         com.bumptech.glide.Glide.with(StudentProfileActivity.this)
                             .load(url)

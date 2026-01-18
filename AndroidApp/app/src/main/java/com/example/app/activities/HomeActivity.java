@@ -260,9 +260,7 @@ public class HomeActivity extends AppCompatActivity {
                     if (tvRole != null) tvRole.setText(getRoleName(response.body().role));
                     if (response.body().avatar != null && response.body().avatar.length() > 0 && imgAvatar != null) {
                         String a = response.body().avatar;
-                        // String base = "http://103.252.136.73:8080/uploads/avatars/";
-                        String base = "http://10.0.2.2/Backend/uploads/avatars/";
-                        String url = a.startsWith("http") ? a : base + a;
+                        String url = a.startsWith("http") ? a : com.example.app.network.ApiConstants.AVATAR_BASE_URL + a;
                         loadImage(imgAvatar, url);
                     }
                 }

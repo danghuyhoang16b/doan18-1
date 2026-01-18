@@ -62,8 +62,7 @@ public class AdminUserAdapter extends RecyclerView.Adapter<AdminUserAdapter.View
         // Simple avatar loading
         String avatarUrl = user.getAvatar();
         if (avatarUrl != null && !avatarUrl.isEmpty() && !avatarUrl.startsWith("http")) {
-            // avatarUrl = "http://103.252.136.73:8080/uploads/avatars/" + avatarUrl;
-            avatarUrl = "http://10.0.2.2/Backend/uploads/avatars/" + avatarUrl;
+            avatarUrl = com.example.app.network.ApiConstants.AVATAR_BASE_URL + avatarUrl;
         }
         Glide.with(context)
              .load(avatarUrl)

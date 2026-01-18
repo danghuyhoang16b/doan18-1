@@ -17,6 +17,11 @@ public final class ApiConstants {
     public static final String BASE_URL = "http://103.252.136.73:8080/api/";
 
     /**
+     * Avatar base URL for loading user avatars
+     */
+    public static final String AVATAR_BASE_URL = "http://103.252.136.73:8080/uploads/avatars/";
+
+    /**
      * Emulator URL (use this for Android Emulator testing)
      */
     public static final String BASE_URL_EMULATOR = "http://10.0.2.2/Backend/api/";
