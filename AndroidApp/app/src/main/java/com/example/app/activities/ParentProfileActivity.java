@@ -89,6 +89,17 @@ public class ParentProfileActivity extends AppCompatActivity {
                     etFullName.setText(p.full_name);
                     etEmail.setText(p.email);
                     etPhone.setText(p.phone);
+
+                    // Load avatar
+                    if (p.avatar != null && !p.avatar.isEmpty()) {
+                        String url = p.avatar.startsWith("http") ? p.avatar :
+                            com.example.app.network.ApiConstants.AVATAR_BASE_URL + p.avatar;
+                        com.bumptech.glide.Glide.with(ParentProfileActivity.this)
+                            .load(url)
+                            .placeholder(R.mipmap.ic_launcher_round)
+                            .error(R.mipmap.ic_launcher_round)
+                            .into(ivAvatar);
+                    }
                 }
             }
             @Override
@@ -98,6 +109,8 @@ public class ParentProfileActivity extends AppCompatActivity {
     private void saveProfile() {
         String token = SharedPrefsUtils.getToken(this);
         ApiService api = ApiClient.getInstance().getApiService();
+
+        // If avatar selected, upload first then update profile
         if (selectedAvatar != null) {
             try {
                 String mime = getContentResolver().getType(selectedAvatar);
@@ -105,12 +118,36 @@ public class ParentProfileActivity extends AppCompatActivity {
                 byte[] bytes = readAll(is);
                 RequestBody body = RequestBody.create(MediaType.parse(mime != null ? mime : "image/*"), bytes);
                 MultipartBody.Part img = MultipartBody.Part.createFormData("image", "avatar.jpg", body);
+
+                android.widget.Toast.makeText(this, "Đang tải ảnh lên...", android.widget.Toast.LENGTH_SHORT).show();
                 api.uploadAvatar("Bearer " + token, img).enqueue(new Callback<ResponseBody>() {
-                    @Override public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) { }
-                    @Override public void onFailure(Call<ResponseBody> call, Throwable t) { }
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            updateProfileAndFinish(api, token);
+                        } else {
+                            android.widget.Toast.makeText(ParentProfileActivity.this,
+                                "Lỗi tải ảnh: " + response.code(), android.widget.Toast.LENGTH_SHORT).show();
+                            updateProfileAndFinish(api, token);
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        android.widget.Toast.makeText(ParentProfileActivity.this,
+                            "Lỗi kết nối: " + t.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
+                        updateProfileAndFinish(api, token);
+                    }
                 });
-            } catch (Exception ignored) { }
+            } catch (Exception e) {
+                android.widget.Toast.makeText(this, "Lỗi đọc ảnh: " + e.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
+                updateProfileAndFinish(api, token);
+            }
+        } else {
+            updateProfileAndFinish(api, token);
         }
+    }
+
+    private void updateProfileAndFinish(ApiService api, String token) {
         UserUpdateRequest req = new UserUpdateRequest(null,
                 etFullName.getText().toString().trim(),
                 etEmail.getText().toString().trim(),
@@ -120,25 +157,10 @@ public class ParentProfileActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    android.widget.Toast.makeText(ParentProfileActivity.this, "Cập nhật thành công", android.widget.Toast.LENGTH_SHORT).show();
-                    // Update User in SharedPreferences
-                    api.getProfile("Bearer " + token).enqueue(new Callback<ProfileResponse>() {
-                        @Override
-                        public void onResponse(Call<ProfileResponse> call2, Response<ProfileResponse> resp2) {
-                            if (resp2.isSuccessful() && resp2.body() != null) {
-                                // Update shared prefs if needed, or just proceed
-                                sendBroadcast(new Intent("com.example.app.PROFILE_UPDATED"));
-                                
-                                // Navigate to Home Activity (assuming this might be first login)
-                                startActivity(new Intent(ParentProfileActivity.this, ParentHomeActivity.class));
-                                finish();
-                            }
-                        }
-                        @Override public void onFailure(Call<ProfileResponse> call2, Throwable t) {
-                            startActivity(new Intent(ParentProfileActivity.this, ParentHomeActivity.class));
-                            finish();
-                        }
-                    });
+                    android.widget.Toast.makeText(ParentProfileActivity.this, "Đã lưu hồ sơ", android.widget.Toast.LENGTH_SHORT).show();
+                    sendBroadcast(new Intent("com.example.app.PROFILE_UPDATED"));
+                    startActivity(new Intent(ParentProfileActivity.this, ParentHomeActivity.class));
+                    finish();
                 } else {
                     android.widget.Toast.makeText(ParentProfileActivity.this, "Cập nhật thất bại", android.widget.Toast.LENGTH_SHORT).show();
                 }

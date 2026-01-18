@@ -148,6 +148,8 @@ public class StudentProfileActivity extends AppCompatActivity {
     private void saveProfile() {
         String token = SharedPrefsUtils.getToken(this);
         ApiService api = ApiClient.getInstance().getApiService();
+
+        // If avatar selected, upload first then update profile
         if (selectedAvatar != null) {
             try {
                 String mime = getContentResolver().getType(selectedAvatar);
@@ -155,12 +157,36 @@ public class StudentProfileActivity extends AppCompatActivity {
                 byte[] bytes = readAll(is);
                 RequestBody body = RequestBody.create(MediaType.parse(mime != null ? mime : "image/*"), bytes);
                 MultipartBody.Part img = MultipartBody.Part.createFormData("image", "avatar.jpg", body);
+
+                android.widget.Toast.makeText(this, "Đang tải ảnh lên...", android.widget.Toast.LENGTH_SHORT).show();
                 api.uploadAvatar("Bearer " + token, img).enqueue(new Callback<ResponseBody>() {
-                    @Override public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) { }
-                    @Override public void onFailure(Call<ResponseBody> call, Throwable t) { }
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            updateProfileAndFinish(api, token);
+                        } else {
+                            android.widget.Toast.makeText(StudentProfileActivity.this,
+                                "Lỗi tải ảnh: " + response.code(), android.widget.Toast.LENGTH_SHORT).show();
+                            updateProfileAndFinish(api, token);
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        android.widget.Toast.makeText(StudentProfileActivity.this,
+                            "Lỗi kết nối: " + t.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
+                        updateProfileAndFinish(api, token);
+                    }
                 });
-            } catch (Exception ignored) { }
+            } catch (Exception e) {
+                android.widget.Toast.makeText(this, "Lỗi đọc ảnh: " + e.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
+                updateProfileAndFinish(api, token);
+            }
+        } else {
+            updateProfileAndFinish(api, token);
         }
+    }
+
+    private void updateProfileAndFinish(ApiService api, String token) {
         UserUpdateRequest req = new UserUpdateRequest(null,
                 etFullName.getText().toString().trim(),
                 etEmail.getText().toString().trim(),
@@ -169,20 +195,16 @@ public class StudentProfileActivity extends AppCompatActivity {
         api.updateProfile("Bearer " + token, req).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                api.getProfile("Bearer " + token).enqueue(new Callback<ProfileResponse>() {
-                    @Override
-                    public void onResponse(Call<ProfileResponse> call2, Response<ProfileResponse> resp2) {
-                        sendBroadcast(new Intent("com.example.app.PROFILE_UPDATED"));
-                        finish();
-                    }
-                    @Override public void onFailure(Call<ProfileResponse> call2, Throwable t) {
-                        sendBroadcast(new Intent("com.example.app.PROFILE_UPDATED"));
-                        finish();
-                    }
-                });
+                android.widget.Toast.makeText(StudentProfileActivity.this,
+                    "Đã lưu hồ sơ", android.widget.Toast.LENGTH_SHORT).show();
+                sendBroadcast(new Intent("com.example.app.PROFILE_UPDATED"));
+                finish();
             }
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) { }
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                android.widget.Toast.makeText(StudentProfileActivity.this,
+                    "Lỗi lưu: " + t.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
+            }
         });
     }
     private void loadClasses() {
