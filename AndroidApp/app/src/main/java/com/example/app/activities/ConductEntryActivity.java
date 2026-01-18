@@ -51,18 +51,22 @@ public class ConductEntryActivity extends AppCompatActivity {
     }
     private void loadClasses() {
         String token = SharedPrefsUtils.getToken(this);
+        android.util.Log.d("ConductEntry", "loadClasses() called, token: " + (token != null ? token.substring(0, Math.min(20, token.length())) + "..." : "null"));
         ApiService api = ApiClient.getInstance().getApiService();
         api.getAllClasses().enqueue(new retrofit2.Callback<okhttp3.ResponseBody>() {
             @Override public void onResponse(retrofit2.Call<okhttp3.ResponseBody> call, retrofit2.Response<okhttp3.ResponseBody> resp) {
+                android.util.Log.d("ConductEntry", "loadClasses response code: " + resp.code());
                 try {
                     if (resp.isSuccessful() && resp.body()!=null) {
                         String s = resp.body().string();
+                        android.util.Log.d("ConductEntry", "loadClasses body: " + s.substring(0, Math.min(200, s.length())));
                         org.json.JSONArray arr = new org.json.JSONArray(s);
                         java.util.List<com.example.app.models.ClassModel> list = new java.util.ArrayList<>();
                         for (int i=0;i<arr.length();i++) {
                             org.json.JSONObject o = arr.getJSONObject(i);
                             list.add(new com.example.app.models.ClassModel(o.optInt("id"), o.optString("name")));
                         }
+                        android.util.Log.d("ConductEntry", "Loaded " + list.size() + " classes");
                         ArrayAdapter<com.example.app.models.ClassModel> adapter = new ArrayAdapter<>(ConductEntryActivity.this, android.R.layout.simple_spinner_item, list);
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spClass.setAdapter(adapter);
@@ -70,10 +74,17 @@ public class ConductEntryActivity extends AppCompatActivity {
                         spClass.setEnabled(hasData);
                         btnLoad.setEnabled(hasData);
                         if (hasData) spClass.setSelection(0);
+                    } else {
+                        String err = resp.errorBody() != null ? resp.errorBody().string() : "null";
+                        android.util.Log.e("ConductEntry", "loadClasses failed: " + resp.code() + ", error: " + err);
                     }
-                } catch (Exception ignored) {}
+                } catch (Exception e) {
+                    android.util.Log.e("ConductEntry", "loadClasses exception", e);
+                }
             }
-            @Override public void onFailure(retrofit2.Call<okhttp3.ResponseBody> call, Throwable t) { }
+            @Override public void onFailure(retrofit2.Call<okhttp3.ResponseBody> call, Throwable t) {
+                android.util.Log.e("ConductEntry", "loadClasses network failure", t);
+            }
         });
     }
     private void loadStudents() {
@@ -81,17 +92,22 @@ public class ConductEntryActivity extends AppCompatActivity {
         ApiService api = ApiClient.getInstance().getApiService();
         com.example.app.models.ClassModel cls = (com.example.app.models.ClassModel) spClass.getSelectedItem();
         if (cls == null) {
+            android.util.Log.e("ConductEntry", "loadStudents: No class selected");
             android.widget.Toast.makeText(this, "Vui lòng chọn lớp", android.widget.Toast.LENGTH_SHORT).show();
             return;
         }
+        android.util.Log.d("ConductEntry", "loadStudents() for class_id: " + cls.getId() + ", name: " + cls.getName());
         java.util.Map<String,Integer> body = new java.util.HashMap<>();
         body.put("class_id", cls.getId());
         api.listStudentsByClass("Bearer " + token, cls.getId()).enqueue(new Callback<ResponseBody>() {
             @Override public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                android.util.Log.d("ConductEntry", "loadStudents response code: " + response.code());
                 try {
                     if (response.isSuccessful() && response.body()!=null) {
                         String s = response.body().string();
+                        android.util.Log.d("ConductEntry", "loadStudents body length: " + s.length() + ", preview: " + s.substring(0, Math.min(300, s.length())));
                         JSONArray arr = new JSONArray(s);
+                        android.util.Log.d("ConductEntry", "Parsed " + arr.length() + " students from JSON");
                         students.clear();
                         listContainer.removeAllViews();
                         for (int i=0;i<arr.length();i++) {
@@ -113,10 +129,22 @@ public class ConductEntryActivity extends AppCompatActivity {
                             row.addView(tv); row.addView(etScore); row.addView(etCmt);
                             listContainer.addView(row);
                         }
+                        android.util.Log.d("ConductEntry", "Added " + students.size() + " rows to UI");
+                        android.widget.Toast.makeText(ConductEntryActivity.this, "Đã tải " + students.size() + " học sinh", android.widget.Toast.LENGTH_SHORT).show();
+                    } else {
+                        String err = response.errorBody() != null ? response.errorBody().string() : "null";
+                        android.util.Log.e("ConductEntry", "loadStudents failed: " + response.code() + ", error: " + err);
+                        android.widget.Toast.makeText(ConductEntryActivity.this, "Lỗi tải danh sách: " + response.code(), android.widget.Toast.LENGTH_SHORT).show();
                     }
-                } catch (Exception ignored) {}
+                } catch (Exception e) {
+                    android.util.Log.e("ConductEntry", "loadStudents exception", e);
+                    android.widget.Toast.makeText(ConductEntryActivity.this, "Lỗi: " + e.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
+                }
             }
-            @Override public void onFailure(Call<ResponseBody> call, Throwable t) { }
+            @Override public void onFailure(Call<ResponseBody> call, Throwable t) {
+                android.util.Log.e("ConductEntry", "loadStudents network failure", t);
+                android.widget.Toast.makeText(ConductEntryActivity.this, "Lỗi kết nối: " + t.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
+            }
         });
     }
     private void saveResults() {
