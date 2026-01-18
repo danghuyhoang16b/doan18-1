@@ -261,7 +261,16 @@ public class HomeActivity extends AppCompatActivity {
                     if (response.body().avatar != null && response.body().avatar.length() > 0 && imgAvatar != null) {
                         String a = response.body().avatar;
                         String url = a.startsWith("http") ? a : com.example.app.network.ApiConstants.AVATAR_BASE_URL + a;
-                        loadImage(imgAvatar, url);
+                        // Add timestamp to bypass cache
+                        url = url + "?t=" + System.currentTimeMillis();
+                        android.util.Log.d("HomeActivity", "Loading avatar: " + url);
+                        com.bumptech.glide.Glide.with(HomeActivity.this)
+                            .load(url)
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(com.bumptech.glide.load.engine.DiskCacheStrategy.NONE)
+                            .placeholder(R.mipmap.ic_launcher_round)
+                            .error(R.mipmap.ic_launcher_round)
+                            .into(imgAvatar);
                     }
                 }
             }
