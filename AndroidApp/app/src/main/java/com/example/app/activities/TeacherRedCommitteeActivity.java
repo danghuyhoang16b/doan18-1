@@ -14,11 +14,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.R;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.models.ClassModel;
 import com.example.app.models.TokenRequest;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
+import com.example.app.network.ApiClient;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,7 +63,7 @@ public class TeacherRedCommitteeActivity extends AppCompatActivity {
         membersAdapter.setOnItemClickListener(this::showMemberOptions);
         rvMembers.setAdapter(membersAdapter);
         
-        api = RetrofitClient.getClient().create(ApiService.class);
+        api = ApiClient.getInstance().getApiService();
         bearer = "Bearer " + SharedPrefsUtils.getToken(this);
         
         loadClasses();

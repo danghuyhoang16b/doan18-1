@@ -13,11 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.R;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiClient;
+import com.example.app.network.ApiService;
 import com.example.app.models.StatItem;
-import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
 import com.google.android.material.tabs.TabLayout;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +57,7 @@ public class AdminViolationStatsActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("Theo Tuần"));
         tabLayout.addTab(tabLayout.newTab().setText("Theo Tháng"));
 
-        apiService = RetrofitClient.getClient().create(ApiService.class);
+        apiService = ApiClient.getInstance().getApiService();
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -91,14 +94,13 @@ public class AdminViolationStatsActivity extends AppCompatActivity {
         android.app.AlertDialog dialog = builder.create();
         dialog.show();
 
-        String startDate = item.label;
-        String endDate = item.label;
-        
-        // Simple logic: For Day type, start=end. For others, we might need better logic
-        // but for now we pass the label and hope backend handles it or user only views day stats.
-        
+        // Build request body with type and label
+        Map<String, String> body = new HashMap<>();
+        body.put("type", type);
+        body.put("label", item.label);
+
         String token = SharedPrefsUtils.getToken(this);
-        apiService.getViolationDetails("Bearer " + token, startDate, endDate).enqueue(new Callback<okhttp3.ResponseBody>() {
+        apiService.getViolationDetails("Bearer " + token, body).enqueue(new Callback<okhttp3.ResponseBody>() {
             @Override
             public void onResponse(Call<okhttp3.ResponseBody> call, Response<okhttp3.ResponseBody> response) {
                 progressBar.setVisibility(android.view.View.GONE);

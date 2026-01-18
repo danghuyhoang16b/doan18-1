@@ -20,11 +20,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.R;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.models.ClassModel;
 import com.example.app.models.TokenRequest;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
+import com.example.app.network.ApiClient;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -64,7 +65,7 @@ public class TeacherStudentManagerActivity extends AppCompatActivity {
         etSearch = findViewById(R.id.etSearch);
         rvStudents.setLayoutManager(new LinearLayoutManager(this));
 
-        api = RetrofitClient.getClient().create(ApiService.class);
+        api = ApiClient.getInstance().getApiService();
         token = SharedPrefsUtils.getToken(this);
         bearer = "Bearer " + token;
 

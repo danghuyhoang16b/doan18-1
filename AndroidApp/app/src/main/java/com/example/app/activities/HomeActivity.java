@@ -19,13 +19,14 @@ import com.example.app.R;
 import com.example.app.adapters.NewsAdapter;
 import com.example.app.adapters.ScheduleAdapter;
 import com.example.app.adapters.UrlImageSliderAdapter;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.models.News;
 import com.example.app.models.ScheduleItem;
 import com.example.app.models.TokenRequest;
 import com.example.app.models.User;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
+import com.example.app.network.ApiClient;
 
 import java.util.List;
 
@@ -230,7 +231,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void loadNews() {
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        ApiService apiService = ApiClient.getInstance().getApiService();
         apiService.getLatestNews().enqueue(new Callback<List<News>>() {
             @Override
             public void onResponse(Call<List<News>> call, Response<List<News>> response) {
@@ -250,7 +251,7 @@ public class HomeActivity extends AppCompatActivity {
     private void refreshProfileFromServer() {
         String token = SharedPrefsUtils.getToken(this);
         if (token == null) return;
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = ApiClient.getInstance().getApiService();
         api.getProfile("Bearer " + token).enqueue(new Callback<com.example.app.models.ProfileResponse>() {
             @Override
             public void onResponse(Call<com.example.app.models.ProfileResponse> call, Response<com.example.app.models.ProfileResponse> response) {
@@ -298,7 +299,7 @@ public class HomeActivity extends AppCompatActivity {
         try {
             String token = SharedPrefsUtils.getToken(this);
             if (token == null || selectedAvatar == null) return;
-            ApiService api = RetrofitClient.getClient().create(ApiService.class);
+            ApiService api = ApiClient.getInstance().getApiService();
             String mime = getContentResolver().getType(selectedAvatar);
             if (mime == null) mime = "image/*";
             java.io.InputStream is = getContentResolver().openInputStream(selectedAvatar);
@@ -331,7 +332,7 @@ public class HomeActivity extends AppCompatActivity {
         String token = SharedPrefsUtils.getToken(this);
         if (token == null) return;
 
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        ApiService apiService = ApiClient.getInstance().getApiService();
         apiService.getWeeklySchedule("Bearer " + token, null).enqueue(new Callback<List<ScheduleItem>>() {
             @Override
             public void onResponse(Call<List<ScheduleItem>> call, Response<List<ScheduleItem>> response) {

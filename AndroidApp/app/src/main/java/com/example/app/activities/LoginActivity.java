@@ -11,12 +11,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.app.R;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.models.LoginResponse;
 import com.example.app.models.TeacherLoginRequest;
 import com.example.app.models.StudentLoginRequest;
 import com.example.app.models.User;
-import com.example.app.utils.RetrofitClient;
+import com.example.app.network.ApiClient;
 import com.example.app.utils.SharedPrefsUtils;
 
 import retrofit2.Call;
@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        ApiService apiService = ApiClient.getInstance().getApiService();
         Call<LoginResponse> call;
         int role = spRole.getSelectedItemPosition();
         String captchaToken = tvCaptchaQuestion.getTag() != null ? tvCaptchaQuestion.getTag().toString() : null;
@@ -204,7 +204,7 @@ public class LoginActivity extends AppCompatActivity {
     private void checkStudentOnboarding(String bearerToken, String role) {
         if ("parent".equals(role)) {
             // Check Parent Profile Completeness (User info)
-            RetrofitClient.getClient().create(ApiService.class).isProfileComplete(bearerToken).enqueue(new Callback<okhttp3.ResponseBody>() {
+            ApiClient.getInstance().getApiService().isProfileComplete(bearerToken).enqueue(new Callback<okhttp3.ResponseBody>() {
                 @Override
                 public void onResponse(Call<okhttp3.ResponseBody> call, Response<okhttp3.ResponseBody> resp) {
                     boolean complete = false;
@@ -237,7 +237,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        RetrofitClient.getClient().create(ApiService.class).isStudentComplete(bearerToken).enqueue(new Callback<okhttp3.ResponseBody>() {
+        ApiClient.getInstance().getApiService().isStudentComplete(bearerToken).enqueue(new Callback<okhttp3.ResponseBody>() {
             @Override
             public void onResponse(Call<okhttp3.ResponseBody> call, Response<okhttp3.ResponseBody> resp) {
                 boolean complete = false;

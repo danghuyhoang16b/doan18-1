@@ -18,10 +18,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.R;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiClient;
+import com.example.app.network.ApiService;
 import com.example.app.models.ClassModel;
 import com.example.app.models.TokenRequest;
-import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
@@ -63,7 +63,7 @@ public class AdminRedCommitteeActivity extends AppCompatActivity {
         rvMembers.setLayoutManager(new LinearLayoutManager(this));
         membersAdapter = new MembersAdapter();
         rvMembers.setAdapter(membersAdapter);
-        api = RetrofitClient.getClient().create(ApiService.class);
+        api = ApiClient.getInstance().getApiService();
         bearer = "Bearer " + SharedPrefsUtils.getToken(this);
         loadClasses();
         btnAdd.setOnClickListener(v -> addMemberFlow());

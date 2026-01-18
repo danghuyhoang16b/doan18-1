@@ -10,11 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.app.R;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.models.User;
 import com.example.app.models.UserIdRequest;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
+import com.example.app.network.ApiClient;
 import com.google.android.material.textfield.TextInputEditText;
 
 import retrofit2.Call;
@@ -54,7 +55,7 @@ public class AdminUserEditActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerRole.setAdapter(adapter);
 
-        apiService = RetrofitClient.getClient().create(ApiService.class);
+        apiService = ApiClient.getInstance().getApiService();
 
         if (getIntent().hasExtra("user_id")) {
             userId = getIntent().getIntExtra("user_id", -1);

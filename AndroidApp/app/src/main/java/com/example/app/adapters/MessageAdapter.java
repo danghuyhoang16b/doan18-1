@@ -83,7 +83,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     }
     private void act(android.view.View v, int id, boolean approve) {
         String token = com.example.app.utils.SharedPrefsUtils.getToken(v.getContext());
-        com.example.app.api.ApiService api = com.example.app.utils.RetrofitClient.getClient().create(com.example.app.api.ApiService.class);
+        com.example.app.network.ApiService api = com.example.app.network.ApiClient.getInstance().getApiService();
         java.util.Map<String,Object> body = new java.util.HashMap<>();
         body.put("request_id", id);
         body.put("approve", approve);

@@ -15,12 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.R;
 import com.example.app.adapters.ScheduleAdapter;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.models.ScheduleItem;
 import com.example.app.models.TokenRequest;
 import com.example.app.models.User;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
+import com.example.app.network.ApiClient;
 
 import java.util.List;
 
@@ -32,6 +33,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.app.adapters.ImageSliderAdapter;
 import com.example.app.adapters.NewsAdapter;
 import com.example.app.models.News;
+import com.example.app.network.ApiClient;
 import java.util.Arrays;
 import java.util.ArrayList;
 
@@ -78,7 +80,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
     }
     
     private void loadNews() {
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        ApiService apiService = ApiClient.getInstance().getApiService();
         apiService.getLatestNews().enqueue(new Callback<List<News>>() {
             @Override
             public void onResponse(Call<List<News>> call, Response<List<News>> response) {
@@ -112,7 +114,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
         String token = SharedPrefsUtils.getToken(this);
         if (token == null) return;
 
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        ApiService apiService = ApiClient.getInstance().getApiService();
         apiService.getWeeklySchedule("Bearer " + token, null).enqueue(new Callback<List<ScheduleItem>>() {
             @Override
             public void onResponse(Call<List<ScheduleItem>> call, Response<List<ScheduleItem>> response) {

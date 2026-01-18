@@ -10,9 +10,10 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.example.app.R;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
+import com.example.app.network.ApiClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import okhttp3.ResponseBody;
@@ -46,7 +47,7 @@ public class AdminScheduleActivity extends AppCompatActivity {
         btnSave.setOnClickListener(v -> save());
     }
     private void loadClassSubject() {
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = ApiClient.getInstance().getApiService();
         String token = SharedPrefsUtils.getToken(this);
         api.getAllClasses().enqueue(new Callback<ResponseBody>() {
             @Override public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -84,7 +85,7 @@ public class AdminScheduleActivity extends AppCompatActivity {
         });
     }
     private void auto() {
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = ApiClient.getInstance().getApiService();
         String token = SharedPrefsUtils.getToken(this);
         java.util.Map<String,String> body = new java.util.HashMap<>();
         body.put("class_name", spClass.getSelectedItem()!=null? spClass.getSelectedItem().toString(): "");
@@ -125,7 +126,7 @@ public class AdminScheduleActivity extends AppCompatActivity {
     }
     private void save() {
         if (suggestions==null || suggestions.length()==0) return;
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = ApiClient.getInstance().getApiService();
         String token = SharedPrefsUtils.getToken(this);
         for (int i=0;i<suggestions.length();i++) {
             JSONObject r = suggestions.optJSONObject(i);

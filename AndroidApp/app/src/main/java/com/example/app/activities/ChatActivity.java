@@ -13,13 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.R;
 import com.example.app.adapters.MessageAdapter;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
 import com.example.app.models.ConversationRequest;
 import com.example.app.models.Message;
 import com.example.app.models.SendMessageRequest;
 import com.example.app.models.User;
+import com.example.app.network.ApiClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +89,7 @@ public class ChatActivity extends AppCompatActivity {
 
         currentUser = SharedPrefsUtils.getUser(this);
         token = SharedPrefsUtils.getToken(this);
-        apiService = RetrofitClient.getClient().create(ApiService.class);
+        apiService = ApiClient.getInstance().getApiService();
 
         adapter = new MessageAdapter(messageList, currentUser.getId(), currentUser.getRole());
         rvMessages.setAdapter(adapter);

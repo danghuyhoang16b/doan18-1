@@ -9,9 +9,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.example.app.R;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
+import com.example.app.network.ApiClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -51,7 +52,7 @@ public class ScoreEntryActivity extends AppCompatActivity {
     }
     private void loadClassSubject() {
         String token = SharedPrefsUtils.getToken(this);
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = ApiClient.getInstance().getApiService();
         api.getAllClasses().enqueue(new Callback<ResponseBody>() {
             @Override public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
@@ -83,7 +84,7 @@ public class ScoreEntryActivity extends AppCompatActivity {
     }
     private void loadStudents() {
         String token = SharedPrefsUtils.getToken(this);
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = ApiClient.getInstance().getApiService();
         Map<String,Integer> map = new HashMap<>();
         // simple fetch id by name call; for demo assume id=1 if backend lacks resolver
         // map.put("class_id", 1);
@@ -119,7 +120,7 @@ public class ScoreEntryActivity extends AppCompatActivity {
     }
     private void saveScores() {
         String token = SharedPrefsUtils.getToken(this);
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = ApiClient.getInstance().getApiService();
         Map<String,Object> body = new HashMap<>();
         body.put("class_id", 1);
         body.put("subject_id", 1);

@@ -13,12 +13,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.app.R;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.models.ProfileResponse;
 import com.example.app.models.UserIdRequest;
 import com.example.app.models.UserUpdateRequest;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
+import com.example.app.network.ApiClient;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -78,7 +79,7 @@ public class AdminProfileActivity extends AppCompatActivity {
 
     private void loadProfile() {
         String token = SharedPrefsUtils.getToken(this);
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = ApiClient.getInstance().getApiService();
         api.getProfile("Bearer " + token).enqueue(new Callback<ProfileResponse>() {
             @Override
             public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
@@ -102,7 +103,7 @@ public class AdminProfileActivity extends AppCompatActivity {
 
     private void saveProfile() {
         String token = SharedPrefsUtils.getToken(this);
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = ApiClient.getInstance().getApiService();
         if (selectedAvatar != null) {
             try {
                 String mime = getContentResolver().getType(selectedAvatar);

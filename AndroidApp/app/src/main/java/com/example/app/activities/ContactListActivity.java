@@ -10,11 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.R;
 import com.example.app.adapters.ContactAdapter;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
 import com.example.app.models.Contact;
 import com.example.app.models.TokenRequest;
+import com.example.app.network.ApiClient;
 
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class ContactListActivity extends AppCompatActivity {
 
     private void loadContacts() {
         String token = SharedPrefsUtils.getToken(this);
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        ApiService apiService = ApiClient.getInstance().getApiService();
         
         apiService.getContacts("Bearer " + token).enqueue(new Callback<List<Contact>>() {
             @Override

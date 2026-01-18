@@ -4,8 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.models.Banner;
+import com.example.app.network.ApiClient;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -53,7 +54,7 @@ public class BannerManager {
         }
 
         // 2. Fetch from API
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        ApiService apiService = ApiClient.getInstance().getApiService();
         apiService.getActiveBanners().enqueue(new Callback<List<Banner>>() {
             @Override
             public void onResponse(Call<List<Banner>> call, Response<List<Banner>> response) {

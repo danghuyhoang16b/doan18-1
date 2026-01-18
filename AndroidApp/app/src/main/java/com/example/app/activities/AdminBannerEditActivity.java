@@ -7,9 +7,10 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.example.app.R;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
+import com.example.app.network.ApiClient;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -54,7 +55,7 @@ public class AdminBannerEditActivity extends AppCompatActivity {
             return;
         }
         String token = SharedPrefsUtils.getToken(this);
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = ApiClient.getInstance().getApiService();
         try {
             String mime = getContentResolver().getType(selectedImage);
             java.io.InputStream is = getContentResolver().openInputStream(selectedImage);
@@ -89,7 +90,7 @@ public class AdminBannerEditActivity extends AppCompatActivity {
     }
     private void saveTextLink() {
         String token = SharedPrefsUtils.getToken(this);
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = ApiClient.getInstance().getApiService();
         java.util.Map<String,Object> body = new java.util.HashMap<>();
         body.put("index", Integer.parseInt(etIndex.getText().toString().trim()));
         body.put("text", etText.getText().toString().trim());

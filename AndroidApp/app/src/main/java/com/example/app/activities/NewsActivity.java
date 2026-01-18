@@ -10,10 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.R;
 import com.example.app.adapters.NewsAdapter;
-import com.example.app.api.ApiService;
+import com.example.app.network.ApiService;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
 import com.example.app.models.News;
+import com.example.app.network.ApiClient;
 
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class NewsActivity extends AppCompatActivity {
         if (customBaseUrl != null && !customBaseUrl.isEmpty()) {
             RetrofitClient.overrideForTesting(customBaseUrl);
         }
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        ApiService apiService = ApiClient.getInstance().getApiService();
         apiService.getAllNews().enqueue(new Callback<List<News>>() {
             @Override
             public void onResponse(Call<List<News>> call, Response<List<News>> response) {
