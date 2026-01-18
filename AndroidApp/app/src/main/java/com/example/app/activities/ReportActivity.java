@@ -107,7 +107,7 @@ public class ReportActivity extends AppCompatActivity {
     }
 
     private void loadStatistics() {
-        apiService.getStatistics(new TokenRequest(token)).enqueue(new Callback<StatisticsResponse>() {
+        apiService.getStatistics("Bearer " + token).enqueue(new Callback<StatisticsResponse>() {
             @Override
             public void onResponse(Call<StatisticsResponse> call, Response<StatisticsResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -174,7 +174,7 @@ public class ReportActivity extends AppCompatActivity {
     }
 
     private void loadAcademicReport() {
-        apiService.getAcademicReport(new TokenRequest(token)).enqueue(new Callback<List<Score>>() {
+        apiService.getAcademicReport("Bearer " + token).enqueue(new Callback<List<Score>>() {
             @Override
             public void onResponse(Call<List<Score>> call, Response<List<Score>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -193,7 +193,7 @@ public class ReportActivity extends AppCompatActivity {
     }
 
     private void loadConductReport() {
-        apiService.getConductReport(new TokenRequest(token)).enqueue(new Callback<List<Conduct>>() {
+        apiService.getConductReport("Bearer " + token).enqueue(new Callback<List<Conduct>>() {
             @Override
             public void onResponse(Call<List<Conduct>> call, Response<List<Conduct>> response) {
                 if (response.isSuccessful() && response.body() != null) {

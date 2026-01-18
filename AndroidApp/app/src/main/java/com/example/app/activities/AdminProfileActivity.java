@@ -79,7 +79,7 @@ public class AdminProfileActivity extends AppCompatActivity {
     private void loadProfile() {
         String token = SharedPrefsUtils.getToken(this);
         ApiService api = RetrofitClient.getClient().create(ApiService.class);
-        api.getProfile("Bearer " + token, new UserIdRequest(null)).enqueue(new Callback<ProfileResponse>() {
+        api.getProfile("Bearer " + token).enqueue(new Callback<ProfileResponse>() {
             @Override
             public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {

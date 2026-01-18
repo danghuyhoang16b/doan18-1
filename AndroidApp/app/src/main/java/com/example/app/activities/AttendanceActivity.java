@@ -118,7 +118,7 @@ public class AttendanceActivity extends AppCompatActivity {
             });
             return;
         }
-        apiService.getTeacherClasses(new TokenRequest(token)).enqueue(new Callback<List<ClassModel>>() {
+        apiService.getTeacherClasses("Bearer " + token).enqueue(new Callback<List<ClassModel>>() {
             @Override
             public void onResponse(Call<List<ClassModel>> call, Response<List<ClassModel>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -156,7 +156,7 @@ public class AttendanceActivity extends AppCompatActivity {
     }
 
     private void loadStudents(int classId) {
-        apiService.getClassStudents(new ClassRequest(token, classId)).enqueue(new Callback<List<Student>>() {
+        apiService.getClassStudents("Bearer " + token, classId).enqueue(new Callback<List<Student>>() {
             @Override
             public void onResponse(Call<List<Student>> call, Response<List<Student>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -189,7 +189,7 @@ public class AttendanceActivity extends AppCompatActivity {
         String date = tvDate.getText().toString();
         AttendanceSubmitRequest request = new AttendanceSubmitRequest(token, selectedClass.getId(), date, attendanceItems);
 
-        apiService.submitAttendance(request).enqueue(new Callback<Void>() {
+        apiService.submitAttendance("Bearer " + token, request).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {

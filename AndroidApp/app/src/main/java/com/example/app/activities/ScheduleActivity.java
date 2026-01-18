@@ -55,7 +55,7 @@ public class ScheduleActivity extends AppCompatActivity {
         }
 
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-        apiService.getWeeklySchedule(new TokenRequest(token)).enqueue(new Callback<List<ScheduleItem>>() {
+        apiService.getWeeklySchedule("Bearer " + token, null).enqueue(new Callback<List<ScheduleItem>>() {
             @Override
             public void onResponse(Call<List<ScheduleItem>> call, Response<List<ScheduleItem>> response) {
                 if (response.isSuccessful() && response.body() != null) {

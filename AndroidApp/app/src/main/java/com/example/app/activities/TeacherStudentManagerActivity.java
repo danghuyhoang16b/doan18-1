@@ -105,7 +105,7 @@ public class TeacherStudentManagerActivity extends AppCompatActivity {
     // ... filterStudents method ...
 
     private void loadClasses() {
-        api.getTeacherClasses(new TokenRequest(token)).enqueue(new Callback<List<ClassModel>>() {
+        api.getTeacherClasses("Bearer " + token).enqueue(new Callback<List<ClassModel>>() {
             @Override
             public void onResponse(Call<List<ClassModel>> call, Response<List<ClassModel>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -139,7 +139,7 @@ public class TeacherStudentManagerActivity extends AppCompatActivity {
         Map<String, Integer> body = new HashMap<>();
         body.put("class_id", classId);
         
-        api.listStudentsByClass(bearer, body).enqueue(new Callback<ResponseBody>() {
+        api.listStudentsByClass("Bearer " + token, classId).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {

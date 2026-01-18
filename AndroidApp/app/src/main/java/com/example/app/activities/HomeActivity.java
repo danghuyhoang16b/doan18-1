@@ -251,7 +251,7 @@ public class HomeActivity extends AppCompatActivity {
         String token = SharedPrefsUtils.getToken(this);
         if (token == null) return;
         ApiService api = RetrofitClient.getClient().create(ApiService.class);
-        api.getProfile("Bearer " + token, new com.example.app.models.UserIdRequest(null)).enqueue(new Callback<com.example.app.models.ProfileResponse>() {
+        api.getProfile("Bearer " + token).enqueue(new Callback<com.example.app.models.ProfileResponse>() {
             @Override
             public void onResponse(Call<com.example.app.models.ProfileResponse> call, Response<com.example.app.models.ProfileResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -332,7 +332,7 @@ public class HomeActivity extends AppCompatActivity {
         if (token == null) return;
 
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-        apiService.getWeeklySchedule(new TokenRequest(token)).enqueue(new Callback<List<ScheduleItem>>() {
+        apiService.getWeeklySchedule("Bearer " + token, null).enqueue(new Callback<List<ScheduleItem>>() {
             @Override
             public void onResponse(Call<List<ScheduleItem>> call, Response<List<ScheduleItem>> response) {
                 if (response.isSuccessful() && response.body() != null && rvSchedule != null) {

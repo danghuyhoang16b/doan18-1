@@ -93,7 +93,7 @@ public class TeacherProfileActivity extends AppCompatActivity {
     private void loadProfile() {
         String token = SharedPrefsUtils.getToken(this);
         ApiService api = RetrofitClient.getClient().create(ApiService.class);
-        api.getProfile("Bearer " + token, new UserIdRequest(null)).enqueue(new Callback<ProfileResponse>() {
+        api.getProfile("Bearer " + token).enqueue(new Callback<ProfileResponse>() {
             @Override
             public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -153,7 +153,7 @@ public class TeacherProfileActivity extends AppCompatActivity {
     private void loadTeacherClasses() {
         String token = SharedPrefsUtils.getToken(this);
         ApiService api = RetrofitClient.getClient().create(ApiService.class);
-        api.getTeacherClasses(new com.example.app.models.TokenRequest(token)).enqueue(new retrofit2.Callback<java.util.List<com.example.app.models.ClassModel>>() {
+        api.getTeacherClasses("Bearer " + token).enqueue(new retrofit2.Callback<java.util.List<com.example.app.models.ClassModel>>() {
             @Override public void onResponse(retrofit2.Call<java.util.List<com.example.app.models.ClassModel>> call, retrofit2.Response<java.util.List<com.example.app.models.ClassModel>> resp) {
                 if (resp.isSuccessful() && resp.body()!=null) {
                     java.util.List<com.example.app.models.ClassModel> list = resp.body();

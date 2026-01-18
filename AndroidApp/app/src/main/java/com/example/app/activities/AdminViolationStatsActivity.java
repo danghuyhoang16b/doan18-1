@@ -91,12 +91,14 @@ public class AdminViolationStatsActivity extends AppCompatActivity {
         android.app.AlertDialog dialog = builder.create();
         dialog.show();
 
-        java.util.Map<String, String> body = new java.util.HashMap<>();
-        body.put("type", type);
-        body.put("label", item.label);
+        String startDate = item.label;
+        String endDate = item.label;
+        
+        // Simple logic: For Day type, start=end. For others, we might need better logic
+        // but for now we pass the label and hope backend handles it or user only views day stats.
         
         String token = SharedPrefsUtils.getToken(this);
-        apiService.getViolationDetails("Bearer " + token, body).enqueue(new Callback<okhttp3.ResponseBody>() {
+        apiService.getViolationDetails("Bearer " + token, startDate, endDate).enqueue(new Callback<okhttp3.ResponseBody>() {
             @Override
             public void onResponse(Call<okhttp3.ResponseBody> call, Response<okhttp3.ResponseBody> response) {
                 progressBar.setVisibility(android.view.View.GONE);

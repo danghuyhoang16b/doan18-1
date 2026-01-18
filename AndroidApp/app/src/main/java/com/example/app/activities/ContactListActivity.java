@@ -48,7 +48,7 @@ public class ContactListActivity extends AppCompatActivity {
         String token = SharedPrefsUtils.getToken(this);
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
         
-        apiService.getContacts(new TokenRequest(token)).enqueue(new Callback<List<Contact>>() {
+        apiService.getContacts("Bearer " + token).enqueue(new Callback<List<Contact>>() {
             @Override
             public void onResponse(Call<List<Contact>> call, Response<List<Contact>> response) {
                 if (response.isSuccessful() && response.body() != null) {

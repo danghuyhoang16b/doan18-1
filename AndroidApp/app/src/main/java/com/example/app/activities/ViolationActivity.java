@@ -78,7 +78,7 @@ public class ViolationActivity extends AppCompatActivity {
     }
 
     private void loadClasses() {
-        apiService.getTeacherClasses(new TokenRequest(token)).enqueue(new Callback<List<ClassModel>>() {
+        apiService.getTeacherClasses("Bearer " + token).enqueue(new Callback<List<ClassModel>>() {
             @Override
             public void onResponse(Call<List<ClassModel>> call, Response<List<ClassModel>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -112,7 +112,7 @@ public class ViolationActivity extends AppCompatActivity {
     private void loadStudents(int classId) {
         java.util.Map<String,Integer> body = new java.util.HashMap<>();
         body.put("class_id", classId);
-        apiService.listStudentsByClass("Bearer " + token, body).enqueue(new Callback<okhttp3.ResponseBody>() {
+        apiService.listStudentsByClass("Bearer " + token, selectedClass.getId()).enqueue(new Callback<okhttp3.ResponseBody>() {
             @Override
             public void onResponse(Call<okhttp3.ResponseBody> call, Response<okhttp3.ResponseBody> response) {
                 try {
@@ -224,7 +224,7 @@ public class ViolationActivity extends AppCompatActivity {
     private void fetchPoints(int studentId) {
         java.util.Map<String,Integer> body = new java.util.HashMap<>();
         body.put("student_id", studentId);
-        apiService.getPoints("Bearer " + token, body).enqueue(new Callback<okhttp3.ResponseBody>() {
+        apiService.getPoints("Bearer " + token, studentId).enqueue(new Callback<okhttp3.ResponseBody>() {
             @Override
             public void onResponse(Call<okhttp3.ResponseBody> call, Response<okhttp3.ResponseBody> response) {
                 try {

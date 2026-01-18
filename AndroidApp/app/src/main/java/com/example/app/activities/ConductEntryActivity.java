@@ -85,7 +85,7 @@ public class ConductEntryActivity extends AppCompatActivity {
         }
         java.util.Map<String,Integer> body = new java.util.HashMap<>();
         body.put("class_id", cls.getId());
-        api.listStudentsByClass("Bearer " + token, body).enqueue(new Callback<ResponseBody>() {
+        api.listStudentsByClass("Bearer " + token, cls.getId()).enqueue(new Callback<ResponseBody>() {
             @Override public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     if (response.isSuccessful() && response.body()!=null) {

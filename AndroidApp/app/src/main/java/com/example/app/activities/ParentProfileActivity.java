@@ -78,7 +78,7 @@ public class ParentProfileActivity extends AppCompatActivity {
     private void loadProfile() {
         String token = SharedPrefsUtils.getToken(this);
         ApiService api = RetrofitClient.getClient().create(ApiService.class);
-        api.getProfile("Bearer " + token, new UserIdRequest(null)).enqueue(new Callback<ProfileResponse>() {
+        api.getProfile("Bearer " + token).enqueue(new Callback<ProfileResponse>() {
             @Override
             public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -121,7 +121,7 @@ public class ParentProfileActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     android.widget.Toast.makeText(ParentProfileActivity.this, "Cập nhật thành công", android.widget.Toast.LENGTH_SHORT).show();
                     // Update User in SharedPreferences
-                    api.getProfile("Bearer " + token, new UserIdRequest(null)).enqueue(new Callback<ProfileResponse>() {
+                    api.getProfile("Bearer " + token).enqueue(new Callback<ProfileResponse>() {
                         @Override
                         public void onResponse(Call<ProfileResponse> call2, Response<ProfileResponse> resp2) {
                             if (resp2.isSuccessful() && resp2.body() != null) {

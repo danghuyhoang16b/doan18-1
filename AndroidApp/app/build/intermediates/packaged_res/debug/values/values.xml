@@ -10,6 +10,14 @@
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#6200EE</color>
     <color name="purple_700">#3700B3</color>
+    <color name="royal_accent_gold">#c5a059</color>
+    <color name="royal_deep_blue">#003366</color>
+    <color name="royal_primary_blue">#004b8d</color>
+    <color name="royal_pure_white">#ffffff</color>
+    <color name="royal_shadow_color">#33004b8d</color>
+    <color name="royal_soft_slate">#f1f5f9</color>
+    <color name="royal_text_muted">#64748b</color>
+    <color name="royal_text_primary">#1e293b</color>
     <color name="teal_200">#03DAC5</color>
     <color name="teal_700">#018786</color>
     <color name="white">#FFFFFFFF</color>
@@ -17,7 +25,7 @@
     <string name="captcha_hint">Nhập kết quả</string>
     <string name="forgot_password">Quên mật khẩu?</string>
     <string name="login_button">Đăng nhập</string>
-    <string name="login_title">Đăng Nhập</string>
+    <string name="login_title">TRẦN HƯNG ĐẠO</string>
     <string name="logout">Đăng xuất</string>
     <string name="otp_login">Đăng nhập bằng OTP</string>
     <string name="password_hint">Mật khẩu</string>

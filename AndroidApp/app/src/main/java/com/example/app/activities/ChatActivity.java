@@ -99,7 +99,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void loadMessages() {
-        apiService.getConversation(new ConversationRequest(token, contactId)).enqueue(new Callback<List<Message>>() {
+        apiService.getConversation("Bearer " + token, contactId).enqueue(new Callback<List<Message>>() {
             @Override
             public void onResponse(Call<List<Message>> call, Response<List<Message>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -121,7 +121,7 @@ public class ChatActivity extends AppCompatActivity {
         String content = etMessage.getText().toString().trim();
         if (TextUtils.isEmpty(content)) return;
 
-        apiService.sendMessage(new SendMessageRequest(token, contactId, content)).enqueue(new Callback<Void>() {
+        apiService.sendMessage("Bearer " + token, new SendMessageRequest(token, contactId, content)).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {

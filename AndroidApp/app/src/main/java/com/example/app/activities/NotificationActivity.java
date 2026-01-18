@@ -52,7 +52,8 @@ public class NotificationActivity extends AppCompatActivity {
     private void loadNotifications() {
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
         
-        apiService.getAllNotifications().enqueue(new Callback<List<Notification>>() {
+        String token = SharedPrefsUtils.getToken(this);
+        apiService.getAllNotifications("Bearer " + token).enqueue(new Callback<List<Notification>>() {
             @Override
             public void onResponse(Call<List<Notification>> call, Response<List<Notification>> response) {
                 if (response.isSuccessful() && response.body() != null) {

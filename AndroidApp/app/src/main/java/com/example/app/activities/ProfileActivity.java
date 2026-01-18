@@ -94,7 +94,7 @@ public class ProfileActivity extends AppCompatActivity {
         String token = SharedPrefsUtils.getToken(this);
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
         
-        apiService.changePassword(new ChangePasswordRequest(token, oldPass, newPass)).enqueue(new Callback<Void>() {
+        apiService.changePassword("Bearer " + token, new ChangePasswordRequest(token, oldPass, newPass)).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {

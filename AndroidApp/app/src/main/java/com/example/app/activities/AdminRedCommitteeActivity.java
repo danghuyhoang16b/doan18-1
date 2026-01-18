@@ -122,8 +122,8 @@ public class AdminRedCommitteeActivity extends AppCompatActivity {
     }
 
     private void loadClasses() {
-        TokenRequest tr = new TokenRequest(SharedPrefsUtils.getToken(this));
-        api.getTeacherClasses(tr).enqueue(new Callback<List<ClassModel>>() {
+        String token = SharedPrefsUtils.getToken(this);
+        api.getTeacherClasses("Bearer " + token).enqueue(new Callback<List<ClassModel>>() {
             @Override
             public void onResponse(Call<List<ClassModel>> call, Response<List<ClassModel>> response) {
                 if (response.isSuccessful() && response.body()!=null) {

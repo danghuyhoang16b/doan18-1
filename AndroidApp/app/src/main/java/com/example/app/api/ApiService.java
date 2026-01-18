@@ -69,35 +69,35 @@ public interface ApiService {
     @GET("news/get_all.php")
     Call<List<News>> getAllNews();
 
-    @POST("schedule/get_weekly.php")
-    Call<List<ScheduleItem>> getWeeklySchedule(@Body TokenRequest body);
+    @GET("schedule/get_weekly.php")
+    Call<List<ScheduleItem>> getWeeklySchedule(@Header("Authorization") String bearer, @Query("class_id") Integer classId);
 
     // Attendance APIs
-    @POST("teacher/get_classes.php")
-    Call<List<ClassModel>> getTeacherClasses(@Body TokenRequest body);
+    @GET("teacher/get_classes.php")
+    Call<List<ClassModel>> getTeacherClasses(@Header("Authorization") String bearer);
 
-    @POST("teacher/get_students.php")
-    Call<List<Student>> getClassStudents(@Body ClassRequest body);
+    @GET("teacher/get_students.php")
+    Call<List<Student>> getClassStudents(@Header("Authorization") String bearer, @Query("class_id") Integer classId);
 
     @POST("attendance/submit.php")
-    Call<Void> submitAttendance(@Body AttendanceSubmitRequest body);
+    Call<Void> submitAttendance(@Header("Authorization") String bearer, @Body AttendanceSubmitRequest body);
 
     // Report APIs
-    @POST("reports/get_academic.php")
-    Call<List<Score>> getAcademicReport(@Body TokenRequest body);
+    @GET("reports/get_academic.php")
+    Call<List<Score>> getAcademicReport(@Header("Authorization") String bearer);
 
-    @POST("reports/get_conduct.php")
-    Call<List<Conduct>> getConductReport(@Body TokenRequest body);
+    @GET("reports/get_conduct.php")
+    Call<List<Conduct>> getConductReport(@Header("Authorization") String bearer);
 
-    @POST("reports/get_statistics.php")
-    Call<StatisticsResponse> getStatistics(@Body TokenRequest body);
+    @GET("reports/get_statistics.php")
+    Call<StatisticsResponse> getStatistics(@Header("Authorization") String bearer);
 
     // Message APIs
-    @POST("messages/get_contacts.php")
-    Call<List<Contact>> getContacts(@Body TokenRequest body);
+    @GET("messages/get_contacts.php")
+    Call<List<Contact>> getContacts(@Header("Authorization") String bearer);
 
-    @POST("messages/get_conversation.php")
-    Call<List<Message>> getConversation(@Body ConversationRequest body);
+    @GET("messages/get_conversation.php")
+    Call<List<Message>> getConversation(@Header("Authorization") String bearer, @Query("contact_id") Integer contactId);
 
     // Banner APIs
     @GET("banners/get_active.php")
@@ -132,17 +132,17 @@ public interface ApiService {
     Call<ResponseBody> toggleBannerActive(@Header("Authorization") String bearer, @Body com.example.app.models.BannerToggleRequest body);
 
     @POST("messages/send.php")
-    Call<Void> sendMessage(@Body SendMessageRequest body);
+    Call<Void> sendMessage(@Header("Authorization") String bearer, @Body SendMessageRequest body);
 
     // Notification APIs
     @POST("notifications/create.php")
-    Call<Void> createNotification(@Body CreateNotificationRequest body);
+    Call<Void> createNotification(@Header("Authorization") String bearer, @Body CreateNotificationRequest body);
 
     @GET("notifications/get_all.php")
-    Call<List<Notification>> getAllNotifications();
+    Call<List<Notification>> getAllNotifications(@Header("Authorization") String bearer);
 
     @POST("auth/change_password.php")
-    Call<Void> changePassword(@Body ChangePasswordRequest body);
+    Call<Void> changePassword(@Header("Authorization") String bearer, @Body ChangePasswordRequest body);
 
     // Discipline APIs
     @GET("violations/get_rules.php")
@@ -154,10 +154,11 @@ public interface ApiService {
     @GET("reports/get_competition_stats.php")
     Call<CompetitionStatsResponse> getCompetitionStats(@Header("Authorization") String bearer);
 
-    @POST("violations/get_points.php")
-    Call<ResponseBody> getPoints(@Header("Authorization") String bearer, @Body java.util.Map<String, Integer> body);
-    @POST("violations/list_students_by_class.php")
-    Call<ResponseBody> listStudentsByClass(@Header("Authorization") String bearer, @Body java.util.Map<String, Integer> body);
+    @GET("violations/get_points.php")
+    Call<ResponseBody> getPoints(@Header("Authorization") String bearer, @Query("student_id") Integer studentId);
+
+    @GET("violations/list_students_by_class.php")
+    Call<ResponseBody> listStudentsByClass(@Header("Authorization") String bearer, @Query("class_id") Integer classId);
 
     // Admin APIs
     @POST("admin/set_background.php")
@@ -187,8 +188,8 @@ public interface ApiService {
     Call<ResponseBody> backupData(@Header("Authorization") String bearer);
 
     // Scores
-    @POST("scores/list_students.php")
-    Call<ResponseBody> listStudentsForScore(@Header("Authorization") String bearer, @Body java.util.Map<String, Integer> body);
+    @GET("scores/list_students.php")
+    Call<ResponseBody> listStudentsForScore(@Header("Authorization") String bearer, @Query("class_id") Integer classId);
     @POST("scores/submit.php")
     Call<ResponseBody> submitScores(@Header("Authorization") String bearer, @Body java.util.Map<String, Object> body);
     @GET("classes/list_all.php")
@@ -208,8 +209,8 @@ public interface ApiService {
     @POST("admin/teacher_request/approve.php")
     Call<ResponseBody> approveTeacherRequest(@Header("Authorization") String bearer, @Body java.util.Map<String, Object> body);
     // Profile APIs
-    @POST("profile/get.php")
-    Call<com.example.app.models.ProfileResponse> getProfile(@Header("Authorization") String bearer, @Body com.example.app.models.UserIdRequest body);
+    @GET("profile/get.php")
+    Call<com.example.app.models.ProfileResponse> getProfile(@Header("Authorization") String bearer);
 
     @POST("admin/import_image_db.php")
     Call<ResponseBody> importImage(@Header("Authorization") String bearer, @Body com.example.app.models.ImportImageRequest body);
@@ -239,16 +240,16 @@ public interface ApiService {
     @POST("admin/users/update.php")
     Call<ResponseBody> updateUser(@Header("Authorization") String token, @Body com.example.app.models.User user);
 
-    @POST("admin/users/get.php")
-    Call<com.example.app.models.User> getUser(@Header("Authorization") String token, @Body com.example.app.models.UserIdRequest request);
-    @POST("admin/users/delete.php")
+    @GET("admin/users/get.php")
+    Call<com.example.app.models.User> getUser(@Header("Authorization") String token, @Query("id") Integer id);
+    @retrofit2.http.HTTP(method = "DELETE", path = "admin/users/delete.php", hasBody = true)
     Call<ResponseBody> deleteUser(@Header("Authorization") String bearer, @Body java.util.Map<String, Integer> body);
 
     @GET("admin/stats/violations.php")
     Call<List<com.example.app.models.StatItem>> getViolationStats(@Header("Authorization") String bearer, @Query("type") String type);
 
-    @POST("admin/stats/violation_details.php")
-    Call<ResponseBody> getViolationDetails(@Header("Authorization") String bearer, @Body java.util.Map<String, String> body);
+    @GET("admin/stats/violation_details.php")
+    Call<ResponseBody> getViolationDetails(@Header("Authorization") String bearer, @Query("start_date") String startDate, @Query("end_date") String endDate);
 
     @GET("ranking/get_weekly.php")
     Call<ResponseBody> getWeeklyRanking(@Header("Authorization") String bearer, @Query("class_id") Integer classId, @Query("label") String label);

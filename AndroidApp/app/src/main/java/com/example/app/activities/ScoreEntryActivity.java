@@ -86,8 +86,9 @@ public class ScoreEntryActivity extends AppCompatActivity {
         ApiService api = RetrofitClient.getClient().create(ApiService.class);
         Map<String,Integer> map = new HashMap<>();
         // simple fetch id by name call; for demo assume id=1 if backend lacks resolver
-        map.put("class_id", 1);
-        api.listStudentsForScore("Bearer " + token, map).enqueue(new Callback<ResponseBody>() {
+        // map.put("class_id", 1);
+        int classId = 1; // Placeholder until we have proper class object from spinner
+        api.listStudentsForScore("Bearer " + token, classId).enqueue(new Callback<ResponseBody>() {
             @Override public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     if (response.isSuccessful() && response.body()!=null) {

@@ -64,7 +64,7 @@ public class CreateNotificationActivity extends AppCompatActivity {
         String token = SharedPrefsUtils.getToken(this);
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
 
-        apiService.createNotification(new CreateNotificationRequest(token, title, content, priority))
+        apiService.createNotification("Bearer " + token, new CreateNotificationRequest(token, title, content, priority))
                 .enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {

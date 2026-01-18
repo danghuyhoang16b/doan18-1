@@ -114,7 +114,7 @@ public class StudentProfileActivity extends AppCompatActivity {
     private void loadProfile() {
         String token = SharedPrefsUtils.getToken(this);
         ApiService api = RetrofitClient.getClient().create(ApiService.class);
-        api.getProfile("Bearer " + token, new UserIdRequest(null)).enqueue(new Callback<ProfileResponse>() {
+        api.getProfile("Bearer " + token).enqueue(new Callback<ProfileResponse>() {
             @Override
             public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -169,7 +169,7 @@ public class StudentProfileActivity extends AppCompatActivity {
         api.updateProfile("Bearer " + token, req).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                api.getProfile("Bearer " + token, new UserIdRequest(null)).enqueue(new Callback<ProfileResponse>() {
+                api.getProfile("Bearer " + token).enqueue(new Callback<ProfileResponse>() {
                     @Override
                     public void onResponse(Call<ProfileResponse> call2, Response<ProfileResponse> resp2) {
                         sendBroadcast(new Intent("com.example.app.PROFILE_UPDATED"));

@@ -79,7 +79,7 @@ public class AdminUserEditActivity extends AppCompatActivity {
 
     private void loadUserData() {
         String token = SharedPrefsUtils.getToken(this);
-        apiService.getUser("Bearer " + token, new UserIdRequest(userId)).enqueue(new Callback<User>() {
+        apiService.getUser("Bearer " + token, userId).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful() && response.body() != null) {
