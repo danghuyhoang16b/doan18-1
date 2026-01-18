@@ -22,6 +22,7 @@ import com.example.app.network.ApiService;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
 import com.example.app.models.AttendanceSubmitRequest;
+import com.example.app.models.AttendanceSubmitResponse;
 import com.example.app.models.ClassModel;
 import com.example.app.models.ClassRequest;
 import com.example.app.models.Student;
@@ -190,19 +191,19 @@ public class AttendanceActivity extends AppCompatActivity {
         String date = tvDate.getText().toString();
         AttendanceSubmitRequest request = new AttendanceSubmitRequest(token, selectedClass.getId(), date, attendanceItems);
 
-        apiService.submitAttendance("Bearer " + token, request).enqueue(new Callback<Void>() {
+        apiService.submitAttendance("Bearer " + token, request).enqueue(new Callback<AttendanceSubmitResponse>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(AttendanceActivity.this, "Lưu điểm danh thành công", Toast.LENGTH_SHORT).show();
-                    finish();
+            public void onResponse(Call<AttendanceSubmitResponse> call, Response<AttendanceSubmitResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    AttendanceSubmitResponse result = response.body();
+                    showSummaryDialog(result);
                 } else {
                     Toast.makeText(AttendanceActivity.this, "Lưu thất bại", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<AttendanceSubmitResponse> call, Throwable t) {
                 Toast.makeText(AttendanceActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -221,6 +222,30 @@ public class AttendanceActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showSummaryDialog(AttendanceSubmitResponse result) {
+        String message = result.getMessage();
+        AttendanceSubmitResponse.Summary summary = result.getSummary();
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(message).append("\n\n");
+        if (summary != null) {
+            sb.append(summary.toDisplayString());
+
+            // Warning for unexcused absences
+            if (summary.getAbsentUnexcused() > 0) {
+                sb.append("\n\n⚠️ Lưu ý: ").append(summary.getAbsentUnexcused())
+                  .append(" học sinh vắng không phép sẽ bị trừ 10 điểm nề nếp và thông báo đến phụ huynh.");
+            }
+        }
+
+        new android.app.AlertDialog.Builder(this)
+            .setTitle("Kết quả điểm danh")
+            .setMessage(sb.toString())
+            .setPositiveButton("Đóng", (dialog, which) -> finish())
+            .setCancelable(false)
+            .show();
     }
 
     private void exportReport() {

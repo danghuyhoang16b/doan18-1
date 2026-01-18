@@ -15,7 +15,8 @@ public class Student {
     private String avatar;
 
     // Local state for attendance
-    private String status = "present"; // present, absent, late
+    // Status: present, absent_excused (vắng có phép), absent_unexcused (vắng không phép), late
+    private String status = "present";
     private String note = "";
 
     public Student() { }

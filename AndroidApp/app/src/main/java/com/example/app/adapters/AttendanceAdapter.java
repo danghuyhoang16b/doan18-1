@@ -46,22 +46,29 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.Vi
 
         // Reset listener to prevent triggering when binding
         holder.rgStatus.setOnCheckedChangeListener(null);
-        
+
         switch (student.getStatus()) {
             case "present":
                 holder.rbPresent.setChecked(true);
                 break;
-            case "absent":
-                holder.rbAbsent.setChecked(true);
+            case "absent_excused":
+                holder.rbAbsentExcused.setChecked(true);
+                break;
+            case "absent_unexcused":
+                holder.rbAbsentUnexcused.setChecked(true);
                 break;
             case "late":
                 holder.rbLate.setChecked(true);
+                break;
+            default:
+                holder.rbPresent.setChecked(true);
                 break;
         }
 
         holder.rgStatus.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.rbPresent) student.setStatus("present");
-            else if (checkedId == R.id.rbAbsent) student.setStatus("absent");
+            else if (checkedId == R.id.rbAbsentExcused) student.setStatus("absent_excused");
+            else if (checkedId == R.id.rbAbsentUnexcused) student.setStatus("absent_unexcused");
             else if (checkedId == R.id.rbLate) student.setStatus("late");
         });
 
@@ -100,7 +107,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.Vi
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvStudentName, tvStudentCode;
         RadioGroup rgStatus;
-        RadioButton rbPresent, rbAbsent, rbLate;
+        RadioButton rbPresent, rbAbsentExcused, rbAbsentUnexcused, rbLate;
         EditText etNote;
         android.widget.ImageView ivAvatar;
 
@@ -110,7 +117,8 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.Vi
             tvStudentCode = itemView.findViewById(R.id.tvStudentCode);
             rgStatus = itemView.findViewById(R.id.rgStatus);
             rbPresent = itemView.findViewById(R.id.rbPresent);
-            rbAbsent = itemView.findViewById(R.id.rbAbsent);
+            rbAbsentExcused = itemView.findViewById(R.id.rbAbsentExcused);
+            rbAbsentUnexcused = itemView.findViewById(R.id.rbAbsentUnexcused);
             rbLate = itemView.findViewById(R.id.rbLate);
             etNote = itemView.findViewById(R.id.etNote);
             ivAvatar = itemView.findViewById(R.id.ivAvatar);

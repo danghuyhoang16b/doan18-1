@@ -52,21 +52,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Có mặt"
+            android:textSize="13sp"
             android:checked="true"/>
 
         <RadioButton
-            android:id="@+id/rbAbsent"
+            android:id="@+id/rbAbsentExcused"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Vắng"
-            android:layout_marginStart="16dp"/>
+            android:text="Vắng CP"
+            android:textSize="13sp"
+            android:layout_marginStart="8dp"/>
+
+        <RadioButton
+            android:id="@+id/rbAbsentUnexcused"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vắng KP"
+            android:textSize="13sp"
+            android:layout_marginStart="8dp"/>
 
         <RadioButton
             android:id="@+id/rbLate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Muộn"
-            android:layout_marginStart="16dp"/>
+            android:textSize="13sp"
+            android:layout_marginStart="8dp"/>
     </RadioGroup>
 
     <EditText

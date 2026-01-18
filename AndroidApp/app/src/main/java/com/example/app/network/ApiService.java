@@ -1,6 +1,7 @@
 package com.example.app.network;
 
 import com.example.app.models.AttendanceSubmitRequest;
+import com.example.app.models.AttendanceSubmitResponse;
 import com.example.app.models.Banner;
 import com.example.app.models.BannerIdRequest;
 import com.example.app.models.BannerToggleRequest;
@@ -384,7 +385,10 @@ public interface ApiService {
     // =====================================================
 
     @POST("attendance/submit.php")
-    Call<Void> submitAttendance(@Header("Authorization") String bearer, @Body AttendanceSubmitRequest body);
+    Call<AttendanceSubmitResponse> submitAttendance(@Header("Authorization") String bearer, @Body AttendanceSubmitRequest body);
+
+    @GET("attendance/get_by_class.php")
+    Call<ResponseBody> getAttendanceByClass(@Header("Authorization") String bearer, @Query("class_id") Integer classId, @Query("date") String date);
 
     // =====================================================
     // REPORTS
