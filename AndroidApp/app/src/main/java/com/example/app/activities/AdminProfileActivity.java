@@ -122,6 +122,8 @@ public class AdminProfileActivity extends AppCompatActivity {
                 String mime = getContentResolver().getType(selectedAvatar);
                 java.io.InputStream is = getContentResolver().openInputStream(selectedAvatar);
                 byte[] bytes = readAll(is);
+                android.util.Log.d("AvatarUpload", "File size: " + bytes.length + " bytes, MIME: " + mime);
+
                 RequestBody body = RequestBody.create(MediaType.parse(mime != null ? mime : "image/*"), bytes);
                 MultipartBody.Part img = MultipartBody.Part.createFormData("image", "avatar.jpg", body);
 
@@ -129,7 +131,17 @@ public class AdminProfileActivity extends AppCompatActivity {
                 api.uploadAvatar("Bearer " + token, img).enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        try {
+                            String respBody = response.body() != null ? response.body().string() : "null";
+                            String errBody = response.errorBody() != null ? response.errorBody().string() : "null";
+                            android.util.Log.d("AvatarUpload", "Response code: " + response.code() + ", body: " + respBody + ", error: " + errBody);
+                        } catch (Exception e) {
+                            android.util.Log.e("AvatarUpload", "Error reading response", e);
+                        }
+
                         if (response.isSuccessful()) {
+                            android.widget.Toast.makeText(AdminProfileActivity.this,
+                                "Tải ảnh thành công!", android.widget.Toast.LENGTH_SHORT).show();
                             updateProfileAndFinish(api, token);
                         } else {
                             android.widget.Toast.makeText(AdminProfileActivity.this,
@@ -139,12 +151,14 @@ public class AdminProfileActivity extends AppCompatActivity {
                     }
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        android.util.Log.e("AvatarUpload", "Upload failed", t);
                         android.widget.Toast.makeText(AdminProfileActivity.this,
                             "Lỗi kết nối: " + t.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
                         updateProfileAndFinish(api, token);
                     }
                 });
             } catch (Exception e) {
+                android.util.Log.e("AvatarUpload", "Error preparing upload", e);
                 android.widget.Toast.makeText(this, "Lỗi đọc ảnh: " + e.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
                 updateProfileAndFinish(api, token);
             }
