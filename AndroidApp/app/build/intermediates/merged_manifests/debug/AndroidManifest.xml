@@ -84,6 +84,7 @@
         <activity android:name="com.example.app.activities.AdminRedCommitteeActivity" />
         <activity android:name="com.example.app.activities.TeacherRedCommitteeActivity" />
         <activity android:name="com.example.app.activities.TeacherStudentManagerActivity" />
+        <activity android:name="com.example.app.activities.TeacherStudentRankingActivity" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"
