@@ -1,102 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Xếp loại"
-        android:textStyle="bold"
-        android:textSize="18sp"/>
-
-    <EditText
-        android:id="@+id/etClassId"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:hint="Class ID (vd: 1)" />
-
-    <EditText
-        android:id="@+id/etLabel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Label tuần/tháng (YYYY/WW hoặc YYYY/MM)" />
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <EditText
-            android:id="@+id/etSemester"
-            android:layout_width="0dp"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="HK1/HK2" />
+            android:text="Thống kê Thi đua"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_marginBottom="16dp"/>
 
-        <EditText
-            android:id="@+id/etYear"
-            android:layout_width="0dp"
+        <!-- Bộ lọc thời gian -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="number"
-            android:hint="Năm (vd: 2026)" />
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:hint="Từ ngày">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etStartDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:drawableEnd="@android:drawable/ic_menu_my_calendar" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:hint="Đến ngày">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etEndDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:drawableEnd="@android:drawable/ic_menu_my_calendar" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnLoadStats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Xem Thống kê"
+            android:layout_marginTop="8dp"/>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"/>
+
+        <!-- Biểu đồ cột: Xếp hạng lớp -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Xếp hạng Lớp (Tổng điểm trừ)"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp"/>
+        
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/barChartClass"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Biểu đồ tròn: Vi phạm phổ biến -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Vi phạm phổ biến"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp"/>
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pieChartViolations"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="8dp"/>
+
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/btnLoadWeek"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Tải tuần" />
-        <Button
-            android:id="@+id/btnLoadMonth"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Tải tháng" />
-        <Button
-            android:id="@+id/btnLoadSemester"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Tải học kỳ" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/btnExportCsv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Xuất CSV" />
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_gravity="center_horizontal"
-        style="?android:attr/progressBarStyleLarge" />
-
-    <TextView
-        android:id="@+id/tvEmpty"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Không có dữ liệu"
-        android:visibility="gone"
-        android:gravity="center_horizontal"
-        android:padding="8dp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvRanking"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-</LinearLayout>
+</ScrollView>

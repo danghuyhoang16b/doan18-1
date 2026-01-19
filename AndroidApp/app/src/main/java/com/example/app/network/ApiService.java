@@ -400,7 +400,7 @@ public interface ApiService {
     Call<StatisticsResponse> getStatistics(@Header("Authorization") String bearer);
 
     @GET("reports/get_competition_stats.php")
-    Call<CompetitionStatsResponse> getCompetitionStats(@Header("Authorization") String bearer);
+    Call<CompetitionStatsResponse> getCompetitionStats(@Header("Authorization") String bearer, @Query("start_date") String startDate, @Query("end_date") String endDate);
 
     // =====================================================
     // SCORES & CONDUCT

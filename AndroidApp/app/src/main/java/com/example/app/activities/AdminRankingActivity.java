@@ -1,193 +1,175 @@
 package com.example.app.activities;
 
+import android.app.DatePickerDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.app.R;
-import com.example.app.network.ApiService;
-import com.example.app.utils.RetrofitClient;
-import com.example.app.utils.SharedPrefsUtils;
 import com.example.app.network.ApiClient;
+import com.example.app.network.ApiService;
+import com.example.app.utils.SharedPrefsUtils;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.material.textfield.TextInputEditText;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import android.app.DatePickerDialog;
-import java.util.Calendar;
-import java.util.Locale;
-
 public class AdminRankingActivity extends AppCompatActivity {
-    private EditText etClassId, etLabel, etSemester, etYear;
-    private Button btnLoadWeek, btnLoadMonth, btnLoadSemester, btnExportCsv;
-    private RecyclerView rvRanking;
+    private TextInputEditText etStartDate, etEndDate;
+    private Button btnLoadStats;
     private ProgressBar progressBar;
-    private TextView tvEmpty;
+    private BarChart barChartClass;
+    private PieChart pieChartViolations;
     private ApiService apiService;
+    private final Calendar calendar = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_ranking);
-        
-        etClassId = findViewById(R.id.etClassId);
-        etLabel = findViewById(R.id.etLabel);
-        etSemester = findViewById(R.id.etSemester);
-        etYear = findViewById(R.id.etYear);
-        btnLoadWeek = findViewById(R.id.btnLoadWeek);
-        btnLoadMonth = findViewById(R.id.btnLoadMonth);
-        btnLoadSemester = findViewById(R.id.btnLoadSemester);
-        btnExportCsv = findViewById(R.id.btnExportCsv);
-        rvRanking = findViewById(R.id.rvRanking);
+
+        etStartDate = findViewById(R.id.etStartDate);
+        etEndDate = findViewById(R.id.etEndDate);
+        btnLoadStats = findViewById(R.id.btnLoadStats);
         progressBar = findViewById(R.id.progressBar);
-        tvEmpty = findViewById(R.id.tvEmpty);
-        rvRanking.setLayoutManager(new LinearLayoutManager(this));
+        barChartClass = findViewById(R.id.barChartClass);
+        pieChartViolations = findViewById(R.id.pieChartViolations);
         apiService = ApiClient.getInstance().getApiService();
 
-        // Setup DatePicker for etLabel
-        etLabel.setFocusable(false);
-        etLabel.setOnClickListener(v -> showDatePicker());
+        // Setup DatePickers
+        etStartDate.setOnClickListener(v -> showDatePicker(etStartDate));
+        etEndDate.setOnClickListener(v -> showDatePicker(etEndDate));
 
-        btnLoadWeek.setOnClickListener(v -> loadWeek());
-        btnLoadMonth.setOnClickListener(v -> loadMonth());
-        btnLoadSemester.setOnClickListener(v -> loadSemester());
-        btnExportCsv.setOnClickListener(v -> exportCsv());
+        // Default dates: Start of month to today
+        updateDateLabel(etEndDate);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        updateDateLabel(etStartDate);
+
+        btnLoadStats.setOnClickListener(v -> loadCompetitionStats());
     }
 
-    private void showDatePicker() {
-        Calendar c = Calendar.getInstance();
-        new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
-            c.set(year, month, dayOfMonth);
-            int weekOfYear = c.get(Calendar.WEEK_OF_YEAR);
-            // Format: YYYY/WW
-            etLabel.setText(String.format(Locale.US, "%d/%d", year, weekOfYear));
-        }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
+    private void showDatePicker(EditText target) {
+        new DatePickerDialog(this, (view, year, month, day) -> {
+            calendar.set(year, month, day);
+            updateDateLabel(target);
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
-    private void loadWeek() {
-        String bearer = "Bearer " + SharedPrefsUtils.getToken(this);
-        int classId = parseInt(etClassId.getText().toString());
-        String label = etLabel.getText().toString().trim();
-        if (classId <= 0 || label.isEmpty()) { Toast.makeText(this, "Nhập class_id và label YYYY/WW", Toast.LENGTH_SHORT).show(); return; }
+    private void updateDateLabel(EditText target) {
+        String format = "yyyy-MM-dd";
+        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
+        target.setText(sdf.format(calendar.getTime()));
+    }
+
+    private void loadCompetitionStats() {
+        String start = etStartDate.getText().toString();
+        String end = etEndDate.getText().toString();
+        String token = SharedPrefsUtils.getToken(this);
+
         progressBar.setVisibility(android.view.View.VISIBLE);
-        apiService.getWeeklyRanking(bearer, classId, label).enqueue(handler("week"));
-    }
-
-    private void loadMonth() {
-        String bearer = "Bearer " + SharedPrefsUtils.getToken(this);
-        int classId = parseInt(etClassId.getText().toString());
-        String label = etLabel.getText().toString().trim();
-        if (classId <= 0 || label.isEmpty()) { Toast.makeText(this, "Nhập class_id và label YYYY/MM", Toast.LENGTH_SHORT).show(); return; }
-        progressBar.setVisibility(android.view.View.VISIBLE);
-        apiService.getMonthlyRanking(bearer, classId, label).enqueue(handler("month"));
-    }
-
-    private void loadSemester() {
-        String bearer = "Bearer " + SharedPrefsUtils.getToken(this);
-        int classId = parseInt(etClassId.getText().toString());
-        String sem = etSemester.getText().toString().trim();
-        int year = parseInt(etYear.getText().toString());
-        if (classId <= 0 || year <= 0 || sem.isEmpty()) { Toast.makeText(this, "Nhập class_id, year, semester HK1/HK2", Toast.LENGTH_SHORT).show(); return; }
-        progressBar.setVisibility(android.view.View.VISIBLE);
-        apiService.getSemesterRanking(bearer, classId, year, sem).enqueue(handler("semester"));
-    }
-
-    private void exportCsv() {
-        Toast.makeText(this, "Xuất CSV dùng trình duyệt/webview (tích hợp sau)", Toast.LENGTH_SHORT).show();
-    }
-
-    private int parseInt(String s) {
-        try { return Integer.parseInt(s); } catch (Exception e) { return 0; }
-    }
-
-    private Callback<ResponseBody> handler(String type) {
-        return new Callback<ResponseBody>() {
+        apiService.getCompetitionStats("Bearer " + token, start, end).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 progressBar.setVisibility(android.view.View.GONE);
                 try {
                     if (response.isSuccessful() && response.body() != null) {
-                        String s = response.body().string();
-                        try {
-                            org.json.JSONArray arr = new org.json.JSONArray(s);
-                            List<RankingItem> items = new ArrayList<>();
-                            for (int i=0; i<arr.length(); i++) {
-                                org.json.JSONObject o = arr.getJSONObject(i);
-                                items.add(new RankingItem(
-                                        o.optInt("rank"),
-                                        o.optString("student_code"),
-                                        o.optString("student_name"),
-                                        o.optInt("violations_count"),
-                                        o.optInt("points_lost"),
-                                        type.equals("week") ? o.optInt("weekly_score") :
-                                                type.equals("month") ? o.optInt("monthly_score") :
-                                                        o.optInt("semester_score"),
-                                        o.optString("grade")
-                                ));
-                            }
-                            if (items.isEmpty()) {
-                                tvEmpty.setVisibility(android.view.View.VISIBLE);
-                                rvRanking.setAdapter(null);
-                            } else {
-                                tvEmpty.setVisibility(android.view.View.GONE);
-                                rvRanking.setAdapter(new RankingAdapter(items));
-                            }
-                        } catch (org.json.JSONException e) {
-                            tvEmpty.setText("Lỗi dữ liệu: " + e.getMessage());
-                            tvEmpty.setVisibility(android.view.View.VISIBLE);
+                        String json = response.body().string();
+                        JSONObject data = new JSONObject(json).optJSONObject("data");
+                        if (data != null) {
+                            displayClassRanking(data.optJSONArray("class_rankings"));
+                            displayCommonViolations(data.optJSONArray("common_violations"));
                         }
                     } else {
-                        tvEmpty.setText("Lỗi: " + response.code());
-                        tvEmpty.setVisibility(android.view.View.VISIBLE);
+                        Toast.makeText(AdminRankingActivity.this, "Lỗi tải dữ liệu: " + response.code(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-                    tvEmpty.setText("Lỗi xử lý: " + e.getMessage());
-                    tvEmpty.setVisibility(android.view.View.VISIBLE);
+                    Toast.makeText(AdminRankingActivity.this, "Lỗi xử lý: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 progressBar.setVisibility(android.view.View.GONE);
-                tvEmpty.setText("Lỗi kết nối");
-                tvEmpty.setVisibility(android.view.View.VISIBLE);
+                Toast.makeText(AdminRankingActivity.this, "Lỗi kết nối", Toast.LENGTH_SHORT).show();
             }
-        };
+        });
     }
 
-    static class RankingItem {
-        int rank, violations, lost, score;
-        String code, name, grade;
-        RankingItem(int r, String c, String n, int v, int l, int s, String g) {
-            rank=r; code=c; name=n; violations=v; lost=l; score=s; grade=g;
+    private void displayClassRanking(JSONArray arr) {
+        if (arr == null) return;
+        List<BarEntry> entries = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
+
+        for (int i = 0; i < arr.length(); i++) {
+            JSONObject o = arr.optJSONObject(i);
+            if (o != null) {
+                entries.add(new BarEntry(i, (float) o.optDouble("total_deducted", 0)));
+                labels.add(o.optString("class_name"));
+            }
         }
+
+        BarDataSet set = new BarDataSet(entries, "Điểm trừ");
+        set.setColors(ColorTemplate.MATERIAL_COLORS);
+        BarData data = new BarData(set);
+        barChartClass.setData(data);
+
+        XAxis xAxis = barChartClass.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setGranularity(1f);
+        xAxis.setLabelRotationAngle(45);
+        
+        barChartClass.getDescription().setEnabled(false);
+        barChartClass.animateY(1000);
+        barChartClass.invalidate();
     }
-    class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.VH> {
-        List<RankingItem> list;
-        RankingAdapter(List<RankingItem> l) { list=l; }
-        @Override
-        public VH onCreateViewHolder(android.view.ViewGroup p, int t) {
-            android.view.View v = getLayoutInflater().inflate(android.R.layout.simple_list_item_2, p, false);
-            return new VH(v);
+
+    private void displayCommonViolations(JSONArray arr) {
+        if (arr == null) return;
+        List<PieEntry> entries = new ArrayList<>();
+
+        for (int i = 0; i < arr.length(); i++) {
+            JSONObject o = arr.optJSONObject(i);
+            if (o != null) {
+                entries.add(new PieEntry((float) o.optDouble("count", 0), o.optString("rule_name")));
+            }
         }
-        @Override
-        public void onBindViewHolder(VH h, int i) {
-            RankingItem it = list.get(i);
-            h.t1.setText("#"+it.rank+" "+it.name+" ("+it.code+")");
-            h.t2.setText("Điểm: "+it.score+" | Trừ: "+it.lost+" | Vi phạm: "+it.violations+" | "+it.grade);
-        }
-        @Override
-        public int getItemCount() { return list.size(); }
-        class VH extends RecyclerView.ViewHolder {
-            TextView t1,t2;
-            VH(android.view.View v){ super(v); t1=v.findViewById(android.R.id.text1); t2=v.findViewById(android.R.id.text2); }
-        }
+
+        PieDataSet set = new PieDataSet(entries, "Lỗi vi phạm");
+        set.setColors(ColorTemplate.JOYFUL_COLORS);
+        PieData data = new PieData(set);
+        
+        pieChartViolations.setData(data);
+        pieChartViolations.getDescription().setEnabled(false);
+        pieChartViolations.setEntryLabelColor(Color.BLACK);
+        pieChartViolations.animateY(1000);
+        pieChartViolations.invalidate();
     }
 }
