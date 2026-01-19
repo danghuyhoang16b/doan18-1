@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.app.models.CompetitionStatsResponse;
 import com.example.app.R;
 import com.example.app.network.ApiClient;
 import com.example.app.network.ApiService;
@@ -94,18 +95,19 @@ public class AdminRankingActivity extends AppCompatActivity {
         String token = SharedPrefsUtils.getToken(this);
 
         progressBar.setVisibility(android.view.View.VISIBLE);
-        apiService.getCompetitionStats("Bearer " + token, start, end).enqueue(new Callback<ResponseBody>() {
+        apiService.getCompetitionStats("Bearer " + token, start, end).enqueue(new Callback<CompetitionStatsResponse>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<CompetitionStatsResponse> call, Response<CompetitionStatsResponse> response) {
                 progressBar.setVisibility(android.view.View.GONE);
                 try {
                     if (response.isSuccessful() && response.body() != null) {
-                        String json = response.body().string();
-                        JSONObject data = new JSONObject(json).optJSONObject("data");
-                        if (data != null) {
-                            displayClassRanking(data.optJSONArray("class_rankings"));
-                            displayCommonViolations(data.optJSONArray("common_violations"));
-                        }
+                        CompetitionStatsResponse stats = response.body();
+                        // Chuyển đổi CompetitionStatsResponse sang JSONArray để dùng hàm display cũ (hoặc viết lại hàm display)
+                        // Cách tốt nhất là cập nhật hàm display để nhận List object thay vì JSONArray
+                        // Nhưng để nhanh, ta sẽ dùng trực tiếp data object từ response
+                        
+                        displayClassRanking(stats.getClassRankings());
+                        displayCommonViolations(stats.getCommonViolations());
                     } else {
                         Toast.makeText(AdminRankingActivity.this, "Lỗi tải dữ liệu: " + response.code(), Toast.LENGTH_SHORT).show();
                     }
@@ -115,24 +117,22 @@ public class AdminRankingActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<CompetitionStatsResponse> call, Throwable t) {
                 progressBar.setVisibility(android.view.View.GONE);
                 Toast.makeText(AdminRankingActivity.this, "Lỗi kết nối", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void displayClassRanking(JSONArray arr) {
-        if (arr == null) return;
+    private void displayClassRanking(List<CompetitionStatsResponse.ClassStat> list) {
+        if (list == null) return;
         List<BarEntry> entries = new ArrayList<>();
         List<String> labels = new ArrayList<>();
 
-        for (int i = 0; i < arr.length(); i++) {
-            JSONObject o = arr.optJSONObject(i);
-            if (o != null) {
-                entries.add(new BarEntry(i, (float) o.optDouble("total_deducted", 0)));
-                labels.add(o.optString("class_name"));
-            }
+        for (int i = 0; i < list.size(); i++) {
+            CompetitionStatsResponse.ClassStat item = list.get(i);
+            entries.add(new BarEntry(i, (float) item.getTotalDeducted()));
+            labels.add(item.getClassName());
         }
 
         BarDataSet set = new BarDataSet(entries, "Điểm trừ");
@@ -151,15 +151,13 @@ public class AdminRankingActivity extends AppCompatActivity {
         barChartClass.invalidate();
     }
 
-    private void displayCommonViolations(JSONArray arr) {
-        if (arr == null) return;
+    private void displayCommonViolations(List<CompetitionStatsResponse.RuleStat> list) {
+        if (list == null) return;
         List<PieEntry> entries = new ArrayList<>();
 
-        for (int i = 0; i < arr.length(); i++) {
-            JSONObject o = arr.optJSONObject(i);
-            if (o != null) {
-                entries.add(new PieEntry((float) o.optDouble("count", 0), o.optString("rule_name")));
-            }
+        for (int i = 0; i < list.size(); i++) {
+            CompetitionStatsResponse.RuleStat item = list.get(i);
+            entries.add(new PieEntry((float) item.getCount(), item.getRuleName()));
         }
 
         PieDataSet set = new PieDataSet(entries, "Lỗi vi phạm");

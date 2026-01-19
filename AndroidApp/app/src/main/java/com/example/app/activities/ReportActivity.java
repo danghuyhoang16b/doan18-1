@@ -219,7 +219,10 @@ public class ReportActivity extends AppCompatActivity {
     }
 
     private void loadCompetitionStats() {
-        apiService.getCompetitionStats("Bearer " + token).enqueue(new Callback<CompetitionStatsResponse>() {
+        String startDate = "2024-01-01"; // TODO: Use dynamic date or remove this if ReportActivity doesn't need date filtering
+        String endDate = "2025-12-31";
+
+        apiService.getCompetitionStats("Bearer " + token, startDate, endDate).enqueue(new Callback<CompetitionStatsResponse>() {
             @Override
             public void onResponse(Call<CompetitionStatsResponse> call, Response<CompetitionStatsResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
