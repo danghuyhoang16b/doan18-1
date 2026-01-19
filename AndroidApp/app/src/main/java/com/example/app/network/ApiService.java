@@ -138,6 +138,9 @@ public interface ApiService {
     @POST("teacher/students/delete.php")
     Call<ResponseBody> removeStudentFromClass(@Header("Authorization") String bearer, @Body Map<String, Object> body);
 
+    @GET("teacher/get_student_ranking.php")
+    Call<ResponseBody> getStudentRanking(@Header("Authorization") String bearer, @Query("class_id") Integer classId, @Query("start_date") String startDate, @Query("end_date") String endDate);
+
     // =====================================================
     // CLASSES & SUBJECTS
     // =====================================================

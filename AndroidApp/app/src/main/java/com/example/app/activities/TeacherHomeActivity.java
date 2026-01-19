@@ -44,7 +44,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
     private ImageButton btnLogout;
     private RecyclerView rvSchedule, rvNews;
     private ProgressBar progressBar;
-    private View btnManageRedStar, btnManageStudentParent;
+    private View btnManageRedStar, btnManageStudentParent, btnStudentRanking;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +63,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
         
         btnManageRedStar = findViewById(R.id.btnManageRedStar);
         btnManageStudentParent = findViewById(R.id.btnManageStudentParent);
+        btnStudentRanking = findViewById(R.id.btnStudentRanking);
 
         rvSchedule.setLayoutManager(new LinearLayoutManager(this));
         rvNews.setLayoutManager(new LinearLayoutManager(this));
@@ -119,6 +120,9 @@ public class TeacherHomeActivity extends AppCompatActivity {
         }
         if (btnManageStudentParent != null) {
             btnManageStudentParent.setOnClickListener(v -> startActivity(new Intent(this, TeacherStudentManagerActivity.class)));
+        }
+        if (btnStudentRanking != null) {
+            btnStudentRanking.setOnClickListener(v -> startActivity(new Intent(this, TeacherStudentRankingActivity.class)));
         }
     }
 
