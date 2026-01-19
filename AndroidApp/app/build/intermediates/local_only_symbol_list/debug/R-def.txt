@@ -138,6 +138,7 @@ id btnSelectImage
 id btnSend
 id btnSetClass
 id btnStartImport
+id btnStudentRanking
 id btnSubmit
 id btnSystemStats
 id btnTeacherSchedule
@@ -223,6 +224,7 @@ id rvReport
 id rvRequests
 id rvSchedule
 id rvStats
+id rvStudentRanking
 id rvStudents
 id rvUserList
 id rvViolations
@@ -330,6 +332,7 @@ layout activity_teacher_home
 layout activity_teacher_red_committee
 layout activity_teacher_schedule
 layout activity_teacher_student_manager
+layout activity_teacher_student_ranking
 layout activity_violation
 layout dialog_add_banner
 layout dialog_child_detail

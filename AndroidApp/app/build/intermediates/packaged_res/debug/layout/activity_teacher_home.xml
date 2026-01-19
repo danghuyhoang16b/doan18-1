@@ -173,6 +173,37 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
+                <!-- Xếp hạng Học sinh -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/btnStudentRanking"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp"
+                    android:foreground="?android:attr/selectableItemBackground">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:gravity="center">
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="@android:drawable/star_big_on"
+                            app:tint="#FFC107"
+                            android:layout_marginBottom="8dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Xếp hạng Lớp"
+                            android:textStyle="bold"
+                            android:textColor="#FFC107"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
             </GridLayout>
 
             <!-- Schedule Section -->

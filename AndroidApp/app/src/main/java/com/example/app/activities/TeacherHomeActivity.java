@@ -80,8 +80,6 @@ public class TeacherHomeActivity extends AppCompatActivity {
                 String fullUrl = com.example.app.utils.UrlUtils.getFullUrl(this, avatar);
                 com.bumptech.glide.Glide.with(this)
                     .load(fullUrl)
-                    .skipMemoryCache(true)
-                    .diskCacheStrategy(com.bumptech.glide.load.engine.DiskCacheStrategy.NONE)
                     .placeholder(R.mipmap.ic_launcher_round)
                     .error(R.mipmap.ic_launcher_round)
                     .into(imgAvatar);
