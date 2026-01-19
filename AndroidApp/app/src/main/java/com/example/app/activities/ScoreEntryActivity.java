@@ -9,6 +9,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.example.app.R;
+import com.example.app.models.ClassModel;
+import com.example.app.models.SubjectModel;
 import com.example.app.network.ApiService;
 import com.example.app.utils.RetrofitClient;
 import com.example.app.utils.SharedPrefsUtils;
@@ -59,9 +61,14 @@ public class ScoreEntryActivity extends AppCompatActivity {
                     if (response.isSuccessful() && response.body()!=null) {
                         String s = response.body().string();
                         JSONArray arr = new JSONArray(s);
-                        List<String> names = new ArrayList<>();
-                        for (int i=0;i<arr.length();i++) names.add(arr.getJSONObject(i).optString("name"));
-                        spClass.setAdapter(new ArrayAdapter<>(ScoreEntryActivity.this, android.R.layout.simple_spinner_item, names));
+                        List<ClassModel> classes = new ArrayList<>();
+                        for (int i=0;i<arr.length();i++) {
+                            JSONObject o = arr.getJSONObject(i);
+                            classes.add(new ClassModel(o.optInt("id"), o.optString("name")));
+                        }
+                        ArrayAdapter<ClassModel> adapter = new ArrayAdapter<>(ScoreEntryActivity.this, android.R.layout.simple_spinner_item, classes);
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spClass.setAdapter(adapter);
                     }
                 } catch (Exception ignored) {}
             }
@@ -73,9 +80,14 @@ public class ScoreEntryActivity extends AppCompatActivity {
                     if (response.isSuccessful() && response.body()!=null) {
                         String s = response.body().string();
                         JSONArray arr = new JSONArray(s);
-                        List<String> names = new ArrayList<>();
-                        for (int i=0;i<arr.length();i++) names.add(arr.getJSONObject(i).optString("name"));
-                        spSubject.setAdapter(new ArrayAdapter<>(ScoreEntryActivity.this, android.R.layout.simple_spinner_item, names));
+                        List<SubjectModel> subjects = new ArrayList<>();
+                        for (int i=0;i<arr.length();i++) {
+                            JSONObject o = arr.getJSONObject(i);
+                            subjects.add(new SubjectModel(o.optInt("id"), o.optString("name")));
+                        }
+                        ArrayAdapter<SubjectModel> adapter = new ArrayAdapter<>(ScoreEntryActivity.this, android.R.layout.simple_spinner_item, subjects);
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spSubject.setAdapter(adapter);
                     }
                 } catch (Exception ignored) {}
             }
@@ -83,13 +95,18 @@ public class ScoreEntryActivity extends AppCompatActivity {
         });
     }
     private void loadStudents() {
+        if (spClass.getSelectedItem() == null) {
+            Toast.makeText(this, "Vui lòng chọn lớp", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        int classId = ((ClassModel) spClass.getSelectedItem()).getId();
+
         String token = SharedPrefsUtils.getToken(this);
         ApiService api = ApiClient.getInstance().getApiService();
-        Map<String,Integer> map = new HashMap<>();
-        // simple fetch id by name call; for demo assume id=1 if backend lacks resolver
-        // map.put("class_id", 1);
-        int classId = 1; // Placeholder until we have proper class object from spinner
-        api.listStudentsForScore("Bearer " + token, classId).enqueue(new Callback<ResponseBody>() {
+        Map<String,Integer> body = new HashMap<>();
+        body.put("class_id", classId);
+        
+        api.listStudentsForScore("Bearer " + token, body).enqueue(new Callback<ResponseBody>() {
             @Override public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     if (response.isSuccessful() && response.body()!=null) {
@@ -112,18 +129,37 @@ public class ScoreEntryActivity extends AppCompatActivity {
                             row.addView(et);
                             listContainer.addView(row);
                         }
+                        if (students.isEmpty()) {
+                            Toast.makeText(ScoreEntryActivity.this, "Không có học sinh trong lớp này", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        String err = response.errorBody() != null ? response.errorBody().string() : "Lỗi không xác định";
+                        Toast.makeText(ScoreEntryActivity.this, "Lỗi tải: " + response.code() + " - " + err, Toast.LENGTH_LONG).show();
                     }
-                } catch (Exception e) { Toast.makeText(ScoreEntryActivity.this,"Lỗi dữ liệu",Toast.LENGTH_SHORT).show(); }
+                } catch (Exception e) { 
+                    e.printStackTrace();
+                    Toast.makeText(ScoreEntryActivity.this,"Lỗi dữ liệu: " + e.getMessage(),Toast.LENGTH_SHORT).show(); 
+                }
             }
-            @Override public void onFailure(Call<ResponseBody> call, Throwable t) { Toast.makeText(ScoreEntryActivity.this,"Lỗi tải học sinh",Toast.LENGTH_SHORT).show(); }
+            @Override public void onFailure(Call<ResponseBody> call, Throwable t) { 
+                t.printStackTrace();
+                Toast.makeText(ScoreEntryActivity.this,"Lỗi kết nối: " + t.getMessage(),Toast.LENGTH_SHORT).show(); 
+            }
         });
     }
     private void saveScores() {
+        if (spClass.getSelectedItem() == null || spSubject.getSelectedItem() == null) {
+            Toast.makeText(this, "Vui lòng chọn lớp và môn học", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        int classId = ((ClassModel) spClass.getSelectedItem()).getId();
+        int subjectId = ((SubjectModel) spSubject.getSelectedItem()).getId();
+
         String token = SharedPrefsUtils.getToken(this);
         ApiService api = ApiClient.getInstance().getApiService();
         Map<String,Object> body = new HashMap<>();
-        body.put("class_id", 1);
-        body.put("subject_id", 1);
+        body.put("class_id", classId);
+        body.put("subject_id", subjectId);
         body.put("term", etTerm.getText().toString().trim().isEmpty() ? "HK1" : etTerm.getText().toString().trim());
         List<Map<String,Object>> items = new ArrayList<>();
         for (JSONObject o: students) {

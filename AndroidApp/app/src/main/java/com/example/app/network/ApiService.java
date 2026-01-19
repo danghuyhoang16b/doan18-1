@@ -406,8 +406,8 @@ public interface ApiService {
     // SCORES & CONDUCT
     // =====================================================
 
-    @GET("scores/list_students.php")
-    Call<ResponseBody> listStudentsForScore(@Header("Authorization") String bearer, @Query("class_id") Integer classId);
+    @POST("scores/list_students.php")
+    Call<ResponseBody> listStudentsForScore(@Header("Authorization") String bearer, @Body Map<String, Integer> body);
 
     @POST("scores/submit.php")
     Call<ResponseBody> submitScores(@Header("Authorization") String bearer, @Body Map<String, Object> body);

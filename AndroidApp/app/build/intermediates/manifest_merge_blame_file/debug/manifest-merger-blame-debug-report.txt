@@ -38,186 +38,188 @@
 22-->[androidx.core:core:1.9.0] C:\Users\0332255638\.gradle\caches\transforms-3\0727e35ddcdc8de4df2ed1acb80a64e1\transformed\core-1.9.0\AndroidManifest.xml:26:22-94
 23
 24    <application
-24-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:9:5-69:19
-25        android:allowBackup="true"
-25-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:10:9-35
-26        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-26-->[androidx.core:core:1.9.0] C:\Users\0332255638\.gradle\caches\transforms-3\0727e35ddcdc8de4df2ed1acb80a64e1\transformed\core-1.9.0\AndroidManifest.xml:28:18-86
-27        android:debuggable="true"
-28        android:icon="@mipmap/ic_launcher"
-28-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:11:9-43
-29        android:label="@string/app_name"
-29-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:12:9-41
-30        android:roundIcon="@mipmap/ic_launcher_round"
-30-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:13:9-54
-31        android:supportsRtl="true"
-31-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:14:9-35
-32        android:testOnly="true"
-33        android:theme="@style/Theme.SchoolManagement"
-33-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:15:9-54
-34        android:usesCleartextTraffic="true" >
-34-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:16:9-44
-35        <activity
-35-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:18:9-25:20
-36            android:name="com.example.app.activities.LoginActivity"
-36-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:19:13-53
-37            android:exported="true" >
-37-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:20:13-36
-38            <intent-filter>
-38-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:21:13-24:29
-39                <action android:name="android.intent.action.MAIN" />
-39-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:22:17-69
-39-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:22:25-66
-40
-41                <category android:name="android.intent.category.LAUNCHER" />
-41-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:23:17-77
-41-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:23:27-74
-42            </intent-filter>
-43        </activity>
-44        <activity android:name="com.example.app.activities.HomeActivity" />
-44-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:27:9-61
-44-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:27:19-58
-45        <activity android:name="com.example.app.activities.NewsActivity" />
+24-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:9:5-70:19
+25        android:name="com.example.app.SchoolApp"
+25-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:10:9-34
+26        android:allowBackup="true"
+26-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:11:9-35
+27        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+27-->[androidx.core:core:1.9.0] C:\Users\0332255638\.gradle\caches\transforms-3\0727e35ddcdc8de4df2ed1acb80a64e1\transformed\core-1.9.0\AndroidManifest.xml:28:18-86
+28        android:debuggable="true"
+29        android:icon="@mipmap/ic_launcher"
+29-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:12:9-43
+30        android:label="@string/app_name"
+30-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:13:9-41
+31        android:roundIcon="@mipmap/ic_launcher_round"
+31-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:14:9-54
+32        android:supportsRtl="true"
+32-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:15:9-35
+33        android:testOnly="true"
+34        android:theme="@style/Theme.SchoolManagement"
+34-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:16:9-54
+35        android:usesCleartextTraffic="true" >
+35-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:17:9-44
+36        <activity
+36-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:19:9-26:20
+37            android:name="com.example.app.activities.LoginActivity"
+37-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:20:13-53
+38            android:exported="true" >
+38-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:21:13-36
+39            <intent-filter>
+39-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:22:13-25:29
+40                <action android:name="android.intent.action.MAIN" />
+40-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:23:17-69
+40-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:23:25-66
+41
+42                <category android:name="android.intent.category.LAUNCHER" />
+42-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:24:17-77
+42-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:24:27-74
+43            </intent-filter>
+44        </activity>
+45        <activity android:name="com.example.app.activities.HomeActivity" />
 45-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:28:9-61
 45-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:28:19-58
-46        <activity android:name="com.example.app.activities.ScheduleActivity" />
-46-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:29:9-65
-46-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:29:19-62
-47        <activity android:name="com.example.app.activities.AttendanceActivity" />
-47-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:30:9-67
-47-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:30:19-64
-48        <activity android:name="com.example.app.activities.ProfileActivity" />
-48-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:31:9-64
-48-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:31:19-61
-49        <activity android:name="com.example.app.activities.ReportActivity" />
-49-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:32:9-63
-49-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:32:19-60
-50        <activity android:name="com.example.app.activities.ContactListActivity" />
-50-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:33:9-68
-50-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:33:19-65
-51        <activity android:name="com.example.app.activities.ChatActivity" />
-51-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:34:9-61
-51-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:34:19-58
-52        <activity android:name="com.example.app.activities.NotificationActivity" />
-52-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:35:9-69
-52-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:35:19-66
-53        <activity android:name="com.example.app.activities.CreateNotificationActivity" />
-53-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:36:9-75
-53-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:36:19-72
-54        <activity android:name="com.example.app.activities.AdminDashboardActivity" />
-54-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:37:9-71
-54-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:37:19-68
-55        <activity android:name="com.example.app.activities.AdminProfileActivity" />
-55-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:38:9-69
-55-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:38:19-66
-56        <activity android:name="com.example.app.activities.TeacherProfileActivity" />
-56-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:39:9-71
-56-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:39:19-68
-57        <activity android:name="com.example.app.activities.TeacherScheduleActivity" />
-57-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:40:9-72
-57-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:40:19-69
-58        <activity android:name="com.example.app.activities.AdminBannerEditActivity" />
+46        <activity android:name="com.example.app.activities.NewsActivity" />
+46-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:29:9-61
+46-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:29:19-58
+47        <activity android:name="com.example.app.activities.ScheduleActivity" />
+47-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:30:9-65
+47-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:30:19-62
+48        <activity android:name="com.example.app.activities.AttendanceActivity" />
+48-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:31:9-67
+48-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:31:19-64
+49        <activity android:name="com.example.app.activities.ProfileActivity" />
+49-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:32:9-64
+49-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:32:19-61
+50        <activity android:name="com.example.app.activities.ReportActivity" />
+50-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:33:9-63
+50-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:33:19-60
+51        <activity android:name="com.example.app.activities.ContactListActivity" />
+51-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:34:9-68
+51-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:34:19-65
+52        <activity android:name="com.example.app.activities.ChatActivity" />
+52-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:35:9-61
+52-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:35:19-58
+53        <activity android:name="com.example.app.activities.NotificationActivity" />
+53-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:36:9-69
+53-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:36:19-66
+54        <activity android:name="com.example.app.activities.CreateNotificationActivity" />
+54-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:37:9-75
+54-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:37:19-72
+55        <activity android:name="com.example.app.activities.AdminDashboardActivity" />
+55-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:38:9-71
+55-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:38:19-68
+56        <activity android:name="com.example.app.activities.AdminProfileActivity" />
+56-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:39:9-69
+56-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:39:19-66
+57        <activity android:name="com.example.app.activities.TeacherProfileActivity" />
+57-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:40:9-71
+57-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:40:19-68
+58        <activity android:name="com.example.app.activities.TeacherScheduleActivity" />
 58-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:41:9-72
 58-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:41:19-69
-59        <activity android:name="com.example.app.activities.AdminScheduleActivity" />
-59-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:42:9-70
-59-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:42:19-67
-60        <activity android:name="com.example.app.activities.ScoreEntryActivity" />
-60-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:43:9-67
-60-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:43:19-64
-61        <activity android:name="com.example.app.activities.ConductEntryActivity" />
-61-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:44:9-69
-61-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:44:19-66
-62        <activity android:name="com.example.app.activities.ManageClassRequestActivity" />
-62-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:45:9-75
-62-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:45:19-72
-63        <activity android:name="com.example.app.activities.AdminRequestListActivity" />
-63-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:46:9-73
-63-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:46:19-70
-64        <activity android:name="com.example.app.activities.StudentOnboardingActivity" />
-64-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:47:9-74
-64-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:47:19-71
-65        <activity android:name="com.example.app.activities.StudentProfileActivity" />
-65-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:48:9-71
-65-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:48:19-68
-66        <activity android:name="com.example.app.activities.ParentProfileActivity" />
-66-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:49:9-70
-66-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:49:19-67
-67        <activity android:name="com.example.app.activities.ViolationActivity" />
-67-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:50:9-66
-67-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:50:19-63
-68        <activity android:name="com.example.app.activities.ParentOtpActivity" />
+59        <activity android:name="com.example.app.activities.AdminBannerEditActivity" />
+59-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:42:9-72
+59-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:42:19-69
+60        <activity android:name="com.example.app.activities.AdminScheduleActivity" />
+60-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:43:9-70
+60-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:43:19-67
+61        <activity android:name="com.example.app.activities.ScoreEntryActivity" />
+61-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:44:9-67
+61-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:44:19-64
+62        <activity android:name="com.example.app.activities.ConductEntryActivity" />
+62-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:45:9-69
+62-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:45:19-66
+63        <activity android:name="com.example.app.activities.ManageClassRequestActivity" />
+63-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:46:9-75
+63-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:46:19-72
+64        <activity android:name="com.example.app.activities.AdminRequestListActivity" />
+64-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:47:9-73
+64-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:47:19-70
+65        <activity android:name="com.example.app.activities.StudentOnboardingActivity" />
+65-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:48:9-74
+65-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:48:19-71
+66        <activity android:name="com.example.app.activities.StudentProfileActivity" />
+66-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:49:9-71
+66-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:49:19-68
+67        <activity android:name="com.example.app.activities.ParentProfileActivity" />
+67-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:50:9-70
+67-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:50:19-67
+68        <activity android:name="com.example.app.activities.ViolationActivity" />
 68-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:51:9-66
 68-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:51:19-63
-69        <activity android:name="com.example.app.activities.AdminSearchActivity" />
-69-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:52:9-68
-69-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:52:19-65
-70        <activity android:name="com.example.app.activities.AdminUserListActivity" />
-70-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:53:9-70
-70-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:53:19-67
-71        <activity android:name="com.example.app.activities.StudentHomeActivity" />
-71-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:54:9-68
-71-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:54:19-65
-72        <activity android:name="com.example.app.activities.TeacherHomeActivity" />
+69        <activity android:name="com.example.app.activities.ParentOtpActivity" />
+69-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:52:9-66
+69-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:52:19-63
+70        <activity android:name="com.example.app.activities.AdminSearchActivity" />
+70-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:53:9-68
+70-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:53:19-65
+71        <activity android:name="com.example.app.activities.AdminUserListActivity" />
+71-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:54:9-70
+71-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:54:19-67
+72        <activity android:name="com.example.app.activities.StudentHomeActivity" />
 72-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:55:9-68
 72-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:55:19-65
-73        <activity android:name="com.example.app.activities.AdminHomeActivity" />
-73-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:56:9-66
-73-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:56:19-63
-74        <activity android:name="com.example.app.activities.ParentHomeActivity" />
-74-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:57:9-67
-74-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:57:19-64
-75        <activity android:name="com.example.app.activities.AdminBannerActivity" />
-75-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:58:9-68
-75-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:58:19-65
-76        <activity android:name="com.example.app.activities.AdminViolationStatsActivity" />
-76-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:59:9-76
-76-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:59:19-73
-77        <activity android:name="com.example.app.activities.AdminRankingActivity" />
-77-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:60:9-69
-77-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:60:19-66
-78        <activity android:name="com.example.app.activities.AdminUserEditActivity" />
-78-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:61:9-70
-78-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:61:19-67
-79        <activity
-79-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:62:9-64:78
-80            android:name="com.example.app.activities.ImageImportActivity"
-80-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:62:19-65
-81            android:label="Import Ảnh"
-81-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:63:13-39
-82            android:parentActivityName="com.example.app.activities.AdminDashboardActivity" />
-82-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:64:13-76
-83        <activity android:name="com.example.app.activities.AdminRedCommitteeActivity" />
-83-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:65:9-89
-83-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:65:19-86
-84        <activity android:name="com.example.app.activities.TeacherRedCommitteeActivity" />
-84-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:66:9-91
-84-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:66:19-88
-85        <activity android:name="com.example.app.activities.TeacherStudentManagerActivity" />
-85-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:67:9-78
-85-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:67:19-75
-86
-87        <provider
-87-->[androidx.emoji2:emoji2:1.2.0] C:\Users\0332255638\.gradle\caches\transforms-3\3ba2aef30d863ed6c274b18e19aa78d6\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
-88            android:name="androidx.startup.InitializationProvider"
-88-->[androidx.emoji2:emoji2:1.2.0] C:\Users\0332255638\.gradle\caches\transforms-3\3ba2aef30d863ed6c274b18e19aa78d6\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:25:13-67
-89            android:authorities="com.example.app.androidx-startup"
-89-->[androidx.emoji2:emoji2:1.2.0] C:\Users\0332255638\.gradle\caches\transforms-3\3ba2aef30d863ed6c274b18e19aa78d6\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:26:13-68
-90            android:exported="false" >
-90-->[androidx.emoji2:emoji2:1.2.0] C:\Users\0332255638\.gradle\caches\transforms-3\3ba2aef30d863ed6c274b18e19aa78d6\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:27:13-37
-91            <meta-data
-91-->[androidx.emoji2:emoji2:1.2.0] C:\Users\0332255638\.gradle\caches\transforms-3\3ba2aef30d863ed6c274b18e19aa78d6\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
-92                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-92-->[androidx.emoji2:emoji2:1.2.0] C:\Users\0332255638\.gradle\caches\transforms-3\3ba2aef30d863ed6c274b18e19aa78d6\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:30:17-75
-93                android:value="androidx.startup" />
-93-->[androidx.emoji2:emoji2:1.2.0] C:\Users\0332255638\.gradle\caches\transforms-3\3ba2aef30d863ed6c274b18e19aa78d6\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:31:17-49
-94            <meta-data
-94-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\0332255638\.gradle\caches\transforms-3\7fe53484cc81e9152b1ecd739ec020b1\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:31:13-33:52
-95                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-95-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\0332255638\.gradle\caches\transforms-3\7fe53484cc81e9152b1ecd739ec020b1\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:32:17-78
-96                android:value="androidx.startup" />
-96-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\0332255638\.gradle\caches\transforms-3\7fe53484cc81e9152b1ecd739ec020b1\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:33:17-49
-97        </provider>
-98    </application>
-99
-100</manifest>
+73        <activity android:name="com.example.app.activities.TeacherHomeActivity" />
+73-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:56:9-68
+73-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:56:19-65
+74        <activity android:name="com.example.app.activities.AdminHomeActivity" />
+74-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:57:9-66
+74-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:57:19-63
+75        <activity android:name="com.example.app.activities.ParentHomeActivity" />
+75-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:58:9-67
+75-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:58:19-64
+76        <activity android:name="com.example.app.activities.AdminBannerActivity" />
+76-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:59:9-68
+76-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:59:19-65
+77        <activity android:name="com.example.app.activities.AdminViolationStatsActivity" />
+77-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:60:9-76
+77-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:60:19-73
+78        <activity android:name="com.example.app.activities.AdminRankingActivity" />
+78-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:61:9-69
+78-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:61:19-66
+79        <activity android:name="com.example.app.activities.AdminUserEditActivity" />
+79-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:62:9-70
+79-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:62:19-67
+80        <activity
+80-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:63:9-65:78
+81            android:name="com.example.app.activities.ImageImportActivity"
+81-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:63:19-65
+82            android:label="Import Ảnh"
+82-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:64:13-39
+83            android:parentActivityName="com.example.app.activities.AdminDashboardActivity" />
+83-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:65:13-76
+84        <activity android:name="com.example.app.activities.AdminRedCommitteeActivity" />
+84-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:66:9-89
+84-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:66:19-86
+85        <activity android:name="com.example.app.activities.TeacherRedCommitteeActivity" />
+85-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:67:9-91
+85-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:67:19-88
+86        <activity android:name="com.example.app.activities.TeacherStudentManagerActivity" />
+86-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:68:9-78
+86-->C:\Users\0332255638\Pictures\Do_an_tot nghiep\AndroidApp\app\src\main\AndroidManifest.xml:68:19-75
+87
+88        <provider
+88-->[androidx.emoji2:emoji2:1.2.0] C:\Users\0332255638\.gradle\caches\transforms-3\3ba2aef30d863ed6c274b18e19aa78d6\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
+89            android:name="androidx.startup.InitializationProvider"
+89-->[androidx.emoji2:emoji2:1.2.0] C:\Users\0332255638\.gradle\caches\transforms-3\3ba2aef30d863ed6c274b18e19aa78d6\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:25:13-67
+90            android:authorities="com.example.app.androidx-startup"
+90-->[androidx.emoji2:emoji2:1.2.0] C:\Users\0332255638\.gradle\caches\transforms-3\3ba2aef30d863ed6c274b18e19aa78d6\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:26:13-68
+91            android:exported="false" >
+91-->[androidx.emoji2:emoji2:1.2.0] C:\Users\0332255638\.gradle\caches\transforms-3\3ba2aef30d863ed6c274b18e19aa78d6\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:27:13-37
+92            <meta-data
+92-->[androidx.emoji2:emoji2:1.2.0] C:\Users\0332255638\.gradle\caches\transforms-3\3ba2aef30d863ed6c274b18e19aa78d6\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
+93                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+93-->[androidx.emoji2:emoji2:1.2.0] C:\Users\0332255638\.gradle\caches\transforms-3\3ba2aef30d863ed6c274b18e19aa78d6\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:30:17-75
+94                android:value="androidx.startup" />
+94-->[androidx.emoji2:emoji2:1.2.0] C:\Users\0332255638\.gradle\caches\transforms-3\3ba2aef30d863ed6c274b18e19aa78d6\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:31:17-49
+95            <meta-data
+95-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\0332255638\.gradle\caches\transforms-3\7fe53484cc81e9152b1ecd739ec020b1\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:31:13-33:52
+96                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+96-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\0332255638\.gradle\caches\transforms-3\7fe53484cc81e9152b1ecd739ec020b1\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:32:17-78
+97                android:value="androidx.startup" />
+97-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\0332255638\.gradle\caches\transforms-3\7fe53484cc81e9152b1ecd739ec020b1\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:33:17-49
+98        </provider>
+99    </application>
+100
+101</manifest>

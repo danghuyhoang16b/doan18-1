@@ -90,6 +90,23 @@ public class AdminProfileActivity extends AppCompatActivity {
                     etFullName.setText(p.full_name);
                     etEmail.setText(p.email);
                     etPhone.setText(p.phone);
+                    
+                    if (p.avatar != null && !p.avatar.isEmpty()) {
+                        String url = p.avatar;
+                        if (!url.startsWith("http")) {
+                            url = com.example.app.utils.UrlUtils.getFullUrl(AdminProfileActivity.this, "uploads/avatars/" + url);
+                        }
+                        // Debug URL
+                        // android.widget.Toast.makeText(AdminProfileActivity.this, "Img: " + url, android.widget.Toast.LENGTH_LONG).show();
+                        
+                        com.bumptech.glide.Glide.with(AdminProfileActivity.this)
+                            .load(url)
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(com.bumptech.glide.load.engine.DiskCacheStrategy.NONE)
+                            .placeholder(R.mipmap.ic_launcher_round)
+                            .error(R.mipmap.ic_launcher_round)
+                            .into(ivAvatar);
+                    }
                 }
             }
             @Override
@@ -104,6 +121,31 @@ public class AdminProfileActivity extends AppCompatActivity {
     private void saveProfile() {
         String token = SharedPrefsUtils.getToken(this);
         ApiService api = ApiClient.getInstance().getApiService();
+        
+        Runnable updateTask = () -> {
+            UserUpdateRequest req = new UserUpdateRequest(null,
+                    etFullName.getText().toString().trim(),
+                    etEmail.getText().toString().trim(),
+                    etPhone.getText().toString().trim(),
+                    null);
+            api.updateProfile("Bearer " + token, req).enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        android.widget.Toast.makeText(AdminProfileActivity.this, "Cập nhật thành công", android.widget.Toast.LENGTH_SHORT).show();
+                        sendBroadcast(new android.content.Intent("com.example.app.PROFILE_UPDATED"));
+                        finish();
+                    } else {
+                        android.widget.Toast.makeText(AdminProfileActivity.this, "Lỗi cập nhật: " + response.message(), android.widget.Toast.LENGTH_SHORT).show();
+                    }
+                }
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    android.widget.Toast.makeText(AdminProfileActivity.this, "Lỗi kết nối: " + t.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
+                }
+            });
+        };
+
         if (selectedAvatar != null) {
             try {
                 String mime = getContentResolver().getType(selectedAvatar);
@@ -111,28 +153,28 @@ public class AdminProfileActivity extends AppCompatActivity {
                 byte[] bytes = readAll(is);
                 RequestBody body = RequestBody.create(MediaType.parse(mime != null ? mime : "image/*"), bytes);
                 MultipartBody.Part img = MultipartBody.Part.createFormData("image", "avatar.jpg", body);
+                
+                android.widget.Toast.makeText(this, "Đang tải ảnh...", android.widget.Toast.LENGTH_SHORT).show();
                 api.uploadAvatar("Bearer " + token, img).enqueue(new Callback<ResponseBody>() {
                     @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) { }
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            updateTask.run();
+                        } else {
+                            android.widget.Toast.makeText(AdminProfileActivity.this, "Lỗi tải ảnh: " + response.message(), android.widget.Toast.LENGTH_SHORT).show();
+                        }
+                    }
                     @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) { }
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        android.widget.Toast.makeText(AdminProfileActivity.this, "Lỗi kết nối ảnh: " + t.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
+                    }
                 });
-            } catch (Exception ignored) { }
-        }
-        UserUpdateRequest req = new UserUpdateRequest(null,
-                etFullName.getText().toString().trim(),
-                etEmail.getText().toString().trim(),
-                etPhone.getText().toString().trim(),
-                null);
-        api.updateProfile("Bearer " + token, req).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                sendBroadcast(new android.content.Intent("com.example.app.PROFILE_UPDATED"));
-                finish();
+            } catch (Exception e) {
+                android.widget.Toast.makeText(this, "Lỗi đọc file ảnh", android.widget.Toast.LENGTH_SHORT).show();
             }
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) { }
-        });
+        } else {
+            updateTask.run();
+        }
     }
 
     @Override

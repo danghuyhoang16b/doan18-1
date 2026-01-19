@@ -129,11 +129,12 @@ public class StudentProfileActivity extends AppCompatActivity {
                     if (p.avatar != null && !p.avatar.isEmpty()) {
                         String url = p.avatar;
                         if (!url.startsWith("http")) {
-                            // url = "http://103.252.136.73:8080/uploads/avatars/" + url;
-                            url = "http://10.0.2.2/Backend/uploads/avatars/" + url;
+                            url = com.example.app.utils.UrlUtils.getFullUrl(StudentProfileActivity.this, "uploads/avatars/" + url);
                         }
                         com.bumptech.glide.Glide.with(StudentProfileActivity.this)
                             .load(url)
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(com.bumptech.glide.load.engine.DiskCacheStrategy.NONE)
                             .placeholder(R.mipmap.ic_launcher_round)
                             .error(R.mipmap.ic_launcher_round)
                             .into(ivAvatar);
@@ -149,6 +150,31 @@ public class StudentProfileActivity extends AppCompatActivity {
     private void saveProfile() {
         String token = SharedPrefsUtils.getToken(this);
         ApiService api = ApiClient.getInstance().getApiService();
+        
+        Runnable updateTask = () -> {
+            UserUpdateRequest req = new UserUpdateRequest(null,
+                    etFullName.getText().toString().trim(),
+                    etEmail.getText().toString().trim(),
+                    etPhone.getText().toString().trim(),
+                    null);
+            api.updateProfile("Bearer " + token, req).enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        android.widget.Toast.makeText(StudentProfileActivity.this, "Cập nhật thành công", android.widget.Toast.LENGTH_SHORT).show();
+                        sendBroadcast(new Intent("com.example.app.PROFILE_UPDATED"));
+                        finish();
+                    } else {
+                        android.widget.Toast.makeText(StudentProfileActivity.this, "Lỗi cập nhật: " + response.message(), android.widget.Toast.LENGTH_SHORT).show();
+                    }
+                }
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    android.widget.Toast.makeText(StudentProfileActivity.this, "Lỗi kết nối: " + t.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
+                }
+            });
+        };
+
         if (selectedAvatar != null) {
             try {
                 String mime = getContentResolver().getType(selectedAvatar);
@@ -156,35 +182,26 @@ public class StudentProfileActivity extends AppCompatActivity {
                 byte[] bytes = readAll(is);
                 RequestBody body = RequestBody.create(MediaType.parse(mime != null ? mime : "image/*"), bytes);
                 MultipartBody.Part img = MultipartBody.Part.createFormData("image", "avatar.jpg", body);
+                
+                android.widget.Toast.makeText(this, "Đang tải ảnh...", android.widget.Toast.LENGTH_SHORT).show();
                 api.uploadAvatar("Bearer " + token, img).enqueue(new Callback<ResponseBody>() {
-                    @Override public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) { }
-                    @Override public void onFailure(Call<ResponseBody> call, Throwable t) { }
-                });
-            } catch (Exception ignored) { }
-        }
-        UserUpdateRequest req = new UserUpdateRequest(null,
-                etFullName.getText().toString().trim(),
-                etEmail.getText().toString().trim(),
-                etPhone.getText().toString().trim(),
-                null);
-        api.updateProfile("Bearer " + token, req).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                api.getProfile("Bearer " + token).enqueue(new Callback<ProfileResponse>() {
-                    @Override
-                    public void onResponse(Call<ProfileResponse> call2, Response<ProfileResponse> resp2) {
-                        sendBroadcast(new Intent("com.example.app.PROFILE_UPDATED"));
-                        finish();
+                    @Override public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            updateTask.run();
+                        } else {
+                            android.widget.Toast.makeText(StudentProfileActivity.this, "Lỗi tải ảnh: " + response.message(), android.widget.Toast.LENGTH_SHORT).show();
+                        }
                     }
-                    @Override public void onFailure(Call<ProfileResponse> call2, Throwable t) {
-                        sendBroadcast(new Intent("com.example.app.PROFILE_UPDATED"));
-                        finish();
+                    @Override public void onFailure(Call<ResponseBody> call, Throwable t) {
+                         android.widget.Toast.makeText(StudentProfileActivity.this, "Lỗi kết nối ảnh: " + t.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
                     }
                 });
+            } catch (Exception e) {
+                android.widget.Toast.makeText(this, "Lỗi đọc file ảnh", android.widget.Toast.LENGTH_SHORT).show();
             }
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) { }
-        });
+        } else {
+            updateTask.run();
+        }
     }
     private void loadClasses() {
         String token = SharedPrefsUtils.getToken(this);
