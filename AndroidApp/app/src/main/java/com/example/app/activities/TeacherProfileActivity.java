@@ -166,11 +166,22 @@ public class TeacherProfileActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             updateTask.run();
                         } else {
-                            android.widget.Toast.makeText(TeacherProfileActivity.this, "Lỗi tải ảnh: " + response.message(), android.widget.Toast.LENGTH_SHORT).show();
+                            String errorMsg = "Lỗi tải ảnh";
+                            try {
+                                if (response.errorBody() != null) {
+                                    org.json.JSONObject errorJson = new org.json.JSONObject(response.errorBody().string());
+                                    errorMsg = errorJson.optString("message", response.message());
+                                } else {
+                                    errorMsg = response.message();
+                                }
+                            } catch (Exception e) {
+                                errorMsg = "Lỗi: " + response.code();
+                            }
+                            android.widget.Toast.makeText(TeacherProfileActivity.this, errorMsg, android.widget.Toast.LENGTH_LONG).show();
                         }
                     }
                     @Override public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        android.widget.Toast.makeText(TeacherProfileActivity.this, "Lỗi kết nối ảnh: " + t.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
+                        android.widget.Toast.makeText(TeacherProfileActivity.this, "Lỗi kết nối: " + t.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
                     }
                 });
             } catch (Exception e) {

@@ -21,6 +21,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import android.app.DatePickerDialog;
+import java.util.Calendar;
+import java.util.Locale;
+
 public class AdminRankingActivity extends AppCompatActivity {
     private EditText etClassId, etLabel, etSemester, etYear;
     private Button btnLoadWeek, btnLoadMonth, btnLoadSemester, btnExportCsv;
@@ -33,6 +37,7 @@ public class AdminRankingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_ranking);
+        
         etClassId = findViewById(R.id.etClassId);
         etLabel = findViewById(R.id.etLabel);
         etSemester = findViewById(R.id.etSemester);
@@ -47,10 +52,24 @@ public class AdminRankingActivity extends AppCompatActivity {
         rvRanking.setLayoutManager(new LinearLayoutManager(this));
         apiService = ApiClient.getInstance().getApiService();
 
+        // Setup DatePicker for etLabel
+        etLabel.setFocusable(false);
+        etLabel.setOnClickListener(v -> showDatePicker());
+
         btnLoadWeek.setOnClickListener(v -> loadWeek());
         btnLoadMonth.setOnClickListener(v -> loadMonth());
         btnLoadSemester.setOnClickListener(v -> loadSemester());
         btnExportCsv.setOnClickListener(v -> exportCsv());
+    }
+
+    private void showDatePicker() {
+        Calendar c = Calendar.getInstance();
+        new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+            c.set(year, month, dayOfMonth);
+            int weekOfYear = c.get(Calendar.WEEK_OF_YEAR);
+            // Format: YYYY/WW
+            etLabel.setText(String.format(Locale.US, "%d/%d", year, weekOfYear));
+        }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
     }
 
     private void loadWeek() {
